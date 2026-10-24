@@ -149,3 +149,41 @@ def beam_search(e, start_state, start_frame, max_frames, width=400, cell_quota=6
             log("frame %d: %d cands, beam %d, best alien hp %d (levels %s)" % (frame_no, len(cands), len(beam), hps[0], hps[:6]))
             sys.stdout.flush()
     return None, []
+
+
+def finish_burst(e, start_frame, max_frames=90, prev=0):
+    """Best last-input frame achievable by standing still and tapping B with a
+    fixed parity (optionally turning right first). Returns (last_input_frame,
+    inputs) or (None, None)."""
+    st = e.save()
+    best = (None, None)
+    for turn in (False, True):
+        for phase in (0, 1):
+            e.load(st)
+            seq, p, last = [], prev, None
+            for t in range(max_frames):
+                a = 0
+                if turn and t == 0:
+                    a = RIGHT
+                elif (t % 2 == phase) and not (p & B):
+                    a = B
+                e.frame(a)
+                seq.append(a)
+                p = a
+                if a:
+                    last = start_frame + t
+                if e.ram(0x6C1) == 0:
+                    break
+                if e.ram(0x6C0) == 0:
+                    last = None
+                    break
+            else:
+                last = None
+            if e.ram(0x6C1) == 0 and last is not None:
+                # trim trailing inputs that were not needed: try dropping the final press
+                while seq and seq[-1] == 0:
+                    seq.pop()
+                if best[0] is None or last < best[0]:
+                    best = (last, seq)
+    e.load(st)
+    return best
