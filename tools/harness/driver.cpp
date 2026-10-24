@@ -111,7 +111,11 @@ uint64 FCEUD_GetTimeFreq() { return 1000; }
 void RefreshThrottleFPS() {}
 unsigned int *GetKeyboard(void) { static unsigned int k[256]; return k; }
 void GetMouseData(uint32 (&md)[3]) { md[0] = md[1] = md[2] = 0; }
+#ifdef RM2_NO_MEMHOOK
+uint32 ModernDeemphColorMap(uint8 *, uint8 *, int, int) { return 0; }  // FCEUX <= 2.3 signature
+#else
 uint32 ModernDeemphColorMap(const uint8 *, const uint8 *, int) { return 0; }
+#endif
 
 static uint32 g_joy[4];
 
@@ -152,6 +156,47 @@ void rm2_poweron(void)
 
 // Run one frame with gamepad byte `pad` (bit0=A,1=B,2=Select,3=Start,
 // 4=Up,5=Down,6=Left,7=Right). Returns 1 if the frame was a lag frame.
+static int g_frameno = 0;
+
+#ifndef RM2_NO_MEMHOOK
+// Native execution breakpoints that only log (no callbacks), for fast whole-run scans.
+static std::vector<unsigned> g_bp_addrs;
+struct BpHit { int frame; unsigned addr; uint8 sig[4]; };
+static std::vector<BpHit> g_bp_hits;
+static void bp_exec_hook(unsigned int addr, unsigned int, void *)
+{
+	for (unsigned a : g_bp_addrs) {
+		if (a == addr) {
+			BpHit h;
+			h.frame = g_frameno;
+			h.addr = addr;
+			for (int i = 0; i < 4; i++) h.sig[i] = GetMem(0x8000 + i);
+			g_bp_hits.push_back(h);
+		}
+	}
+}
+void rm2_bp_add(int addr)
+{
+	if (g_bp_addrs.empty()) X6502_MemHook::Add(X6502_MemHook::Exec, bp_exec_hook, nullptr);
+	g_bp_addrs.push_back((unsigned)addr);
+}
+void rm2_bp_clear(void)
+{
+	if (!g_bp_addrs.empty()) X6502_MemHook::Remove(X6502_MemHook::Exec, bp_exec_hook, nullptr);
+	g_bp_addrs.clear();
+	g_bp_hits.clear();
+}
+int rm2_bp_count(void) { return (int)g_bp_hits.size(); }
+// out: frame, addr, sig0..sig3
+void rm2_bp_get(int i, int *out)
+{
+	const BpHit &h = g_bp_hits[i];
+	out[0] = h.frame; out[1] = (int)h.addr;
+	for (int k = 0; k < 4; k++) out[2 + k] = h.sig[k];
+}
+#endif
+void rm2_set_frameno(int f) { g_frameno = f; }
+
 int rm2_frame(int pad)
 {
 	uint8 *gfx;
@@ -159,6 +204,19 @@ int rm2_frame(int pad)
 	int32 ssize;
 	g_joy[0] = pad & 0xFF;
 	FCEUI_Emulate(&gfx, &sound, &ssize, 0);
+	g_frameno++;
+	return lagFlag ? 1 : 0;
+}
+
+// Same as rm2_frame but asks the core to skip building the output image.
+// Only for search bots; results must be re-verified with rm2_frame.
+int rm2_frame_fast(int pad)
+{
+	uint8 *gfx;
+	int32 *sound;
+	int32 ssize;
+	g_joy[0] = pad & 0xFF;
+	FCEUI_Emulate(&gfx, &sound, &ssize, 1);
 	return lagFlag ? 1 : 0;
 }
 
@@ -197,10 +255,12 @@ int rm2_movie_active(void) { return FCEUMOV_Mode(MOVIEMODE_PLAY | MOVIEMODE_FINI
 int rm2_movie_length(void) { return FCEUI_GetMovieLength(); }
 void rm2_movie_stop(void) { FCEUI_StopMovie(); }
 
+#ifndef RM2_NO_MEMHOOK
 // Execution / write hooks for analysis.
 typedef void (*hookfn)(unsigned int addr, unsigned int val, void *ud);
 void rm2_hook_add(int type, hookfn f) { X6502_MemHook::Add((X6502_MemHook::Type)type, f, nullptr); }
 void rm2_hook_remove(int type, hookfn f) { X6502_MemHook::Remove((X6502_MemHook::Type)type, f, nullptr); }
+#endif
 
 int rm2_reg(int which)
 {
