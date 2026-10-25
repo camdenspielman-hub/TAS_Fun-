@@ -1,0 +1,862 @@
+[
+ {
+  "from": 59637,
+  "to": 59650,
+  "new": [
+   "...U....",
+   "..DU....",
+   "........",
+   "...U....",
+   "..DU....",
+   "....T...",
+   "...U....",
+   "..DU....",
+   "........",
+   "...U....",
+   "..DU...."
+  ],
+  "why": "Wily 2: up+down menu trick in the 59622/61098/61747 pauses (6 frames), 2 idle frames in the boss fill keep the 4-frame lead aligned"
+ },
+ {
+  "from": 61099,
+  "to": 61126,
+  "new": [
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "...U....",
+   "..DU....",
+   "........",
+   "...U....",
+   "..DU....",
+   "....T...",
+   "...U....",
+   "........",
+   "...U....",
+   "..DU...."
+  ],
+  "why": "Wily 2: up+down menu trick in the 59622/61098/61747 pauses (6 frames), 2 idle frames in the boss fill keep the 4-frame lead aligned"
+ },
+ {
+  "from": 61763,
+  "to": 61765,
+  "new": [
+   "..DU...."
+  ],
+  "why": "Wily 2: up+down menu trick in the 59622/61098/61747 pauses (6 frames), 2 idle frames in the boss fill keep the 4-frame lead aligned"
+ },
+ {
+  "from": 62347,
+  "to": 62347,
+  "new": [
+   "........",
+   "........"
+  ],
+  "why": "Wily 2: up+down menu trick in the 59622/61098/61747 pauses (6 frames), 2 idle frames in the boss fill keep the 4-frame lead aligned"
+ },
+ {
+  "from": 65777,
+  "to": 65777,
+  "new": [
+   "....T...",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "...U....",
+   "....T...",
+   "...U....",
+   "........",
+   "...U....",
+   "..DU....",
+   "....T...",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........"
+  ],
+  "why": "Wily 3 opening: P->Item 1 pause moved into the stage-start landing animation (13 frames cheaper), capsule reached from a hop so the refill resumes in mid-air"
+ },
+ {
+  "from": 65962,
+  "to": 65989,
+  "new": [
+   "........",
+   "........",
+   "........"
+  ],
+  "why": "Wily 3 opening: P->Item 1 pause moved into the stage-start landing animation (13 frames cheaper), capsule reached from a hop so the refill resumes in mid-air"
+ },
+ {
+  "from": 66103,
+  "to": 66156,
+  "new": [
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L.....A"
+  ],
+  "why": "Wily 3 opening: P->Item 1 pause moved into the stage-start landing animation (13 frames cheaper), capsule reached from a hop so the refill resumes in mid-air"
+ },
+ {
+  "from": 66210,
+  "to": 66237,
+  "new": [
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........"
+  ],
+  "why": "Wily 3 opening: P->Item 1 pause moved into the stage-start landing animation (13 frames cheaper), capsule reached from a hop so the refill resumes in mid-air"
+ },
+ {
+  "from": 66399,
+  "to": 66399,
+  "new": [
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........"
+  ],
+  "why": "Wily 3 opening: P->Item 1 pause moved into the stage-start landing animation (13 frames cheaper), capsule reached from a hop so the refill resumes in mid-air"
+ },
+ {
+  "from": 66892,
+  "to": 66893,
+  "new": [
+   "R......A"
+  ],
+  "why": "Wily 3: RNG fix so the rising enemy still gives the 0-damage boost the Item-1 ceiling zip needs"
+ },
+ {
+  "from": 68752,
+  "to": 68766,
+  "new": [
+   "...U....",
+   "..DU....",
+   "........",
+   "...U....",
+   "..DU....",
+   "....T...",
+   "...U....",
+   "..DU...."
+  ],
+  "why": "Wily 3 boss: 6-frame menu, new Guts Tank fight (two returning Quick Boomerangs thrown before the head is vulnerable, then a hit every 2 frames); lead 32 at the 16-frame death fade"
+ },
+ {
+  "from": 68890,
+  "to": 68891,
+  "new": [
+   "R......."
+  ],
+  "why": "Wily 3 boss: 6-frame menu, new Guts Tank fight (two returning Quick Boomerangs thrown before the head is vulnerable, then a hit every 2 frames); lead 32 at the 16-frame death fade"
+ },
+ {
+  "from": 69038,
+  "to": 69149,
+  "new": [
+   ".L.....A",
+   "R......A",
+   "R......A",
+   "R......A",
+   "R......A",
+   "R......A",
+   "R......A",
+   ".L......",
+   "R.......",
+   "R.......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   "........",
+   ".......A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".......A",
+   "R......A",
+   ".L....BA",
+   ".L.....A",
+   "R......A",
+   "......BA",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   "R......A",
+   ".L....BA",
+   "R......A",
+   ".L....BA",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   "........",
+   "........",
+   "........",
+   "........",
+   "......B.",
+   ".......A",
+   "R......A",
+   "R......A",
+   "R......A",
+   "R......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   "......BA",
+   ".......A",
+   ".......A",
+   ".......A"
+  ],
+  "why": "Wily 3 boss: 6-frame menu, new Guts Tank fight (two returning Quick Boomerangs thrown before the head is vulnerable, then a hit every 2 frames); lead 32 at the 16-frame death fade"
+ },
+ {
+  "from": 70845,
+  "to": 70848,
+  "new": [
+   ".......A",
+   ".L....BA",
+   ".......A"
+  ],
+  "why": "Wily 4: re-synchronised 32 frames earlier (stale Item 3 subpixel, platform height), one ladder frame, up+down menus at 72337/74391, lag-aware re-timing in room 32 and the Boobeam fight"
+ },
+ {
+  "from": 70962,
+  "to": 70963,
+  "new": [],
+  "why": "Wily 4: re-synchronised 32 frames earlier (stale Item 3 subpixel, platform height), one ladder frame, up+down menus at 72337/74391, lag-aware re-timing in room 32 and the Boobeam fight"
+ },
+ {
+  "from": 72353,
+  "to": 72355,
+  "new": [
+   "..DU...."
+  ],
+  "why": "Wily 4: re-synchronised 32 frames earlier (stale Item 3 subpixel, platform height), one ladder frame, up+down menus at 72337/74391, lag-aware re-timing in room 32 and the Boobeam fight"
+ },
+ {
+  "from": 73504,
+  "to": 73508,
+  "new": [
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L....BA"
+  ],
+  "why": "Wily 4: re-synchronised 32 frames earlier (stale Item 3 subpixel, platform height), one ladder frame, up+down menus at 72337/74391, lag-aware re-timing in room 32 and the Boobeam fight"
+ },
+ {
+  "from": 73576,
+  "to": 73581,
+  "new": [
+   "R.......",
+   ".L......",
+   "R.......",
+   ".L......",
+   "........"
+  ],
+  "why": "Wily 4: re-synchronised 32 frames earlier (stale Item 3 subpixel, platform height), one ladder frame, up+down menus at 72337/74391, lag-aware re-timing in room 32 and the Boobeam fight"
+ },
+ {
+  "from": 73654,
+  "to": 73654,
+  "new": [
+   "R......."
+  ],
+  "why": "Wily 4: re-synchronised 32 frames earlier (stale Item 3 subpixel, platform height), one ladder frame, up+down menus at 72337/74391, lag-aware re-timing in room 32 and the Boobeam fight"
+ },
+ {
+  "from": 74409,
+  "to": 74411,
+  "new": [
+   "..DU...."
+  ],
+  "why": "Wily 4: re-synchronised 32 frames earlier (stale Item 3 subpixel, platform height), one ladder frame, up+down menus at 72337/74391, lag-aware re-timing in room 32 and the Boobeam fight"
+ },
+ {
+  "from": 74749,
+  "to": 74750,
+  "new": [],
+  "why": "Wily 4: re-synchronised 32 frames earlier (stale Item 3 subpixel, platform height), one ladder frame, up+down menus at 72337/74391, lag-aware re-timing in room 32 and the Boobeam fight"
+ },
+ {
+  "from": 74941,
+  "to": 74941,
+  "new": [
+   ".L......"
+  ],
+  "why": "Wily 4: re-synchronised 32 frames earlier (stale Item 3 subpixel, platform height), one ladder frame, up+down menus at 72337/74391, lag-aware re-timing in room 32 and the Boobeam fight"
+ },
+ {
+  "from": 77183,
+  "to": 77190,
+  "new": [
+   "...U....",
+   "..DU....",
+   "........",
+   "...U....",
+   "..DU...."
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 77520,
+  "to": 77522,
+  "new": [],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 77603,
+  "to": 77604,
+  "new": [
+   ".......A"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 77689,
+  "to": 77689,
+  "new": [
+   ".L......"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 77750,
+  "to": 77751,
+  "new": [
+   ".L.....A"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 77824,
+  "to": 77852,
+  "new": [
+   "R......A",
+   "R.......",
+   ".L......",
+   ".L....B.",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   "........",
+   "........",
+   ".L......",
+   ".......A",
+   ".L.....A"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 77907,
+  "to": 77908,
+  "new": [],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 78002,
+  "to": 78012,
+  "new": [
+   ".L......",
+   ".L......",
+   ".L......",
+   "........",
+   ".......A",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   "........"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 78335,
+  "to": 78336,
+  "new": [
+   ".......A"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 78399,
+  "to": 78400,
+  "new": [
+   "........"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 79105,
+  "to": 79105,
+  "new": [
+   "........"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 79547,
+  "to": 79548,
+  "new": [],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 79682,
+  "to": 79683,
+  "new": [
+   ".......A"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 80083,
+  "to": 80084,
+  "new": [
+   ".L......"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 80178,
+  "to": 80193,
+  "new": [
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L.....A",
+   ".L.....A",
+   "........"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 80522,
+  "to": 80535,
+  "new": [
+   "R.......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A",
+   ".L.....A"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 80941,
+  "to": 80943,
+  "new": [
+   "........",
+   "......BA"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 80997,
+  "to": 80999,
+  "new": [
+   "R..U..B.",
+   ".L......",
+   "........",
+   "........"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 81319,
+  "to": 81321,
+  "new": [],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 81998,
+  "to": 82002,
+  "new": [
+   "R..U...A",
+   "R..U...A",
+   "R..U..BA",
+   "R.....BA"
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 82143,
+  "to": 82150,
+  "new": [
+   ".LD...BA",
+   ".L......",
+   ".L.U....",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".LD...B."
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 82248,
+  "to": 82251,
+  "new": [
+   "R..U..B.",
+   "R.......",
+   "R..U..B."
+  ],
+  "why": "Wily 5: v2's Heat-pause menu trick and re-synchronised refights for the new $1C (hub walks set Mega Man's resting X subpixel for the RNG), Metal Blade throws that set the hidden slot subpixels Wily 6 inherits"
+ },
+ {
+  "from": 83955,
+  "to": 84105,
+  "new": [
+   "........",
+   "........",
+   "R.......",
+   "R......A",
+   "R......A",
+   "R......A",
+   "R......A",
+   "R......A",
+   "R......A",
+   ".L.....A",
+   "......BA",
+   ".L.....A",
+   ".L.....A",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L.....A",
+   "R......A",
+   "R......A",
+   "R......A",
+   ".L.....A",
+   ".L....BA",
+   ".L.....A",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   ".L......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   "R.......",
+   ".L......"
+  ],
+  "why": "Wily 6: ceiling zip started from the third Item 1 platform's throw pose (v3a)"
+ },
+ {
+  "from": 84185,
+  "to": 84185,
+  "new": [
+   "R......."
+  ],
+  "why": "Wily 6: ceiling zip started from the third Item 1 platform's throw pose (v3a)"
+ },
+ {
+  "from": 85004,
+  "to": 85004,
+  "new": [
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........",
+   "........"
+  ],
+  "why": "Wily 6 alien fight: same as v2, shifted earlier; final burst one frame early (v2)"
+ },
+ {
+  "from": 85237,
+  "to": 85279,
+  "new": [
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   ".......A",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......B.",
+   "........",
+   "......BA"
+  ],
+  "why": "Wily 6 alien fight: same as v2, shifted earlier; final burst one frame early (v2)"
+ }
+]

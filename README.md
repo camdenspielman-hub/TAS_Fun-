@@ -9,22 +9,98 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 |---|---|---|---|
 | Publication #4410 | 85,279 | 23:38.980 | baseline |
 | `movies/rockman2-v1-85278.fm2` | 85,278 | 23:38.963 | verified on FCEUX master core and FCEUX 2.3.0 core |
-| `movies/rockman2-v2-85274.fm2` | 85,274 | 23:38.897 | verified on FCEUX master core and FCEUX 2.3.0 core |
-| `movies/rockman2-v3a-85254.fm2` | **85,254** | **23:38.564** | interim checkpoint of the whole-game pass; verified on both cores |
+| `movies/rockman2-v2-85274.fm2` | 85,274 | 23:38.897 | verified on both cores |
+| `movies/rockman2-v3a-85254.fm2` | 85,254 | 23:38.564 | interim checkpoint (v2 + Wily 6); verified on both cores |
+| `movies/rockman2-v3-85220.fm2` | **85,220** | **23:37.998** | verified on FCEUX master core and FCEUX 2.3.0 core |
 
-**v3a (interim).** v2 plus a new Wily 6 climb, 20 frames faster. In v2 Mega Man
-rides the third Item 1 platform up 8 px, jumps, lands and turns to start the
-16 px/frame ceiling zip. The zip only needs him at Y ≤ 36 when he turns facing
-left with zero speed. The throw pose of the third platform already gives such a
-turn 22 frames earlier, and the platform has lifted him to Y = 36 by then. Two
-constraints cost 2 of the 22 frames. The alien's movement is timed from the
-door while its health fill follows a 4-frame rule, so the door lead must be a
-multiple of 4. The alien-room ledge platform also inherits a stale Y subpixel
-from the first Wily 6 platform, which has to stay in a working range. Two idle
-frames at 83951 satisfy both. Wily 6 reads no RNG, so the fight is identical
-to v2's, only 20 frames earlier. `movies/rockman2-v3a-edits-vs-v2.json` holds
-the one replaced input block. The rest of the whole-game pass (a +32-frame
-Wily 3 and the re-sync of Wily 4–5 after it) is in progress.
+**v3 is 59 frames (0.98 s) faster than the publication.**
+* Both cores play it through FCEUX's own movie loader to the same final RAM
+  (md5 `6e02b423…`). The alien reaches 0 HP one frame after the last input
+  (frame 85219), and the ending plays with no further input.
+* It starts from power-on and is identical to the publication up to frame
+  59636 (Wily 2).
+* `tools/make_movie.py` rebuilds it from the published movie and
+  `movies/rockman2-v3-edits.json`. That file holds 48 replaced input blocks,
+  each with its reason.
+* `docs/whole-game-analysis.md` explains the frame rules, RNG, pause and boss
+  mechanics behind these changes.
+
+### What v3 changes (on top of v2)
+
+v3 comes from treating the run as one unit. First I measured every frame rule
+in the game (section 1 of the analysis), so it was clear which savings survive
+to the end:
+* before Wily 1 a saving survives only as a lead of 16;
+* in Wily 2-3 it must be at least 15;
+* from Wily 4 on any 4-frame lead survives.
+
+The searches then targeted those thresholds.
+
+1. **Wily 2-3: +32 frames.** The Wily 3 boss's death fade waits for a 16-frame
+   boundary, and v3 reaches it 32 frames early.
+   * The Wily 2 pauses use the up+down cursor trick: 6 frames, which give 4 at
+     the Wily 2 boss fill.
+   * Wily 3's P→Item 1 pause is opened during the stage-start landing
+     animation. Every pause ends with a 12-frame teleport-in animation, and at
+     the stage start it overlaps the landing, so the pause costs 13 frames
+     less.
+   * The weapon capsule is touched from the top of a hop, so the refill resumes
+     in mid-air without 6 frames of ground inching.
+   * One input change keeps the rising enemy's damage boost that the Item 1
+     ceiling zip relies on. The stage reaches the boss 8 frames early.
+   * The boss pause is 6 frames shorter with the menu trick.
+   * New Guts Tank fight:
+     * The head becomes hittable a fixed 309 frames after the tank starts
+       moving.
+     * Two Quick Boomerangs are thrown from the top of an early jump while it
+       is still invulnerable. They curve back through it on its first two
+       hittable frames.
+     * A second jump then throws one boomerang every other frame, each hitting
+       3 frames later.
+     * All 14 hits land on consecutive same-parity frames, and the boss dies
+       18 frames sooner. Replacing a long-lived blocker boomerang also removes
+       a lag frame after the kill.
+2. **Wily 4: +2 frames.**
+   * One frame of a ladder climb and two menu-trick frames give the Boobeam
+     Trap's fill its 4-frame gain.
+   * The earlier `$1C` phase changes when Mega Man is drawn during his
+     invincibility, which costs one lag frame in a crowded room and one in the
+     fight.
+   * Wily 4 was re-synchronised for the new stale object data (5 input edits).
+     One boomerang throw at 68876 in the Wily 3 fight was dropped so that a
+     stale subpixel inherited by the Wily 5 Wood refight's tornadoes stays in
+     range.
+3. **Wily 5: re-synchronised 34 frames earlier**, with v2's Heat-pause gain
+   kept.
+   * While Mega Man stands still the RNG converges to a function of `$1C` and
+     his X subpixel. So each refight's random choice is set by where he rests
+     in the hub before teleporting.
+   * Metal Blade throws, keeping the same number of blades, set the hidden
+     slot subpixels that Wily 6's Item 1 platforms need.
+4. **Wily 6: +20 frames** (from v3a). The ceiling zip starts from the third
+   Item 1 platform's throw pose.
+
+Checked and found not improvable with the current route (details in the
+analysis document):
+* Heat Man and Wood Man stage ends;
+* Wood's stage-start pause, which breaks its DelayUpScroll;
+* the Boobeam Trap fight;
+* the Metal Man and Crash Man stages, for an 8-frame gain each (Air Man is
+  still being checked);
+* the alien fight;
+* the 9 deliberate frames in Bubble Man's pause.
+
+**v3a (interim).** v2 plus a new Wily 6 climb, 20 frames faster.
+* In v2 Mega Man rides the third Item 1 platform up 8 px, jumps, lands and
+  turns to start the 16 px/frame ceiling zip.
+* The zip only needs him at Y ≤ 36 when he turns facing left with zero speed.
+  The throw pose of the third platform already gives such a turn 22 frames
+  earlier, with Y = 36.
+* Two idle frames at 83951 cost 2 of the 22 frames. They keep the door lead a
+  multiple of 4, because the alien's path is door-timed and its fill follows a
+  4-frame rule. They also keep the stale Y subpixel inherited by the
+  alien-room ledge platform in range.
+* `movies/rockman2-v3a-edits-vs-v2.json` holds the one replaced input block.
 
 v2 is 5 frames (0.083 s) faster than the publication. Both cores play it
 through FCEUX's own movie loader to the same final RAM (md5 `f4c94da4…`). The
@@ -142,9 +218,10 @@ after the last input, and the ending sequence plays with no further input.
 * **Still open:** saving 3 frames anywhere in Wily 6 before the alien's health
   fill (fill wait 1) would gain 4. Saving 1 more frame between the Metal Man
   fill and the Flash Man fill would gain 4 more, but the Metal Man fight
-  currently loses 2 there. Saving 6 frames in Wily 1 would reach its 16-frame
-  stage-end rule. Any of these also changes every Wily 5 RNG decision again;
-  `tools/milestone.py` handles that.
+  currently loses 2 there. (Correction: the Wily 1 fade needs a full 16-frame
+  lead, not 6. The published run reaches it with zero wait, see
+  `docs/whole-game-analysis.md`.) Any of these also changes every Wily 5 RNG
+  decision again; `tools/milestone.py` handles that.
 * **Opposite directions.** The published movie already presses Up+Down on 17
   frames and Left+Right once. v2 adds Up+Down on two more frames, in the Heat
   pause. FCEUX's "allow Up+Down/Left+Right" option only filters live gamepad
@@ -165,6 +242,7 @@ after the last input, and the ending sequence plays with no further input.
   section (single-frame edits, back-tracking over earlier milestones, optional
   RNG checkpoints that are skipped when the next required ones hold anyway).
 * `tools/make_v2.py` — rebuilds the v2 movie from the publication and the edit list.
+* `tools/make_movie.py` — the same for any edit list, e.g. `movies/rockman2-v3-edits.json`.
 
 Build: `make -C tools/harness FCEUX_SRC=/path/to/fceux/src OUT=build`
 (for FCEUX 2.3.0 add `DEFS="-DFCEUDEF_DEBUGGER -DHAVE_ASPRINTF -D__LINUX__ -DRM2_NO_MEMHOOK -DPSS_STYLE=1 -DLSB_FIRST"`).

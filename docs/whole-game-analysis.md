@@ -220,30 +220,36 @@ stage start (Shinryuu's "Wood 13") breaks it for that reason:
 * The only extra load compatible with Atomic Fire selected leaves Mega Man
   1 px too high for screen 5's exit.
 
-## 7. Status of the whole-game pass
+## 7. What changed in v3, by rule
 
-Committed and verified:
-* **v3a: Wily 6, +20 vs v2** (`movies/rockman2-v3a-85254.fm2`, 85,254 frames).
-  The ceiling zip starts from the third Item 1 platform's throw pose. The door
-  lead is kept a multiple of 4, and the stale Y subpixel of the alien-room
-  platform is kept in range.
+`movies/rockman2-v3-85220.fm2`: 85,220 frames, 59 fewer than #4410.
 
-Verified on both cores up to the start of Wily 5, but not yet complete:
-* **Wily 3, +32.**
+* **Wily 3: +32.**
   * Wily 2 menus: 6 frames give 4 at the Wily 2 fill.
   * Wily 3 pause moved to the stage start, plus capsule re-routing: lead 8.
   * Boss menu: 6 frames.
   * New Guts Tank fight: 18 more frames.
   * That is a lead of 32 at the q16 fade.
-* **Wily 4, +2.** One climb frame and two menus give 4 at the Boobeam fill;
+* **Wily 4: +2.** One climb frame and two menus give 4 at the Boobeam fill;
   two extra lag frames cost 2. Wily 4 was re-synchronised: 5 input edits
   absorb the changed stale slot fields.
-* **Wily 5 (in progress).** Every refight decision needs re-manipulating for
-  the new `$1C`.
+* **Wily 5: re-synchronised 34 frames earlier**, keeping v2's +4 at the Heat
+  fill. RNG decisions were re-manipulated through Mega Man's resting X
+  subpixel. Metal Blade throws set the hidden slot subpixels that Wily 6
+  needs.
+* **Wily 6: +20.** The ceiling zip starts from the third Item 1 platform's
+  throw pose. The door lead is kept a multiple of 4, and the stale Y subpixel
+  of the alien-room platform kept in range.
+* **Alien: +1** (from v2: final burst fired one frame early).
 
 Searched and not improvable with the current routes:
 * Heat and Wood stage ends;
+* Wood's stage-start pause;
+* the Metal Man and Crash Man stages, whose fights sit exactly on their hit and
+  slot bounds;
 * the Boobeam fight;
 * the alien fight (the best near-miss is 0.375 px short of 2 frames);
-* Item 1 at the alien (already used);
-* Wood's stage-start pause.
+* Item 1 at the alien (already used).
+
+So a 16-frame lead before Wily 1 has not been found. Two robot-master stages
+would each have to finish 8 frames early.
