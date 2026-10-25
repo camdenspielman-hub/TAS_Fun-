@@ -116,6 +116,20 @@ after the last input, and the ending sequence plays with no further input.
   the alien's path depends only on unpaused frames since the fight began;
   contact damage 20, projectile 6, 110 invincibility frames after a hit.
 
+* **Alien-fight pause (Wily 6).** With the up+down trick this menu also
+  closes 1 frame sooner (weapon selected after frame 85074 instead of 85075 in
+  v2). The fight then runs one frame ahead, but the different bubble positions
+  cause an extra lag frame at 85192 that gives the frame back. No change of one
+  or two inputs between the menu and 85192 avoids that lag while keeping the hit
+  schedule. Getting this frame would need a re-planned fight. The final burst
+  would then have to hit from slot 2, the even slot, or start one hit earlier,
+  because the `$1C` parity changes relative to the alien's path.
+* **Still open:** saving 3 frames anywhere in Wily 6 before the alien's health
+  fill (fill wait 1) would gain 4. Saving 1 more frame between the Metal Man
+  fill and the Flash Man fill would gain 4 more, but the Metal Man fight
+  currently loses 2 there. Saving 6 frames in Wily 1 would reach its 16-frame
+  stage-end rule. Any of these also changes every Wily 5 RNG decision again;
+  `tools/milestone.py` handles that.
 * **Opposite directions.** The published movie already presses Up+Down on 17
   frames and Left+Right once. v2 adds Up+Down on two more frames, in the Heat
   pause. FCEUX's "allow Up+Down/Left+Right" option only filters live gamepad
