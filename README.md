@@ -9,7 +9,22 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 |---|---|---|---|
 | Publication #4410 | 85,279 | 23:38.980 | baseline |
 | `movies/rockman2-v1-85278.fm2` | 85,278 | 23:38.963 | verified on FCEUX master core and FCEUX 2.3.0 core |
-| `movies/rockman2-v2-85274.fm2` | **85,274** | **23:38.897** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v2-85274.fm2` | 85,274 | 23:38.897 | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v3a-85254.fm2` | **85,254** | **23:38.564** | interim checkpoint of the whole-game pass; verified on both cores |
+
+**v3a (interim).** v2 plus a new Wily 6 climb, 20 frames faster. In v2 Mega Man
+rides the third Item 1 platform up 8 px, jumps, lands and turns to start the
+16 px/frame ceiling zip. The zip only needs him at Y ≤ 36 when he turns facing
+left with zero speed. The throw pose of the third platform already gives such a
+turn 22 frames earlier, and the platform has lifted him to Y = 36 by then. Two
+constraints cost 2 of the 22 frames. The alien's movement is timed from the
+door while its health fill follows a 4-frame rule, so the door lead must be a
+multiple of 4. The alien-room ledge platform also inherits a stale Y subpixel
+from the first Wily 6 platform, which has to stay in a working range. Two idle
+frames at 83951 satisfy both. Wily 6 reads no RNG, so the fight is identical
+to v2's, only 20 frames earlier. `movies/rockman2-v3a-edits-vs-v2.json` holds
+the one replaced input block. The rest of the whole-game pass (a +32-frame
+Wily 3 and the re-sync of Wily 4–5 after it) is in progress.
 
 v2 is 5 frames (0.083 s) faster than the publication. Both cores play it
 through FCEUX's own movie loader to the same final RAM (md5 `f4c94da4…`). The
