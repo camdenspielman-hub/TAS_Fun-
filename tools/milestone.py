@@ -12,6 +12,16 @@ edits the one leaving the state closest to the original's is kept.
 import numpy as np
 
 
+_INPUT_BYTES = list(range(0x23, 0x29))
+
+
+def masked_ram(e):
+    ram = bytearray(e.ramblock())
+    for a in _INPUT_BYTES:
+        ram[a] = 0
+    return bytes(ram)
+
+
 def run_to(e, start_state, seq, start, end):
     e.load(start_state)
     for f in range(start, end):
@@ -64,8 +74,8 @@ def prefix_states(e, state, start, seq, end):
 
 def milestone_sync(e, start_state, start, template, milestones, actions, ref_rams=None,
                    ref_offset=0, dist_addrs=(0x460, 0x480, 0x4A0, 0x4C0), log=print, max_back=3,
-                   max_window=150):
-    """milestones: list of (frame, predicate(e) -> bool, label) sorted by frame.
+                   max_window=400, lookahead=60):
+    """milestones: list of (frame, predicate(e) -> bool, label[, window]) sorted by frame.
     ref_rams[f + ref_offset] is the reference RAM after new frame f (for ranking).
     Returns (seq, applied_edits) or raises RuntimeError at the first unmet milestone."""
     seq = list(template)
@@ -73,7 +83,9 @@ def milestone_sync(e, start_state, start, template, milestones, actions, ref_ram
     cks = [(start_state, start)]  # cks[i] = state before milestone i (frame after milestone i-1)
     i = 0
     while i < len(milestones):
-        mf, pred, label = milestones[i]
+        mf, pred, label = milestones[i][:3]
+        window = milestones[i][3] if len(milestones[i]) > 3 else max_window
+        optional = milestones[i][4] if len(milestones[i]) > 4 else False
         ck_state, ck_frame = cks[i]
         st = run_to(e, ck_state, seq, ck_frame, mf + 1)
         if pred(e):
@@ -82,6 +94,17 @@ def milestone_sync(e, start_state, start, template, milestones, actions, ref_ram
             if i % 5 == 0:
                 log("ok through %s (%d/%d)" % (label, i, len(milestones)))
             continue
+        ahead = []
+        if optional:
+            # an optional milestone only steers; if the next required ones within
+            # `lookahead` frames hold anyway, skip it instead of forcing a fix,
+            # and otherwise only accept fixes that also satisfy them
+            req = [m[:3] for m in milestones[i + 1:] if not (len(m) > 4 and m[4])]
+            ahead = [m for m in req if m[0] <= mf + lookahead] or req[:1]
+            if ahead and check_chain(e, ck_state, ck_frame, seq, ahead):
+                log("milestone %-28s missed but not needed; skipped" % label)
+                milestones = milestones[:i] + milestones[i + 1:]
+                continue
         best = None
         tried = 0
         for back in range(0, max_back + 1):
@@ -89,22 +112,37 @@ def milestone_sync(e, start_state, start, template, milestones, actions, ref_ram
             if j < 0:
                 break
             bstate, bframe = cks[j]
-            chain = milestones[j:i + 1]
-            pre = prefix_states(e, bstate, bframe, seq, mf + 1)
-            lo = max(bframe, mf + 1 - max_window)
+            chain = [m[:3] for m in milestones[j:i + 1]] + ahead
+            cend = chain[-1][0]
+            pre = prefix_states(e, bstate, bframe, seq, mf + 2)
+            lo = max(bframe, mf + 1 - window)
+            nxt_ram = {}
             for edit, s in candidate_edits(seq, lo, mf + 1, actions):
-                tried += 1
                 ef = edit[1]
+                if edit[0] == "set":
+                    # skip edits that change nothing (inputs ignored on that frame)
+                    if ef not in nxt_ram:
+                        e.load(pre[ef + 1])
+                        nxt_ram[ef] = masked_ram(e)
+                    e.load(pre[ef])
+                    e.frame(s[ef])
+                    if masked_ram(e) == nxt_ram[ef]:
+                        continue
+                tried += 1
                 # milestones before the edit frame are unaffected (already verified)
                 if not check_chain(e, pre[ef], ef, s, [m for m in chain if m[0] >= ef]):
                     continue
                 d = 0
                 if ref_rams is not None:
-                    d = state_distance(e, ref_rams[mf + 1 + ref_offset], dist_addrs)
+                    d = state_distance(e, ref_rams[cend + 1 + ref_offset], dist_addrs)
                 if best is None or d < best[0]:
                     best = (d, edit, s, j)
             if best is not None:
                 break
+        if best is None and optional:
+            log("milestone %-28s unreachable; optional, skipped" % label)
+            milestones = milestones[:i] + milestones[i + 1:]
+            continue
         if best is None:
             err = RuntimeError("milestone '%s' at %d unreachable with single edits (%d tried, back %d)"
                                % (label, mf, tried, max_back))

@@ -19,16 +19,34 @@ IGNORE = (set(range(0x00, 0x10)) | set([0x1C, 0x1D, 0x3A, 0x43, 0x44, 0x4A, 0x68
 MASK = np.array([0 if a in IGNORE else 1 for a in range(0x800)], dtype=bool)
 
 
+# When True, attributes of object slots 2-31 that are inactive in both states
+# (flag byte $420+i bit 7 clear) are not compared: dead objects leave stale
+# positions behind, and those differ after any change to RNG-driven effects.
+IGNORE_DEAD_SLOTS = False
+
+
+def _mask_for(a, b):
+    if not IGNORE_DEAD_SLOTS:
+        return MASK
+    m = MASK.copy()
+    dead = [i for i in range(2, 32) if not (a[0x420 + i] & 0x80) and not (b[0x420 + i] & 0x80)]
+    for i in dead:
+        m[0x400 + i:0x700:0x20] = False
+    return m
+
+
 def same(ram_a, ram_b):
-    a = np.frombuffer(ram_a, dtype=np.uint8)[MASK]
-    b = np.frombuffer(ram_b, dtype=np.uint8)[MASK]
-    return np.array_equal(a, b)
+    a = np.frombuffer(ram_a, dtype=np.uint8)
+    b = np.frombuffer(ram_b, dtype=np.uint8)
+    m = _mask_for(a, b)
+    return np.array_equal(a[m], b[m])
 
 
 def diff_addrs(ram_a, ram_b, limit=12):
     a = np.frombuffer(ram_a, dtype=np.uint8)
     b = np.frombuffer(ram_b, dtype=np.uint8)
-    idx = [i for i in np.nonzero(a != b)[0] if MASK[i]]
+    m = _mask_for(a, b)
+    idx = [i for i in np.nonzero(a != b)[0] if m[i]]
     return ["%03X:%02X/%02X" % (i, a[i], b[i]) for i in idx[:limit]]
 
 

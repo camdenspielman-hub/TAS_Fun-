@@ -8,7 +8,54 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | Movie | Frames | Time (60.0988 fps) | Status |
 |---|---|---|---|
 | Publication #4410 | 85,279 | 23:38.980 | baseline |
-| `movies/rockman2-v1-85278.fm2` | **85,278** | **23:38.963** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v1-85278.fm2` | 85,278 | 23:38.963 | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v2-85274.fm2` | **85,274** | **23:38.897** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+v2 is 5 frames (0.083 s) faster than the publication. Both cores play it
+through FCEUX's own movie loader to the same final RAM (md5 `f4c94da4…`). The
+alien reaches 0 HP one frame after the last input, and the ending plays with no
+further input. `tools/make_v2.py` rebuilds it from the published movie and
+`movies/rockman2-v2-edits.json`, which lists all 26 input edits with the reason
+for each.
+
+### What v2 changes (on top of v1)
+
+1. **Heat Man refight pause (Wily 5, frame 77168).** The pause that selects
+   Bubble Lead uses the up+down cursor trick (`U`, `U+D`, –, `U`, `U+D`), which
+   reaches the weapon 2 frames sooner. Heat Man's health fill then starts on its
+   `$1C & 3 == 0` frame rule instead of waiting 2 frames, so everything after it
+   is **4 frames earlier**.
+2. **Re-synchronising the six remaining refights.** Being 4 frames earlier
+   means `$1C` is 4 lower at every later event, so every RNG decision in Wily 5
+   comes out differently. `tools/milestone.py` replays the shifted original
+   inputs fight by fight and repairs each missed checkpoint (boss hit, health
+   fill, teleport, weapon change) with one-frame input edits. Fights that needed
+   more than that:
+   * Quick Man made a different jump. Holding Left one frame longer at 80083
+     keeps every hit on schedule.
+   * Crash Man: Mega Man's X subpixel differs, so a Crash Bomb hit him. Two edits
+     (80522, 80534) fix it.
+   * Metal Man jumps the moment Mega Man first throws, and the RNG picks the
+     height on that frame. The first throw is moved one frame later (80941) to get
+     the low jump. This costs 2 frames, but the Flash Man health fill absorbs them:
+     with any lead of 1–4 frames that fill still ends 4 frames early.
+3. **Hidden projectile subpixels.** Mega Man's shot slots 2–4 never clear their
+   X/Y subpixels when a new object spawns. The Wily 6 Item-1 platforms and the
+   alien-fight bubbles inherit whatever the last occupant left, and the
+   re-synchronised fights leave different values. With wrong values a platform
+   runs a pixel behind, and later a bubble lives one frame longer. The pause
+   routine (`$C573`) refuses while any object in slots 2–15 is alive, so the
+   alien-fight pause fails. Three extra diagonal Metal Blades fix this. A
+   diagonal blade adds 44/256 px of subpixel per frame:
+   * 80997 (`D+R+B`, mid-air, just before the post-Metal-Man teleport) deletes
+     itself after 4 frames: slot 4 +80, exactly the original value;
+   * 82143 and 82145 (mid-air during the Wily Machine fight, where Mega Man
+     already lands in the throw pose) shift slot 3 to +1 and slot 2 to −6 from
+     the original.
+   Outcome tests showed both residuals are harmless. Throws on the ground, or in
+   the air without a throw pose already pending, freeze Mega Man on landing and
+   were rejected. Every candidate was checked for an unchanged Mega Man path and
+   boss-HP timeline through the end of Wily 5.
 
 ### What v1 changes
 
@@ -57,7 +104,7 @@ after the last input, and the ending sequence plays with no further input.
   makes two upward cursor moves on consecutive frames. Not used in #4410.
   Exhaustive search of every Wily 5/6 pause: Heat pause (77168) **−2 frames**;
   Bubble, Crash, Metal, W6 cave and alien pauses −1 each. The Heat pause alone
-  reaches its fill's threshold (+4 frames) — but see RNG below.
+  reaches its fill's threshold (+4 frames); this is what v2 uses.
 * **RNG.** `$4A` is updated every NMI as
   `$4A = (($0480 XOR $4A) + $1C + C) >> 1` (Mega Man's X subpixel and the frame
   counter). Any 4-frame shift changes every later random decision. RNG
@@ -68,6 +115,11 @@ after the last input, and the ending sequence plays with no further input.
   `$B4` hit latch allows at most one hit per two frames; at most two bubbles;
   the alien's path depends only on unpaused frames since the fight began;
   contact damage 20, projectile 6, 110 invincibility frames after a hit.
+
+* **Opposite directions.** The published movie already presses Up+Down on 17
+  frames and Left+Right once. v2 adds Up+Down on two more frames, in the Heat
+  pause. FCEUX's "allow Up+Down/Left+Right" option only filters live gamepad
+  input; movie playback is unaffected.
 
 ## Tools
 
@@ -80,6 +132,10 @@ after the last input, and the ending sequence plays with no further input.
 * `tools/resync.py` — continues a modified movie along the original, absorbing
   lag-frame differences.
 * `tools/splice.py`, `tools/bots/` — input surgery, menu/BFS/beam searches.
+* `tools/milestone.py` — milestone-guided re-synchronisation of a time-shifted
+  section (single-frame edits, back-tracking over earlier milestones, optional
+  RNG checkpoints that are skipped when the next required ones hold anyway).
+* `tools/make_v2.py` — rebuilds the v2 movie from the publication and the edit list.
 
 Build: `make -C tools/harness FCEUX_SRC=/path/to/fceux/src OUT=build`
 (for FCEUX 2.3.0 add `DEFS="-DFCEUDEF_DEBUGGER -DHAVE_ASPRINTF -D__LINUX__ -DRM2_NO_MEMHOOK -DPSS_STYLE=1 -DLSB_FIRST"`).
