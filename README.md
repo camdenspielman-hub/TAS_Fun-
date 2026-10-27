@@ -12,9 +12,30 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v2-85274.fm2` | 85,274 | 23:38.897 | verified on both cores |
 | `movies/rockman2-v3a-85254.fm2` | 85,254 | 23:38.564 | interim checkpoint (v2 + Wily 6); verified on both cores |
 | `movies/rockman2-v3-85220.fm2` | 85,220 | 23:37.998 | verified on both cores |
-| `movies/rockman2-v4-85171.fm2` | **85,171** | **23:37.183** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v4-85171.fm2` | 85,171 | 23:37.183 | verified on both cores |
+| `movies/rockman2-v4.1-85164.fm2` | **85,164** | **23:37.066** | verified on FCEUX master core and FCEUX 2.3.0 core |
 
-**v4 is 108 frames (1.80 s) faster than the publication.** It is v3 with a new
+**v4.1 is 115 frames (1.91 s) faster than the publication.** It is v4 with Wily 4
+replaced by Shinryuu's own version.
+* Shinryuu recorded that version in an unpublished, 174-frame-faster run.
+* We reconstructed it frame by frame from his video: every visible frame
+  reproduced, with real replays and no RAM pokes.
+* Differences from v4's Wily 4:
+  * One useless Item 3 sled is dropped, so the hidden Y subpixel that room 33's
+    Item 3 descent needs comes out in range: 7 frames.
+  * The Boobeam Trap fight hops between cannons instead of walking, which
+    avoids 3 lag frames.
+* The Wily 5 refights were then re-synchronised for the new frame counter.
+  * That took 20 input frames: Heat edits, hub walks that set Mega Man's
+    subpixel before the Bubble, Quick and Metal capsules, and RNG-only
+    left/right swaps.
+  * Every Wily 5/6 event and lag frame lands exactly 7 frames before v4's.
+* Two independent checks found it valid: sync, and a rules review of every
+  changed input.
+* `movies/rockman2-v4.1-edits.json` rebuilds it with `tools/make_movie.py`.
+  The final RAM md5 is `2ca14909…` on both cores.
+
+**v4 was 108 frames (1.80 s) faster than the publication.** It is v3 with a new
 Wily 4 boss fight, worth 49 frames.
 * Both cores play it through FCEUX's own movie loader to the same final RAM
   (md5 `3a74a2ac…`). The alien reaches 0 HP one frame after the last input
