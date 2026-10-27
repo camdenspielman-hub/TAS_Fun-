@@ -13,7 +13,22 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v3a-85254.fm2` | 85,254 | 23:38.564 | interim checkpoint (v2 + Wily 6); verified on both cores |
 | `movies/rockman2-v3-85220.fm2` | 85,220 | 23:37.998 | verified on both cores |
 | `movies/rockman2-v4-85171.fm2` | 85,171 | 23:37.183 | verified on both cores |
-| `movies/rockman2-v4.1-85164.fm2` | **85,164** | **23:37.066** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v4.1-85164.fm2` | 85,164 | 23:37.066 | verified on both cores |
+| `movies/rockman2-v4.2-85160.fm2` | **85,160** | **23:37.000** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v4.2 is 119 frames (1.98 s) faster than the publication.** It is v4.1 with a
+faster Wily 6 climb.
+* That climb needs one hidden value in range: slot 4's leftover Y subpixel, in
+  0x49–0x53.
+* Three Metal Blade directions in the Wily Machine fight set it.
+  * Each frame a blade flies up-diagonally adds 0x2C to the subpixel, and each
+    frame it flies down-diagonally subtracts 0x2C.
+  * The hits land on the same frames, so the play is otherwise identical.
+* The alien's door comes 4 frames earlier, a multiple of the alien's 4-frame
+  phase, so the whole fight follows unchanged.
+* Two independent checks (sync and rules) found it valid.
+* `movies/rockman2-v4.2-edits.json` rebuilds it, and the final RAM md5 is
+  `f93baf33…` on both cores.
 
 **v4.1 is 115 frames (1.91 s) faster than the publication.** It is v4 with Wily 4
 replaced by Shinryuu's own version.
