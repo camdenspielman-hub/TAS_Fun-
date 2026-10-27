@@ -11,9 +11,63 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v1-85278.fm2` | 85,278 | 23:38.963 | verified on FCEUX master core and FCEUX 2.3.0 core |
 | `movies/rockman2-v2-85274.fm2` | 85,274 | 23:38.897 | verified on both cores |
 | `movies/rockman2-v3a-85254.fm2` | 85,254 | 23:38.564 | interim checkpoint (v2 + Wily 6); verified on both cores |
-| `movies/rockman2-v3-85220.fm2` | **85,220** | **23:37.998** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v3-85220.fm2` | 85,220 | 23:37.998 | verified on both cores |
+| `movies/rockman2-v4-85171.fm2` | **85,171** | **23:37.183** | verified on FCEUX master core and FCEUX 2.3.0 core |
 
-**v3 is 59 frames (0.98 s) faster than the publication.**
+**v4 is 108 frames (1.80 s) faster than the publication.** It is v3 with a new
+Wily 4 boss fight, worth 49 frames.
+* Both cores play it through FCEUX's own movie loader to the same final RAM
+  (md5 `3a74a2ac…`). The alien reaches 0 HP one frame after the last input
+  (frame 85170).
+* It is identical to v3 up to frame 74324 (Wily 4).
+* `tools/make_movie.py` rebuilds it from the published movie and
+  `movies/rockman2-v4-edits.json`, which holds 23 replaced input blocks, each
+  with its reason.
+* Two independent checks found it valid:
+  * Sync: frame-by-frame comparison with v3 and playback on both cores.
+  * Rules: every changed input, the new up+down menu frames (6, all
+    menu-cursor trick), and the emulator dependence, which is unchanged from
+    the publication.
+
+### What v4 changes (on top of v3)
+
+1. **Wily 4: Leaf Shield Boobeam Trap fight (+48 at the Wily 5 start).** This
+   is warmCabin and Shinryuu's 2022 idea; we rebuilt it from Shinryuu's video,
+   which shows the RAM values on screen.
+   * Crash Bomb explosion pieces never set their hitbox type. They inherit
+     whatever the last object in their slot left.
+   * A pause during the Wily 4 ceiling zip selects Leaf Shield. Raising the
+     shield once leaves hitbox type 4 in weapon slots 2–5, which gives the
+     explosions much larger boxes.
+   * A second pause selects Crash Bomber.
+   * The two pauses cost 60 frames before the boss door. That is a multiple of
+     the boss fill's 4-frame rule, so the fight keeps v3's frame-counter phase.
+   * The fight:
+     * The bigger explosions break the walls quickly.
+     * Two cannons die to the hurt-glitch damage transfer.
+     * A touch on a cannon at X = 0xA6 sets the stale hurt value that the
+       second transfer needs.
+     * The last bomb hits the final cannon directly.
+   * Boobeam dies 55 frames earlier than in v3. Mega Man ends on the floor
+     rather than the upper ledge, and the longer teleport costs 7 frames.
+     Ending on the ledge costs more than that.
+2. **Wily 5: re-synchronised 49 frames earlier.** The Wily map's 4-frame rule
+   turned the 48 into 49.
+   * Only `$1C` and the RNG differ from v3. Leaf Shield's other side effects
+     (stale hitbox types, 3 units of Leaf Shield energy) change nothing later.
+   * The Heat refight needed 7 edits and Crash 1.
+   * The Quick and Metal refights each needed a new hub walk. Mega Man's X
+     subpixel when he enters the capsule sets the boss's first random choice.
+   * Two Metal Blade timing changes restore the stale Y subpixels that Wily 6's
+     Item 1 platforms need:
+     * a horizontal instead of a diagonal throw in the Metal refight;
+     * a blade thrown 3 frames earlier at the Wily Machine.
+   * Every Wily 5/6 event and lag frame is exactly 49 frames before v3's.
+
+Shinryuu's video of this fight is about 9 frames faster again. His shield setup
+costs about 6 fewer frames, and that is being investigated.
+
+**v3 was 59 frames (0.98 s) faster than the publication.**
 * Both cores play it through FCEUX's own movie loader to the same final RAM
   (md5 `6e02b423…`). The alien reaches 0 HP one frame after the last input
   (frame 85219), and the ending plays with no further input.
