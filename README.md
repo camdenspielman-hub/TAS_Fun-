@@ -25,6 +25,22 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 * `docs/whole-game-analysis.md` explains the frame rules, RNG, pause and boss
   mechanics behind these changes.
 
+Notes for anyone judging or submitting v3. These came out of an independent
+rules check, which found the movie valid.
+* **Timing.** By TASVideos timing (last input) v3 is 59 frames faster: last
+  input 85219 vs 85278. The alien's HP reaches 0 at frame 85220, against
+  85278 in the publication, so the visible end comes 58 frames sooner. v2's
+  final shot already landed one frame after the last input.
+* **Simultaneous directions.** v3 holds Up+Down on 33 frames, against 17 in
+  the publication, and Left+Right on 1 frame, as the publication does. All
+  of the new Up+Down frames are warmCabin's pause-menu cursor trick, which the
+  published movie already uses.
+* **Power-on state.** Like the publication, sync depends on FCEUX's default
+  power-on RAM pattern (`00 00 00 00 FF FF FF FF`). Both cores tested use it.
+* **Header.** The .fm2 header keeps the publication's `comment author Shinryuu`
+  and rerecord count (118012), because every input not listed in the edits
+  file is his. Update both fields before submitting.
+
 ### What v3 changes (on top of v2)
 
 v3 comes from treating the run as one unit. First I measured every frame rule
@@ -83,10 +99,15 @@ The searches then targeted those thresholds.
 Checked and found not improvable with the current route (details in the
 analysis document):
 * Heat Man and Wood Man stage ends;
-* Wood's stage-start pause, which breaks its DelayUpScroll;
-* the Boobeam Trap fight;
-* the Metal Man and Crash Man stages, for an 8-frame gain each (Air Man is
-  still being checked);
+* Wood's stage-start pause, which breaks its DelayUpScroll in every variant
+  tried so far. Shinryuu reports making it work in 2022; being re-examined;
+* the Boobeam Trap fight with the published structure. warmCabin's 2022
+  43-frame fight has a different structure and is being rebuilt;
+* the Metal Man, Crash Man and Air Man stages, for an 8-frame gain each, when
+  changed one stage at a time. Shinryuu's unfinished 2022 run gets Air +10,
+  Crash +8 and Quick +16 by chaining changes across these stages, through the
+  Item 1 "values" (stale Y subpixels) that each stage leaves to the next. That
+  route-level work is in progress;
 * the alien fight;
 * the 9 deliberate frames in Bubble Man's pause.
 
