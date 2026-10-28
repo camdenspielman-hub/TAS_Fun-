@@ -14,7 +14,78 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v3-85220.fm2` | 85,220 | 23:37.998 | verified on both cores |
 | `movies/rockman2-v4-85171.fm2` | 85,171 | 23:37.183 | verified on both cores |
 | `movies/rockman2-v4.1-85164.fm2` | 85,164 | 23:37.066 | verified on both cores |
-| `movies/rockman2-v4.2-85160.fm2` | **85,160** | **23:37.000** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v4.2-85160.fm2` | 85,160 | 23:37.000 | verified on both cores |
+| `movies/rockman2-v5-85056.fm2` | **85,056** | **23:35.269** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5 is 223 frames (3.71 s) faster than the publication**, and 104 frames faster
+than v4.2. It combines two sources:
+* **Shinryuu's own unpublished improvement of his run,** up to Wily 3.
+  * He recorded it as a video, 174 frames faster than his publication, but
+    never released the movie file.
+  * We rebuilt its inputs stage by stage, using the video as the reference.
+    Each rebuilt stage reproduces every visible frame.
+  * We then joined them into one real movie from power-on, with no RAM pokes.
+    Five independent checks verified the joined movie link by link.
+* **Our own improvements** from Wily 3 on:
+  * the Guts Tank fight (v3);
+  * Shinryuu's Wily 4, transplanted in v4.1;
+  * the Wily 6 climb (v4.2);
+  * a re-synchronised Wily 5.
+
+**Where the time comes from** (frames saved vs the publication, cumulative at
+each stage start):
+
+| Stage | Lead | What |
+|---|---|---|
+| Air | 10 | Kaminari Goros deleted at spawn (no lag), mid-air pause, DelayRightScroll 10 frames earlier |
+| Crash | 18 | wall zip in the boss room and a kill from inside the wall, so no exit teleport |
+| Quick | 34 | Mega Man starts below the screen (Y high byte left over from Crash) and falls to the first scroll |
+| Bubble | 73 | Item 2 route, spike zips, DelayDownScroll |
+| Wood | 84 | Atomic Fire in the landing pause, DelayUpScroll on screen 4, no pause on screen 5 |
+| Wily 1 | 116 | Mecha Dragon killed on a 16-frame boundary |
+| Wily 3 end | 132 | Shinryuu's Wily 2/3 route with our Guts Tank fight; 128-frame counter lead at the 16-frame fade |
+| Wily 5 | 190 | Leaf Shield Boobeam Trap fight |
+| alien death | 223 | Bubble refight fill 4 frames earlier, faster Wily 6 climb |
+
+**Mechanics this build depends on** (details in the scratch notes; summary in
+`docs/whole-game-analysis.md`):
+* **DelayScrolls need cycle-exact CPU load.** On the check frame the interrupt
+  must land inside a bank switch, so the inputs have to be tuned until it does.
+  Two loads that never show on screen supplied the missing cycles:
+  * The tail of a sound effect queued 10 frames earlier: a hidden landing
+    above the screen in Wood.
+  * A **refused pause**. START while weapons are on screen is refused, but the
+    refusal check still costs about 165 cycles. It is used at Bubble 44765 and
+    at Wood's three DelayDowns (48122, 48323, 48498).
+* **Stale slot values.**
+  * New objects inherit leftover subpixels, hitbox types and the like from the
+    previous occupant of their slot.
+  * Platform heights, zips and the Wily 6 climb depend on them, so each stage's
+    weapon use was tuned to leave the next stage the values it needs.
+* **RNG.** The RNG depends on the frame counter and Mega Man's X subpixel.
+  * Every refight and enemy roll was re-manipulated for the new counter.
+  * One example is the Wily 2 capsule drop, which must roll 88–92.
+
+**Verification.**
+* FCEUX's movie player on both cores gives the same final RAM (md5
+  `f85c3aa9…`), with the alien dead one frame after the last input (85055).
+* An independent sync check replayed every frame. An independent rules check
+  found every input legitimate.
+* Its notes for a judge:
+  * Up+Down appears on 56 frames: the publication's 17 plus 39 pause-menu
+    cursor tricks.
+  * Four refused STARTs affect the CPU timing, and the publication has none.
+    They are legitimate inputs, but their effect depends on cycle-accurate
+    emulation (both FCEUX cores agree).
+  * By the visible alien death v5 is 222 frames faster; by movie length, 223.
+* `movies/rockman2-v5-edits.json` (61 blocks, each with its reason) rebuilds
+  it from the publication with `tools/make_movie.py`.
+
+**Credit and submission.** Most of v5's gain is Shinryuu's unpublished work,
+plus warmCabin's discoveries (the menu trick, the Leaf Shield Boobeam idea,
+the Crash→Quick setup). The .fm2 header keeps `comment author Shinryuu` and
+his rerecord count. Any TASVideos submission of v5 needs Shinryuu's agreement
+or co-authorship, and correct header fields.
 
 **v4.2 is 119 frames (1.98 s) faster than the publication.** It is v4.1 with a
 faster Wily 6 climb.
