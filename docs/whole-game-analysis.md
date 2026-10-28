@@ -253,3 +253,71 @@ Searched and not improvable with the current routes:
 
 So a 16-frame lead before Wily 1 has not been found. Two robot-master stages
 would each have to finish 8 frames early.
+
+## 8. What v4-v5 add (routing level)
+
+Section 7 ends with "a 16-frame lead before Wily 1 has not been found". It was
+there, but it took changes across several stages at once, plus the hidden
+state that one stage hands to the next. Shinryuu found that route in an
+unpublished run. We rebuilt its inputs from his video, matching every visible
+frame, and joined the stages into one real movie. These are the mechanics it
+relies on, all measured in the emulator.
+
+**Item 1 "values" are stale Y subpixels.**
+* An Item 1 platform rises 1 px on each frame where its slot's Y subpixel
+  borrows when 0x41 is subtracted. So its rise pattern, and with it every
+  platform zip, depends on the subpixel left in slots 2-4 by whatever used the
+  slot last.
+* That can happen in an earlier stage. Six Item 3 throws in Heat set the value
+  Air's platforms need, and Air's two extra platforms set Crash's and Quick's.
+* Weapons change these values in fixed steps. A diagonal Metal Blade adds or
+  subtracts 0x2C per frame; a Quick Boomerang adds a fixed sum over its 35-step
+  flight. That is how the Wily 2 seed and the Wily 6 climb seed were set.
+
+**The Crash → Quick handover is Mega Man's Y high byte ($F9).**
+* Crash Man is killed with Mega Man zipped into the boss room's wall. Mega Man
+  then falls below the screen, so $F9 becomes non-zero.
+* Stage select and stage start never clear $F9. Quick therefore starts with
+  Mega Man invisible below the screen, falling to the first down-scroll 38
+  frames early.
+
+**DelayScrolls need cycle-exact CPU load on the check frame.**
+* The interrupt has to land on the bank switch at $C7A5 (17-50 cycles before
+  it), and the deferred sound routine must leave an allowed Y.
+* Shinryuu's visible inputs alone were often a few hundred cycles off on our
+  timeline. That is because the CPU phase depends on the whole input history,
+  including his style-only changes. Two loads that never show on screen closed
+  the gap:
+  * A sound effect's tail. A landing queues SFX $29, which makes the next ten
+    NMIs longer by up to about 1,400 cycles. Wood's screen-4 up-scroll uses a
+    hidden landing above the screen 10 frames before the check.
+  * A refused pause. START is refused while slots 2-15 hold live objects, but
+    the refusal scan costs about 165-190 cycles. Bubble's DelayDownScroll and
+    Wood's three DelayDowns use it.
+  The music runs in real time from the stage start, so a check can only work on
+  frames where the music makes the NMI heavy enough. At Bubble that is every
+  10th frame.
+
+**The 16-frame Wily 1 fade needs exact alignment.**
+* The end sequence only starts when the frame counter is 0 mod 16. An odd
+  misalignment never ends the stage.
+* Wily 1's exit is itself a DelayDownScroll timed from the stage start.
+* Shinryuu's 15-frame menu delay in pause 3 is that alignment. On our chain,
+  which reaches Wily 1 eight counter frames later, the delay is 6 frames and
+  one released Right frame re-syncs the kid enemies' RNG.
+
+**Underwater fills keep a stale counter.**
+* $FC, the underwater slow-down counter, only ticks in water rooms, so it
+  carries over from Wily 3 into the Bubble Man refight.
+* On v5's timeline its slow frames fall one frame later. The refight fill
+  therefore starts 4 frames earlier, which became v5's last 4 frames.
+
+**Combining runs.**
+* Shinryuu's Wily 2/3 gain is an Item 1 energy plan that the 16-frame Wily 3
+  fade absorbs, so it nets 0. Our v3 Guts Tank fight stacks on top of it:
+  counter lead 128 at the fade.
+* Shinryuu's Wily 4 (v4.1) replays verbatim on that state, offset by 96 frames.
+  Wily 4 is insensitive to frame-counter offsets of 16k.
+* Wily 5 always needs a re-sync. While Mega Man stands in the hub, the RNG
+  converges to a function of the frame counter and his X subpixel, so each
+  refight's first random decision is set by the capsule walk.
