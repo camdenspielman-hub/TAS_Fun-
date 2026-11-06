@@ -420,3 +420,85 @@ question. The code survey found no reachable out-of-range jump index:
 * That type's AI would hit BRK, which resets the game.
 
 A deeper ACE search was not carried out.
+
+## 10. What v5.1-v5.8 add (Wily 5/6 mechanics)
+
+v5.1 to v5.8 save 21 more frames, almost all in Wily 5 and 6. Each lever below
+is small, but they rest on a handful of mechanics that were not documented
+before.
+
+**The boss hit check** (bank 11 `$A59D`):
+* **Weapon slots by frame parity.** On odd frame counts it checks weapon
+  slot 3, on even ones slots 2 and 4. A new Metal Blade takes the highest free
+  slot (4, then 3, then 2).
+* **The `$B4` latch.**
+  * A hit sets `$B4`. It is cleared only on a checked frame where no checked
+    weapon overlaps the boss.
+  * Checks resume only once the boss's invincibility has run out.
+  * So the fastest cadence is one hit per invincibility period plus 2 frames
+    (19 frames for most robot masters), from one slot parity. Switching parity
+    costs a frame.
+* **Most refight levers are scheduling fixes:**
+  * the Bubble Man refight with every hit at the 19-frame minimum (v5.7);
+  * the Crash Man kill moved onto slot 3 one frame earlier (v5.5);
+  * the Wily Machine phases with their slot parity planned (v5.4).
+* **Stationary blades.** Up+down on a Metal Blade throw makes the blade stand
+  still. A parked blade can kill a target later, keep a slot busy so the next
+  throw goes to the right parity, or act as a reserve hit (Wily 2, Bubble Man,
+  the Wily Machine).
+
+**Weapon energy is a budget across stages.**
+* **Refills.** All weapons refill to 28 only at stage starts up to Wily 1.
+* **Metal Blade cost.** A unit is spent on every 4th throw. The throw counter
+  `$AC` resets at each weapon switch, so up to 3 throws per weapon segment are
+  free.
+* **The Metal Blade budget is exact.**
+  * Wily 5 starts with what Wily 2 leaves.
+  * The Wily 2 boss now takes 39 throws instead of 42 (two parked blades kill
+    blocks and hit again later). That frees the unit the 8-blade Bubble Man
+    refight needs.
+  * The Wily Machine uses all 59 blades left at its fill.
+* **Crash Bomber** costs 4 units per bomb.
+  * Boobeam takes 4 bombs, leaving Quick Man 3.
+  * A 3-bomb Boobeam is possible (two hurt-glitch kills), but it costs 38
+    frames. A 4th bomb at Quick Man would save about 18.
+* **Item 2 in Wily 1** uses all 28 units. That is what finally closed lever R1.
+
+**Lag frames and the CPU.**
+* **Why a removed lag is worth a frame.** A true lag frame does not advance the
+  frame counter `$1C`, so removing one moves everything after it 1 frame
+  earlier with the same rolls and rules.
+* **Why it can still break things.** The music runs in real time, so the
+  removal shifts the music against the game. A DelayScroll check or a
+  sound-effect start can then land on a lighter or heavier music frame. The
+  Bubble removal (v5.6) needed one extra pause-menu frame. The Heat removal
+  (v5.8) needed a landing one game frame later.
+* **The lag test.** A frame lags unless the main loop reaches `$C08A` by about
+  cycle 113 of the next frame.
+* **Measured costs and levers:**
+  * Mega Man airborne instead of walking: about −330 cycles in his routine.
+  * The door loop restarts the boss music every frame, which makes boss-spawn
+    frames heavy.
+  * A refused START: +165 to +190 cycles.
+  * The sound queue is processed last-in-first-out on the NMI. An extra effect
+    that wins the priority test costs +600 to +900; one that loses costs about
+    +99.
+
+**The alien fight (v5.3).**
+* **The pause.** A pause 1 frame shorter (up+down cursor trick) flips the
+  frame-counter parity against the alien's path. The final 22-hit burst can then
+  start one step earlier.
+* **The position.** Mega Man must end his knockback stun at X ≥ 37 on the
+  secret ledge. The landing check tolerates a hit up to Y 66.5 / X 52.44, which
+  an earlier study missed.
+
+**R1 (16 frames at the Wily 1 fade) is closed.**
+* **The plan.** Wood's DelayDownScrolls now fire at Shinryuu's frames, giving
+  a Wily 1 start with lead 88.
+* **The full version** needs 8 more counter frames before Wood. None of Metal,
+  Quick, the Bubble fight or an earlier Bubble DelayDownScroll can supply them.
+* **The lite version** (8 lag frames induced in Wily 1, for −8 overall).
+  * The 8 lags exist: an extra Item-2 sled adds a Pipi egg swarm.
+  * But the sled costs the last Item-2 unit, which the later step sled needs.
+  * A left-facing sled costs no energy, but it leaves Mega Man about 3 px
+    behind, against 0.25 px of tolerance.
