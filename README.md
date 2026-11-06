@@ -17,7 +17,45 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v4.2-85160.fm2` | 85,160 | 23:37.000 | verified on both cores |
 | `movies/rockman2-v5-85056.fm2` | 85,056 | 23:35.269 | verified on both cores |
 | `movies/rockman2-v5.1-85040.fm2` | 85,040 | 23:35.003 | verified on both cores |
-| `movies/rockman2-v5.2-85039.fm2` | **85,039** | **23:34.987** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5.2-85039.fm2` | 85,039 | 23:34.987 | verified on both cores |
+| `movies/rockman2-v5.3-85037.fm2` | **85,037** | **23:34.953** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5.3 is 242 frames (4.03 s) faster than the publication**, and 2 frames
+faster than v5.2. The final alien fight is 2 frames shorter. The alien fight
+is the last thing in the run, with no frame rule after it, so both frames come
+off the movie.
+* **The pause is 1 frame shorter.** The pause-menu up+down cursor trick is used
+  on the menu's second page.
+  * That flips the frame-counter parity relative to the alien's path.
+  * The Bubble Lead hit check alternates between slot parities on even and odd
+    frames, so the final burst of 21 hits from one slot can start one alien step
+    earlier.
+* **But only if Mega Man stands far enough right on the secret ledge when his
+  knockback stun ends.** He needs X 37.0 or more, and the 2006-era study of
+  this fight was 0.375 px short. Two details close the gap:
+  * The knockback landing tolerates a hit up to Y 66.5 / X 52.44. Mega Man
+    crosses the ledge top only 0.28 px deep, and the next left move still lands
+    him.
+  * Jump 2 starts one alien step later from X 37 + 13/16, and jump 3 is timed so
+    that shot 2 hits him at X 52.25 near the apex. His stun then ends at
+    X 37.06.
+* **The burst.** A hop right of the ledge, then left+B and right on alternate
+  frames: each bubble flies the way Mega Man faced the frame before. The burst
+  hits from alien step 190 to the kill at step 232.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,037 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `ed4cd1c7…`).
+  * The fight was first built and checked on v5.1 (alien2's 85,038-frame movie).
+    An independent sync check and an independent rules check both found it
+    valid.
+  * It was then moved onto v5.2 by a 1-frame shift. v5.3's final RAM equals the
+    85,038-frame movie's except for $EA, a sound-engine counter that is one
+    frame behind because of v5.2's removed lag frame.
+  * The rules check found two up+down frames on the menu's first page that gain
+    nothing. v5.3 uses v5.1's inputs there, with the same end RAM, so the only
+    new up+down frame is the one that saves the frame (57 in all).
+  * `movies/rockman2-v5.3-edits.json` (62 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v5.2 is 240 frames (3.99 s) faster than the publication**, and 1 frame
 faster than v5.1. It removes one lag frame before Wily 4.
