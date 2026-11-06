@@ -27,12 +27,12 @@ off the movie.
 * **The pause is 1 frame shorter.** The pause-menu up+down cursor trick is used
   on the menu's second page.
   * That flips the frame-counter parity relative to the alien's path.
-  * The Bubble Lead hit check alternates between slot parities on even and odd
-    frames, so the final burst of 21 hits from one slot can start one alien step
-    earlier.
+  * The boss hit check looks at Bubble Lead's slot only on every other frame.
+    So the final burst (22 hits from that one slot) can now land on even alien
+    steps, starting at step 190 instead of 191.
 * **But only if Mega Man stands far enough right on the secret ledge when his
-  knockback stun ends.** He needs X 37.0 or more, and the 2006-era study of
-  this fight was 0.375 px short. Two details close the gap:
+  knockback stun ends.** He needs X 37.0 or more. Our earlier study of this
+  fight (on v2) got within 0.375 px. Two details close the gap:
   * The knockback landing tolerates a hit up to Y 66.5 / X 52.44. Mega Man
     crosses the ledge top only 0.28 px deep, and the next left move still lands
     him.
