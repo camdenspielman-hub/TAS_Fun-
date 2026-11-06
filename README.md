@@ -16,7 +16,35 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v4.1-85164.fm2` | 85,164 | 23:37.066 | verified on both cores |
 | `movies/rockman2-v4.2-85160.fm2` | 85,160 | 23:37.000 | verified on both cores |
 | `movies/rockman2-v5-85056.fm2` | 85,056 | 23:35.269 | verified on both cores |
-| `movies/rockman2-v5.1-85040.fm2` | **85,040** | **23:35.003** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5.1-85040.fm2` | 85,040 | 23:35.003 | verified on both cores |
+| `movies/rockman2-v5.2-85039.fm2` | **85,039** | **23:34.987** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5.2 is 240 frames (3.99 s) faster than the publication**, and 1 frame
+faster than v5.1. It removes one lag frame before Wily 4.
+* **What changed.** Mega Man hops on the last frame before Metal Man's boss
+  door instead of walking in, so he enters the room airborne.
+  * The boss-spawn frame is very heavy: the door-closing loop restarts the boss
+    music every frame.
+  * An airborne Mega Man's routine costs about 330 fewer cycles than a walking
+    one. That brings the frame under the limit, so it no longer lags.
+* **Why it is a clean frame.** That lag frame did not advance the frame
+  counter, so every later frame rule and random roll is unchanged. Everything
+  after it is v5.1 one frame earlier.
+* **The other 34 short lags before Wily 4 were all checked** (lag_audit). They
+  are DelayScroll check frames (inherent), boss-spawn and boss-kill frames that
+  are hundreds to thousands of cycles over, or loads.
+  * Three lags in Bubble's second spike zip can be removed with free A presses.
+  * But then Bubble's DelayDownScroll needs about 1,200 more cycles on its check
+    frame, and no source of that much load has been found yet.
+* **Verification.** FCEUX's movie player on both cores gives 85,039 frames, with
+  the alien dead one frame after the last input (end-RAM md5 `9a681a1c…`).
+  * The independent rules check found it valid. It replayed the movie from
+    power-on and compared every frame with v5.1: after the removed frame, the
+    frame counter, lag flags, HP, boss HP, stage, screen, lives and energies
+    equal v5.1's one frame later.
+  * The independent sync check is still running.
+  * `movies/rockman2-v5.2-edits.json` (62 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v5.1 is 239 frames (3.98 s) faster than the publication**, and 16 frames
 faster than v5. It is v5 with two faster Wily 5 refights, plus the
