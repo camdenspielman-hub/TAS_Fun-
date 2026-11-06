@@ -23,7 +23,34 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5.5-85025.fm2` | 85,025 | 23:34.754 | verified on both cores |
 | `movies/rockman2-v5.6-85024.fm2` | 85,024 | 23:34.737 | verified on both cores |
 | `movies/rockman2-v5.7-85020.fm2` | 85,020 | 23:34.671 | verified on both cores |
-| `movies/rockman2-v5.8-85019.fm2` | **85,019** | **23:34.654** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5.8-85019.fm2` | 85,019 | 23:34.654 | verified on both cores |
+| `movies/rockman2-v5.9-85018.fm2` | **85,018** | **23:34.637** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5.9 is 261 frames (4.34 s) faster than the publication**, and 1 frame
+faster than v5.8. Two Wily 4 lag frames are traded for one.
+* **The lags.** In Wily 4's room 32, Mega Man is invincible after a hit there.
+  The room's two lag frames are the frames where three homing enemies re-aim.
+* **The fix.** While invincible, Mega Man is drawn only when bit 1 of the
+  frame counter is clear.
+  * One more frame in the Wily 4 weapon menu (the menu-closing START one frame
+    later) runs the counter one higher through room 32.
+  * On both aim frames he is then not drawn, and neither frame lags.
+  * One Left on the way down is dropped to keep his fall.
+* **Side effects.**
+  * The Boobeam fill steps follow the counter, so the fill ends one frame
+    sooner.
+  * The fight gets one extra lag from the music phase.
+  * Net: 1 frame. From Wily 5 on, the run is v5.8 one frame earlier.
+* **Found by** an independent review of everything against v5.8. Earlier lag
+  searches had shifted only the music phase, never the counter.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,018 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `062d939d…`).
+  * An independent sync check and an independent rules check both found it
+    valid. The rules check showed that one more of the original edits was
+    neutral; it was put back, with the same end RAM.
+  * `movies/rockman2-v5.9-edits.json` (62 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v5.8 is 260 frames (4.33 s) faster than the publication**, and 1 frame
 faster than v5.7. One lag frame is gone from the Heat Man refight.
