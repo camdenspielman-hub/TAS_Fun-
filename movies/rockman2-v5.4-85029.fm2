@@ -4,7 +4,7 @@ rerecordCount 118012
 palFlag 0
 romFilename Rockman 2 - Dr Wily no Nazo (J)
 romChecksum base64:dw1VoZrpHcqpVg1qpzIXNw==
-guid 069778A4-91E7-438A-9EA9-42FFA528BEFA
+guid CA82DDE9-E388-49FC-B061-157CD2314284
 fourscore 0
 microphone 0
 port0 1
@@ -84835,11 +84835,11 @@ comment v5.4: v5.3 with both Wily Machine fights faster (Wily 6 starts 8 frames 
 |0|........|||
 |0|........|||
 |0|........|||
-|0|...U....|||
-|0|..DU....|||
+|0|..D.....|||
 |0|........|||
-|0|...U....|||
-|0|..DU....|||
+|0|..D.....|||
+|0|........|||
+|0|..D.....|||
 |0|....T...|||
 |0|...U....|||
 |0|........|||

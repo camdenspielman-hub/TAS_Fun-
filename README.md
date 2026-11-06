@@ -57,8 +57,11 @@ frames earlier.
   * They were then moved onto v5.3 by a 1-frame shift, with v5.3's alien fight 8
     frames earlier. Mega Man's state and the alien's HP match v5.3's alien fight
     frame for frame.
-  * Up+down appears on 67 frames: v5.3's 57, plus 12 stationary throws, minus
+  * Up+down appears on 65 frames: v5.3's 57, plus 12 stationary throws, minus
     4 old ones.
+  * The first commit of this file carried alien2's original menu inputs, with
+    two up+down frames that gain nothing. This version uses v5.1's inputs there,
+    as v5.3 does, with the same end RAM on both cores.
   * `movies/rockman2-v5.4-edits.json` (62 blocks) rebuilds it from the
     publication with `tools/make_movie.py`.
 
