@@ -21,7 +21,47 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5.3-85037.fm2` | 85,037 | 23:34.953 | verified on both cores |
 | `movies/rockman2-v5.4-85029.fm2` | 85,029 | 23:34.820 | verified on both cores |
 | `movies/rockman2-v5.5-85025.fm2` | 85,025 | 23:34.754 | verified on both cores |
-| `movies/rockman2-v5.6-85024.fm2` | **85,024** | **23:34.737** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5.6-85024.fm2` | 85,024 | 23:34.737 | verified on both cores |
+| `movies/rockman2-v5.7-85020.fm2` | **85,020** | **23:34.671** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5.7 is 259 frames (4.31 s) faster than the publication**, and 4 frames
+faster than v5.6. The Bubble Man refight is 5 frames shorter, so the Quick Man
+fill and everything after it come 4 frames earlier. Two energy budgets made it
+possible.
+* **A spare Metal Blade unit, found in Wily 2.**
+  * Wily 5 already used every Metal Blade throw it had, and the faster Bubble
+    fight needs one more throw. Each 4th throw costs a unit, and the count
+    resets at weapon switches.
+  * The Wily 2 boss is now beaten with 39 blades instead of 42. New paths
+    around two blocks let a stationary (up+down) blade kill each block and then
+    stay parked for a later hit. That makes one hit throw and two decoy throws
+    unnecessary.
+  * The Wily 2 end is on the same frame, and Wily 5 starts with 19 units
+    instead of 18.
+* **The Bubble Man refight.**
+  * Every hit now lands at the 19-frame minimum (invincibility plus the hit
+    check's latch).
+  * Two stationary blades sit in his path. One extra blade holds slot 4, so
+    the last three hits land on slot 3, the only slot the hit check looks at on
+    odd frames.
+  * He dies 5 frames sooner. The fill rule keeps 4.
+* **Re-syncs.**
+  * Quick Man's random jumps: three steps of his fight are re-timed so Mega
+    Man's X subpixel steers the same rolls.
+  * Crash Man's fight depends on the leftover subpixels of the Air Shooter
+    tornado slots. One extra Air Shooter shot on the hub walk restores them.
+    That uses Air Shooter's last spare shot.
+  * Metal capsule subpixel A0, for the low jump.
+  * Three Wily Machine blade directions keep all 56 hits on their frames and
+    the Wily 6 seeds in range (4D/5B/4B).
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,020 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `95d684fd…`).
+  * An independent sync check and an independent rules check both found it
+    valid. From the Quick fill on, every event is v5.6's, 4 frames earlier.
+  * Metal Blade and Air Shooter energy both end at exactly 0.
+  * `movies/rockman2-v5.7-edits.json` (61 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v5.6 is 255 frames (4.24 s) faster than the publication**, and 1 frame
 faster than v5.5. One more lag frame is gone, this time in Bubble Man's stage.
