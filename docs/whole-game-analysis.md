@@ -435,9 +435,11 @@ before.
   * A hit sets `$B4`. It is cleared only on a checked frame where no checked
     weapon overlaps the boss.
   * Checks resume only once the boss's invincibility has run out.
-  * So the fastest cadence is one hit per invincibility period plus 2 frames
-    (19 frames for most robot masters), from one slot parity. Switching parity
-    costs a frame.
+  * So the fastest cadence for a robot master is 19 frames: 18 frames of
+    invincibility plus one latch-clearing check.
+  * It is 20 for a weapon that can use only one slot parity. Crash Bomber
+    always spawns in slot 2.
+  * Switching slot parity between hits costs a frame.
 * **Most refight levers are scheduling fixes:**
   * the Bubble Man refight with every hit at the 19-frame minimum (v5.7);
   * the Crash Man kill moved onto slot 3 one frame earlier (v5.5);
