@@ -42,7 +42,9 @@ faster than v5.1. It removes one lag frame before Wily 4.
     power-on and compared every frame with v5.1: after the removed frame, the
     frame counter, lag flags, HP, boss HP, stage, screen, lives and energies
     equal v5.1's one frame later.
-  * The independent sync check is still running.
+  * The independent sync check also found it valid. Both cores give identical
+    RAM and lag flags on every frame. Every DelayScroll check still lands
+    inside its window: the gap to the interrupt moves by at most 2 cycles.
   * `movies/rockman2-v5.2-edits.json` (62 blocks) rebuilds it from the
     publication with `tools/make_movie.py`.
 
