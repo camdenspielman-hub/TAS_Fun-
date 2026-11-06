@@ -15,7 +15,44 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v4-85171.fm2` | 85,171 | 23:37.183 | verified on both cores |
 | `movies/rockman2-v4.1-85164.fm2` | 85,164 | 23:37.066 | verified on both cores |
 | `movies/rockman2-v4.2-85160.fm2` | 85,160 | 23:37.000 | verified on both cores |
-| `movies/rockman2-v5-85056.fm2` | **85,056** | **23:35.269** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5-85056.fm2` | 85,056 | 23:35.269 | verified on both cores |
+| `movies/rockman2-v5.1-85040.fm2` | **85,040** | **23:35.003** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5.1 is 239 frames (3.98 s) faster than the publication**, and 16 frames
+faster than v5. It is v5 with two faster Wily 5 refights, plus the
+re-synchronisation they need.
+* **Air Man refight.**
+  * Leaf Shield goes up in the air right after the first hit and is thrown
+    while Mega Man is still rising.
+  * Hits 2 and 3 land 10 and 8 frames earlier, and the kill 12 frames earlier
+    (78204 instead of 78216).
+  * Mega Man is back in the hub 11 frames earlier. The 4-frame rule at the
+    next refight rounds that to 12.
+* **Metal Man refight.**
+  * The first Metal Blade is thrown at HP 28+2, standing, while Metal Man
+    makes his low jump. The kill comes 2 frames earlier.
+  * A lower jump into the Flash Man capsule saves 1 more frame. That crosses
+    the next 4-frame rule, so the lead becomes 16.
+* **Re-synchronisation.** The new frame counter changes every later random
+  roll, so:
+  * Hub walks put Mega Man's X subpixel at 60, 00 and A0 for the Quick, Crash
+    and Metal capsules. The later bosses then make the same choices as in v5.
+  * Four Metal Blade direction changes in the Wily Machine fight keep the
+    hidden Y subpixel that the Wily 6 climb needs in range (slot 4: 0x4B).
+* **Verification.**
+  * FCEUX's movie player on both cores gives the same final RAM (md5
+    `654f73d9…`), with the alien dead one frame after the last input (85039).
+  * An independent sync check and an independent rules check both found it
+    valid.
+    * Before frame 78140 it is identical to v5. From 82043 on, every input is
+      v5's input 16 frames earlier.
+    * It adds no up+down, left+right, START or SELECT input, and no refused
+      START.
+    * Boss hits, Mega Man's HP, lives and lag frames match v5 at the shift.
+  * `movies/rockman2-v5.1-edits.json` (62 blocks, each with its reason)
+    rebuilds it from the publication with `tools/make_movie.py`.
+* **Credit.** The credit notes for v5 below apply unchanged. The .fm2 keeps
+  `comment author Shinryuu`.
 
 **v5 is 223 frames (3.71 s) faster than the publication**, and 104 frames faster
 than v4.2. It combines two sources:
