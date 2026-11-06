@@ -18,7 +18,49 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5-85056.fm2` | 85,056 | 23:35.269 | verified on both cores |
 | `movies/rockman2-v5.1-85040.fm2` | 85,040 | 23:35.003 | verified on both cores |
 | `movies/rockman2-v5.2-85039.fm2` | 85,039 | 23:34.987 | verified on both cores |
-| `movies/rockman2-v5.3-85037.fm2` | **85,037** | **23:34.953** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5.3-85037.fm2` | 85,037 | 23:34.953 | verified on both cores |
+| `movies/rockman2-v5.4-85029.fm2` | **85,029** | **23:34.820** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5.4 is 250 frames (4.16 s) faster than the publication**, and 8 frames
+faster than v5.3. Both Wily Machine fights are faster, so Wily 6 starts 8
+frames earlier.
+* **Phase 1.**
+  * Mega Man takes a new route: two jumps, staying 14-15 px left of the
+    machine (13 px would be contact damage).
+  * The Metal Blade throws come from an exact search in a model of the boss
+    hit routine. The model reproduces all 56 of v5.1's hits.
+  * The hit check looks at even and odd weapon slots on alternate frames, and
+    a hit needs the check to clear first. The new schedule lands every hit on
+    the earliest frame those rules allow.
+  * The machine dies 6 frames earlier. The phase-2 fill rule rounds that to 4.
+* **The phase change.**
+  * The machine's ball hits Mega Man right after the kill. That gives him
+    invincibility that lasts through all of phase 2.
+  * Meanwhile he parks four stationary blades. Up+down throws make a blade
+    stand still, the same trick the publication uses in this fight:
+    * a filler that dies before phase 2;
+    * a decoy in slot 3, which keeps every phase-2 hit on the even slots;
+    * a parked blade that lands the first hit;
+    * a reserve that fills the first gap while he falls and lands.
+* **Phase 2** dies 62 frames after its fill (v5.1: 66). The Wily 6 map rule
+  turns that into 4 more frames.
+* **Limits.**
+  * It uses all 59 blades the Metal Blade energy allows.
+  * The Wily 6 climb needs the leftover blade Y subpixels in range. A phase-1
+    schedule was chosen that ends them at 4D/67/4F, which works.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,029 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `3c0c1bf0…`).
+  * The fights were built on v5.1 (85,032 frames there) and checked by an
+    independent sync check and an independent rules check. Both found them
+    valid.
+  * They were then moved onto v5.3 by a 1-frame shift, with v5.3's alien fight 8
+    frames earlier. Mega Man's state and the alien's HP match v5.3's alien fight
+    frame for frame.
+  * Up+down appears on 67 frames: v5.3's 57, plus 12 stationary throws, minus
+    4 old ones.
+  * `movies/rockman2-v5.4-edits.json` (62 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v5.3 is 242 frames (4.03 s) faster than the publication**, and 2 frames
 faster than v5.2. The final alien fight is 2 frames shorter. The alien fight
