@@ -34,9 +34,10 @@ faster than v5.5. One more lag frame is gone, this time in Bubble Man's stage.
     frame in the Metal Blade menu restores the timing, with the frame counter
     1 higher.
   * The hit check then favours the other slot parity. So a first blade thrown
-    straight down frees slot 4 in time, the crab killer goes to slot 3, and a
-    blade thrown 9 frames before the check makes the check frame's sound
-    processing heavy enough.
+    straight down frees slot 4 in time, and the crab killer goes to slot 3.
+  * One blade is thrown 8 frames before the check. Its sound effect is at a
+    heavy point of its playback on the check frame, which supplies the CPU load
+    the check needs.
 * **The boss fill ends 1 frame earlier.**
   * The counter is 1 higher, and the underwater counter is shifted by the
     later exit from the water. Together they make the fill end 1 frame sooner.
@@ -51,7 +52,7 @@ faster than v5.5. One more lag frame is gone, this time in Bubble Man's stage.
   * The lever was built on v5.2 and checked by an independent sync check and an
     independent rules check. Both found it valid.
   * **Caveat for console verification:** Bubble's DelayDownScroll now lands
-    only about 2 CPU cycles inside its window (v5.5: about 20). Both FCEUX
+    only about 2 CPU cycles inside its window (v5.5: about 22). Both FCEUX
     cores agree, but this is the most cycle-sensitive moment in the run.
   * `movies/rockman2-v5.6-edits.json` (61 blocks) rebuilds it from the
     publication with `tools/make_movie.py`.
