@@ -22,7 +22,37 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5.4-85029.fm2` | 85,029 | 23:34.820 | verified on both cores |
 | `movies/rockman2-v5.5-85025.fm2` | 85,025 | 23:34.754 | verified on both cores |
 | `movies/rockman2-v5.6-85024.fm2` | 85,024 | 23:34.737 | verified on both cores |
-| `movies/rockman2-v5.7-85020.fm2` | **85,020** | **23:34.671** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5.7-85020.fm2` | 85,020 | 23:34.671 | verified on both cores |
+| `movies/rockman2-v5.8-85019.fm2` | **85,019** | **23:34.654** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5.8 is 260 frames (4.33 s) faster than the publication**, and 1 frame
+faster than v5.7. One lag frame is gone from the Heat Man refight.
+* **The lag frame.** It is the frame Heat Man's second fireball lands and
+  spawns a 4-object fire pillar.
+  * With Mega Man holding Right, that frame finished about 130 cycles too late.
+  * Turning left the frame before and giving no input on it brings it in time.
+* **Side effect, and its fix.** Removing a lag shifts the music, which runs
+  in real time, against the game.
+  * Mega Man's landing sound would then start on a heavier music frame and
+    cause a new lag 4 frames later.
+  * Holding A one frame longer in the jump before lands him one game frame
+    later, on the same real frame as in v5.7.
+* **No other change to the fight.**
+  * Mega Man ends up 4 px behind. Every hit still lands on its frame, because
+    Heat Man's dash length follows the distance to Mega Man.
+  * Two re-timed steps on the walk out keep the exit.
+* **The other post-Wily-3 lags were all checked:** room 32's homing-enemy
+  re-aims, the Boobeam fight, Heat's music spike, the Crash kill and the alien's
+  shot. None can be removed without changing the route.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,019 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `3d6e7ee7…`).
+  * An independent sync check and an independent rules check both found it
+    valid.
+  * One edit the rules check found to be a no-op was dropped. The end RAM is the
+    same.
+  * `movies/rockman2-v5.8-edits.json` (61 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v5.7 is 259 frames (4.31 s) faster than the publication**, and 4 frames
 faster than v5.6. The Bubble Man refight is 5 frames shorter, so the Quick Man
