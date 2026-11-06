@@ -513,7 +513,7 @@ before.
 * One extra pause-menu frame shifts the counter, and both lags disappear.
   That costs 1 frame, and the Boobeam fill's 1 frame of slack absorbs the
   counter change.
-* **The same trick fails before Wily 4.** A scan of v6.0 finds seven more
+* **The same trick fails before Wily 4.** A scan of v6.0 finds eight more
   short lags with Mega Man invincible and drawn: four in Bubble's screen 8,
   three in its second spike zip, and one at the Air Man kill.
   * There the stage-end rules come in 8-frame steps with at most 1 frame of
