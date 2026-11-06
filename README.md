@@ -20,7 +20,41 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5.2-85039.fm2` | 85,039 | 23:34.987 | verified on both cores |
 | `movies/rockman2-v5.3-85037.fm2` | 85,037 | 23:34.953 | verified on both cores |
 | `movies/rockman2-v5.4-85029.fm2` | 85,029 | 23:34.820 | verified on both cores |
-| `movies/rockman2-v5.5-85025.fm2` | **85,025** | **23:34.754** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5.5-85025.fm2` | 85,025 | 23:34.754 | verified on both cores |
+| `movies/rockman2-v5.6-85024.fm2` | **85,024** | **23:34.737** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5.6 is 255 frames (4.24 s) faster than the publication**, and 1 frame
+faster than v5.5. One more lag frame is gone, this time in Bubble Man's stage.
+* **The second spike zip.**
+  * An A press removes one of its lag frames.
+  * An L keeps Mega Man in the water one frame longer, which shifts the
+    underwater slow-down counter.
+* **The Bubble DelayDownScroll stays on its heavy music frame.**
+  * Removing the lag would put the check on a lighter music frame. One extra
+    frame in the Metal Blade menu restores the timing, with the frame counter
+    1 higher.
+  * The hit check then favours the other slot parity. So a first blade thrown
+    straight down frees slot 4 in time, the crab killer goes to slot 3, and a
+    blade thrown 9 frames before the check makes the check frame's sound
+    processing heavy enough.
+* **The boss fill ends 1 frame earlier.**
+  * The counter is 1 higher, and the underwater counter is shifted by the
+    later exit from the water. Together they make the fill end 1 frame sooner.
+  * From there the run is v5.5 one frame earlier, with the same frame counter.
+  * Two blade directions restore the stale Y subpixels that Wily 1's Item 1
+    platforms need.
+  * A one frame earlier avoids a new lag on the kill frame.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,024 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `5a731ab4…`; v5.5's end RAM
+    except the sound engine's frame counter).
+  * The lever was built on v5.2 and checked by an independent sync check and an
+    independent rules check. Both found it valid.
+  * **Caveat for console verification:** Bubble's DelayDownScroll now lands
+    only about 2 CPU cycles inside its window (v5.5: about 20). Both FCEUX
+    cores agree, but this is the most cycle-sensitive moment in the run.
+  * `movies/rockman2-v5.6-edits.json` (61 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v5.5 is 254 frames (4.23 s) faster than the publication**, and 4 frames
 faster than v5.4. The Metal Man refight's fill comes 4 frames earlier, and
