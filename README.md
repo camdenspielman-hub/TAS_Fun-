@@ -24,7 +24,43 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5.6-85024.fm2` | 85,024 | 23:34.737 | verified on both cores |
 | `movies/rockman2-v5.7-85020.fm2` | 85,020 | 23:34.671 | verified on both cores |
 | `movies/rockman2-v5.8-85019.fm2` | 85,019 | 23:34.654 | verified on both cores |
-| `movies/rockman2-v5.9-85018.fm2` | **85,018** | **23:34.637** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5.9-85018.fm2` | 85,018 | 23:34.637 | verified on both cores |
+| `movies/rockman2-v6.0-85014.fm2` | **85,014** | **23:34.571** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v6.0 is 265 frames (4.41 s) faster than the publication**, and 4 frames
+faster than v5.9. The first Wily Machine phase dies 2 frames sooner, and the
+second phase's fill rule turns that into 4.
+* **The new start.**
+  * Mega Man jumps 3 frames earlier.
+  * His second floor blade is thrown straight down, so it holds the odd
+    weapon slot.
+  * His third blade, thrown in the air, then takes an even slot and hits 3
+    frames sooner.
+  * Left/right steering in the air keeps the remaining hits on a 2- or 3-frame
+    rhythm.
+* **The kill-frame throw is a stationary blade parked low on the odd slot.**
+  It becomes the second phase's decoy. The phase change then needs only the
+  first-hit blade and the reserve, so the Metal Blade budget is exactly the 59
+  blades available.
+* **Phase 2** was re-searched with the Wily 6 platform values checked. They end
+  at 4D/A7/53, in range.
+* **Why earlier searches missed it.**
+  * The previous proof that this was impossible held Mega Man's horizontal
+    path fixed.
+  * The new search treats his left/right input as a variable. It uses a bound
+    that accounts for the slot parity.
+  * It also showed that v5.9's own jump timing can never reach the earlier
+    kill.
+* **Found by** the completeness review's lead: that fill now needed just 1
+  frame.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,014 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `3436aa0e…`).
+  * An independent sync check and an independent rules check both found it
+    valid.
+  * One no-op edit they found was reverted, with the same end RAM.
+  * `movies/rockman2-v6.0-edits.json` (62 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v5.9 is 261 frames (4.34 s) faster than the publication**, and 1 frame
 faster than v5.8. Two Wily 4 lag frames are traded for one.
