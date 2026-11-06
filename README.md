@@ -19,7 +19,39 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5.1-85040.fm2` | 85,040 | 23:35.003 | verified on both cores |
 | `movies/rockman2-v5.2-85039.fm2` | 85,039 | 23:34.987 | verified on both cores |
 | `movies/rockman2-v5.3-85037.fm2` | 85,037 | 23:34.953 | verified on both cores |
-| `movies/rockman2-v5.4-85029.fm2` | **85,029** | **23:34.820** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v5.4-85029.fm2` | 85,029 | 23:34.820 | verified on both cores |
+| `movies/rockman2-v5.5-85025.fm2` | **85,025** | **23:34.754** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v5.5 is 254 frames (4.23 s) faster than the publication**, and 4 frames
+faster than v5.4. The Metal Man refight's fill comes 4 frames earlier, and
+everything after it moves with it.
+* **The Crash Man refight is 1 frame faster.**
+  * Mega Man walks left to dodge Crash Man's bomb, then jumps, so his second
+    Air Shooter volley comes 1 frame earlier.
+  * The hit check uses the even weapon slots on even frame counts and slot 3
+    on odd ones.
+  * The new volley lands hit 2 on slot 4 and the kill on slot 3, one frame
+    sooner.
+* **The hub pause before Metal Man uses the up+down menu trick.** Control
+  comes back 1 frame sooner.
+* **The Metal fill rule** (every 4 frames) turns those 2 frames into 4.
+* **Re-syncs.**
+  * The Metal capsule is entered with a different X subpixel (90), so Metal
+    Man still makes his low first jump.
+  * The Flash capsule walk is re-timed.
+* **The Wily Machine needed a small fix.**
+  * The new Crash fight leaves different stale subpixels in the weapon slots.
+  * With v5.4's Wily Machine inputs unchanged, one phase-2 blade was checked
+    1 px too low, the hit slipped 2 frames, and Mega Man died in Wily 5.
+  * Two phase-1 throws aimed up-right instead restore it: all 56 hits land on
+    v5.4's frames, and the Wily 6 platform seeds end at 4D/87/4F, in range.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,025 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `39824f19…`).
+  * An independent sync check and an independent rules check both found it
+    valid. From the Metal fill on, every event is v5.4's, 4 frames earlier.
+  * `movies/rockman2-v5.5-edits.json` (61 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v5.4 is 250 frames (4.16 s) faster than the publication**, and 8 frames
 faster than v5.3. Both Wily Machine fights are faster, so Wily 6 starts 8
