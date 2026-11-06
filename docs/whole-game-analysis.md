@@ -321,3 +321,102 @@ relies on, all measured in the emulator.
 * Wily 5 always needs a re-sync. While Mega Man stands in the hub, the RNG
   converges to a function of the frame counter and his X subpixel, so each
   refight's first random decision is set by the capsule walk.
+
+## 9. Larger routing, other glitches, and ACE
+
+After v5 we looked for savings at the route level, not just the input level.
+Four independent studies covered it: route_study, glitch_hunt, w4exit and
+r2_w23. None found a larger reroute that can be built. The reasons are below,
+because each one rules out a whole family of ideas.
+
+**Refight order and weapons.**
+* v5's Wily 5 order (Heat, Air, Wood, Bubble, Quick, Crash, Metal, Flash) is
+  the one the 2006 exhaustive search found.
+* Orders with 6 pauses instead of 7 have to backtrack across the bottom row,
+  which costs about 100 frames. Each pause costs 32-40 frames net.
+* The weapons are forced by the damage tables, and Metal Blade's energy is
+  used exactly.
+
+**Robot-master order.** No gain once the hidden hand-overs between stages are
+counted: the Item 1 seeds in slots 2-4, and $F9 (Crash → Quick, Bubble → Wood).
+
+**Double KOs.**
+* If the boss dies 1-15 frames after Mega Man, no life is lost and the stage
+  ends normally. The exit teleport then starts from where Mega Man died.
+* 16-175 frames softlocks; 176 frames or more costs a life.
+* A death high in the air would shorten an exit teleport. It needs:
+  * Mega Man's HP at or below the hit's damage;
+  * no invincibility;
+  * the killing shot already in flight.
+* Heat Man's stage already ends with a double KO. It cannot be higher, because
+  Heat Man's contact needs Mega Man at Y ≥ 161.
+* At the other robot masters, a higher death either saves too little to cross
+  the next 8-frame rule, or first needs several extra hits on Mega Man to bring
+  his HP down.
+* Wily 1 and Wily 2 already end with double KOs.
+
+**Death warps.** The checkpoint after a death comes from the scroll position
+($0440) checked against per-stage thresholds. Both of v5's deaths already
+warp. No other checkpoint has enough time in it to pay for a death's ~265-frame
+overhead.
+
+**Offscreen starts.** $F9 (Mega Man's Y high byte) carries into the next stage.
+* Starting below the screen kills Mega Man at every robot-master start except
+  Quick (already used), and at Wily 1 and 2.
+* A Wily 3 start below the screen would save 10-11 frames, but Wily 2 ends in a
+  closed room.
+* A Wily 4 start above the screen would save 138 frames raw. It is a dead end:
+  Mega Man is frozen for 734 frames after the Guts Tank kill, and the Guts room
+  has no screen above it.
+
+**Exit teleports.**
+* The teleport length is floor(Y/8) + 9 frames, so a higher exit is shorter.
+  The Wily 4 exit cannot be raised:
+  * The Boobeam room has no spot where Mega Man can be embedded in a wall.
+    180,000 frames of random input found only 1-pixel overlaps.
+  * $F9 is not reset before Wily 5, so leaving the room downward costs a life.
+  * Standing on the step for a higher teleport costs as many frames as it saves.
+* The other Wily exits are already at their best heights.
+
+**Frame-rule levers.**
+* Before Wily 1, savings only count in 16s, at the Wily 1 fade.
+* R1, +16 at Wily 1: firing Wily 1's exit DelayDownScroll 16 frames earlier
+  does not work, because the music makes those check frames too light.
+  * It needs the stage to start 16 counter frames earlier instead.
+  * That means two pieces before it: 4 more frames in Metal Man's stage, and
+    Wood's DelayDowns at Shinryuu's frames. Both are being tested.
+* R2, +16 at the Wily 3 fade, needs one Wily 2 Item 1 platform dropped.
+  * All six are load-bearing.
+  * Item 1 energy across Wily 2 and 3 is used exactly.
+
+**Glitches surveyed** (no new saving):
+* **Refight skip** (warmCabin's video):
+  * The boss that spawns comes from the touched capsule's slot.
+  * The 9th teleporter spawns only when $BC = FF.
+  * $BC has two writers: a clear at stage start, and the boss bit set on
+    return.
+  * No out-of-range index is reachable.
+* **Zips.** Facing left with the point at X−8 in a solid tile, Mega Man is
+  pushed right 16 px per frame, checked at three heights. An offline predictor
+  (agents/glitch_hunt) found no new useful zip.
+* **Doors.** A zip into a boss room does not start the boss.
+  * Air's first door can be entered from below, which would save 118 frames
+    if a DelayDownScroll worked there.
+  * It cannot: the room is too light, so its check runs about 14,000 cycles
+    too early.
+* **Menus.** Stage select, pause, title and password screens handle
+  simultaneous inputs safely. The pause U+D cursor trick is the only one, and
+  v5 already uses it.
+* **Small ones:**
+  * Boobeam walls vanishing after a pause: does not happen on the Japanese
+    version.
+  * Leaf Shield with L+R: works, but gains nothing.
+  * Time Stopper on Quick Man: 1 damage per 30 frames, too slow.
+
+**Arbitrary code execution** is its own category and was treated as a separate
+question. The code survey found no reachable out-of-range jump index:
+* The one candidate dispatch, $AD ≥ $7F through $82D5, needs an object type
+  that does not exist.
+* That type's AI would hit BRK, which resets the game.
+
+A deeper ACE search was not carried out.
