@@ -421,9 +421,9 @@ question. The code survey found no reachable out-of-range jump index:
 
 A deeper ACE search was not carried out.
 
-## 10. What v5.1-v5.8 add (Wily 5/6 mechanics)
+## 10. What v5.1-v6.0 add (Wily 4-6 mechanics)
 
-v5.1 to v5.8 save 21 more frames, almost all in Wily 5 and 6. Each lever below
+v5.1 to v6.0 save 26 more frames, almost all in Wily 4, 5 and 6. Each lever below
 is small, but they rest on a handful of mechanics that were not documented
 before.
 
@@ -504,3 +504,42 @@ before.
   * But the sled costs the last Item-2 unit, which the later step sled needs.
   * A left-facing sled costs no energy, but it leaves Mega Man about 3 px
     behind, against 0.25 px of tolerance.
+
+**Invincibility flicker as a CPU lever (v5.9).**
+* While Mega Man is invincible, he is drawn only on frames where bit 1 of `$1C`
+  is clear. Hiding him saves a whole sprite group's draw time.
+* Wily 4's room-32 lag frames, where three homing enemies re-aim, fell on
+  frames where he was drawn.
+* One extra pause-menu frame shifts the counter, and both lags disappear.
+  That costs 1 frame, and the Boobeam fill's 1 frame of slack absorbs the
+  counter change.
+* **The same trick fails before Wily 4.** A scan of v6.0 finds seven more
+  short lags with Mega Man invincible and drawn: four in Bubble's screen 8,
+  three in its second spike zip, and one at the Air Man kill.
+  * There the stage-end rules come in 8-frame steps with at most 1 frame of
+    slack.
+  * Running the counter 2 higher costs 8 frames, more than the lags save.
+
+**The Wily Machine (v6.0).**
+* The phase-2 fill needed only 1 frame for the next +4.
+* The earlier "impossible" proof had fixed Mega Man's horizontal path. A
+  search that leaves his left/right input free found a phase-1 kill 2 frames
+  earlier, with a bound that accounts for the slot parity:
+  * a blade thrown straight down holds the odd slot, so the next airborne
+    blade takes an even slot;
+  * the kill-frame throw is a parked blade that becomes phase 2's decoy.
+* Phase 2 is now provably optimal. Around every landing, blades thrown from
+  below arrive too late to fill the gap with 3 slots. Under any movement, at
+  most 27 hits fit by the frame the next rule needs.
+
+**Also closed after v5.8:**
+* **The Wood refight exit.** The killing tornado must start from X ≥ 75, so
+  the exit comes at kill+5 at best. A 2-frame gain would cost 4 at the Bubble
+  fill.
+* **An earlier second Boobeam bomb.** Mega Man's knockback only advances on
+  frames where he is drawn, and the bomb pieces keep him off every odd frame,
+  so the knockback ends on a fixed frame.
+* **A spare Item-1 platform.** There is no free slot during the Wily 6 climb.
+  A second platform in the alien room blocks the pause. In Wily 4, all 464
+  extra-throw positions either gain nothing or kill Mega Man.
+
