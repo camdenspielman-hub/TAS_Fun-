@@ -435,9 +435,9 @@ question. The code survey found no reachable out-of-range jump index:
 
 A deeper ACE search was not carried out.
 
-## 10. What v5.1-v6.2 add (Wily 4-6 mechanics)
+## 10. What v5.1-v6.3 add (Wily 4-6 mechanics)
 
-v5.1 to v6.2 save 30 more frames, almost all in Wily 4, 5 and 6. Each lever below
+v5.1 to v6.3 save 34 more frames, almost all in Wily 4, 5 and 6. Each lever below
 is small, but they rest on a handful of mechanics that were not documented
 before.
 
@@ -561,6 +561,34 @@ before.
   inherits slot 2's stale subpixel from phase 1. v6.2 gives slot 2's blades
   exactly 25 diagonal moves there; with v6.1's phase 1 the run fails in
   Wily 6.
+
+**The Heat Man refight (v6.3).**
+* **How the fight is timed.**
+  * After a hit Heat Man is hurt for 19 frames and then waits 31 frames.
+    The wait comes from a random table; it is 31 in the run, the shortest.
+  * He then dashes for (distance ÷ 4) + 10 frames, moving 4 pixels a frame
+    toward Mega Man for the last part. He becomes hittable 9 frames later.
+  * So the fight lasts 276 frames after the first hit, plus one frame for
+    every 4 pixels of dash distance. Each of those frames also leaves him 4
+    pixels further left.
+* **What bounds it.** The bound is not his AI but where he dies: far enough
+  right that Mega Man, walking left, is already in the exit box on the next
+  frame. v6.3 shortens the third dash and lengthens the last one, so he dies
+  8 pixels further right and 2 frames sooner.
+* **Why it was missed.** Every earlier study treated this fight as fixed by
+  the boss's AI and never measured it. The closure audit (section 9) checks
+  the other closures for the same blind spot.
+
+**New platform-seed knobs (v6.3).** These restore Wily 6's platform starting
+values when an earlier change moves the leftover weapon subpixels:
+* The spare Item 1 platform takes weapon slot 4 when thrown. Each frame of
+  delay before the throw moves that slot's leftover subpixel by 0x41.
+* The direction of the Wily Machine's killing blade sets slot 3's value. The
+  killing blade keeps flying after the kill. A diagonal blade changes the
+  value on every frame it flies; a straight horizontal one leaves it as it
+  is.
+* A stationary blade can replace a diagonal hit whose timing depends on a
+  subpixel.
 
 **Also closed after v5.8:**
 * **The Wood refight exit.** The killing tornado must start from X ≥ 75, so

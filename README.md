@@ -27,7 +27,53 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5.9-85018.fm2` | 85,018 | 23:34.637 | verified on both cores |
 | `movies/rockman2-v6.0-85014.fm2` | 85,014 | 23:34.571 | verified on both cores |
 | `movies/rockman2-v6.1-85011.fm2` | 85,011 | 23:34.521 | verified on both cores |
-| `movies/rockman2-v6.2-85010.fm2` | **85,010** | **23:34.504** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v6.2-85010.fm2` | 85,010 | 23:34.504 | verified on both cores |
+| `movies/rockman2-v6.3-85006.fm2` | **85,006** | **23:34.438** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v6.3 is 273 frames (4.54 s) faster than the publication**, and 4 frames
+faster than v6.2. The Wily 5 Heat Man refight is won 2 frames sooner. The
+Air Man refight's health fill needed only 2 frames for its next 4-frame step,
+so it now comes 4 frames earlier. Everything after it, the alien's death
+included, is 4 frames earlier.
+* **Heat Man's fight is not limited by his AI.**
+  * After each hit he waits, then dashes toward Mega Man at 4 pixels a frame.
+    The dash lasts one frame for every 4 pixels between them, so he dies
+    wherever his last dash leaves him.
+  * Mega Man now hops in place before the third dash, which is then 12 pixels
+    long instead of 24. Before the last dash he walks left with a jump, and
+    that dash is 64 pixels instead of 60.
+  * Heat Man dies 8 pixels further right, 2 frames sooner, and Mega Man
+    reaches the exit on the next frame.
+  * Every earlier study had treated this fight as fixed by the boss's AI. A
+    completeness review found it had never been examined.
+* **Putting the later refights back in step.** With the frame counter 4
+  lower, the bosses' random choices would change. Small changes restore them:
+  * the Air Man capsule is touched on another subpixel (same tornado layout);
+  * the Wood Man exit hop starts a frame later (same Bubble Man pattern);
+  * the jump to the Quick Man capsule is a frame later, one press in that
+    fight is Right instead of Left, and its exit is re-timed;
+  * the Air Shooter shot in the hub before Crash Man is fired 14 frames later;
+  * the path to the Metal Man capsule and one step in that fight change, and
+    the walk to the Flash Man capsule is re-found.
+* **Wily 6 platform values.** The changes above alter the leftover weapon
+  subpixels that Wily 6's platforms start from. Three changes bring them back
+  in range (53/9F/4F):
+  * one first-phase Wily Machine blade becomes a stationary blade;
+  * one second-phase blade and the killing blade are thrown straight right;
+  * the one spare Item 1 platform is thrown during the first fall in Wily 6.
+    Item 1 energy now runs out exactly on the alien's ledge platform.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,006 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `dba77825…`).
+  * From the Air Man fill to the end, every boss fill, hit and kill and every
+    lag frame comes exactly 4 frames before v6.2's.
+  * An independent sync check and an independent rules check both found it
+    valid.
+  * The rules check found three inputs that change nothing: one is an exact
+    no-op, and the other two only move CPU timing inside a frame. They are
+    removed. The end RAM and every lag frame are unchanged on both cores.
+  * `movies/rockman2-v6.3-edits.json` (61 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v6.2 is 269 frames (4.48 s) faster than the publication**, and 1 frame
 faster than v6.1. The second Wily Machine phase dies 1 frame sooner. The wait
