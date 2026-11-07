@@ -154,14 +154,15 @@ consequences:
   frame before the kill and is frozen in mid-air, which shortens the exit
   teleport. The teleport takes `floor(Y/8)+9` frames.
 * Contact needs Y ≥ 161 while a 1-frame-shorter teleport needs Y < 160, and the
-  cycle cannot be shortened. So Heat cannot gain.
+  cycle cannot be shortened. So Heat cannot gain (PROVEN; ledger prew1-06).
 
 **Wood Man.**
 * Air Shooter: all three tornado slots must be free to fire.
 * The leaf shield deflects anything entering from the left.
 * His jump timing is driven by his draw-time animation.
 * The kill at 49986 is minimal: the fast tornado of the previous volley needs
-  39 frames to leave the screen.
+  39 frames to leave the screen (PROVEN-IN-MODEL for the publication's fight,
+  not re-proven on the current route; ledger prew1-47).
 
 **Guts Tank (Wily 3).** The head becomes hittable a fixed 309 frames after the
 tank starts moving. The tank does not move during a pause, so the weapon-switch
@@ -180,7 +181,8 @@ pause costs its full length. The new fight works like this:
   Mega Man's X at his previous hurt, so it can be huge.
 * The exit teleport starts from where Mega Man lands after the kill, so ending
   on the high ledge matters.
-* The published fight is at its limit.
+* An early version of this section called the published fight "at its
+  limit". That was wrong (OVERTAKEN): v4 found a 43-frame fight.
 
 **Wily 5 refights.** The return warp only starts if Mega Man stands on the
 room's return teleporter when the boss dies.
@@ -189,7 +191,8 @@ room's return teleporter when the boss dies.
 * Its figure-eight path depends only on unpaused, non-lag frames.
 * Only Bubble Lead hurts it, 1 per hit, and a pause is needed to select it.
 * The single Item 1 platform onto the hidden ledge is worth about 27 frames
-  over a floor fight, and it is already frame-perfect.
+  over a floor fight. An early version called it frame-perfect; v5.3's alien
+  fight overtook that (OVERTAKEN; ledger wmw6-56).
 
 ## 5. Hidden state that carries over
 
@@ -242,13 +245,17 @@ stage start (Shinryuu's "Wood 13") breaks it for that reason:
   of the alien-room platform kept in range.
 * **Alien: +1** (from v2: final burst fired one frame early).
 
-Searched and not improvable with the current routes:
-* Heat and Wood stage ends;
-* Wood's stage-start pause;
+Searched in v3 and not improved with the routes of that time. Several were
+later overtaken; the current label of each is in [closures.md](closures.md):
+* Heat and Wood stage ends (Heat: PROVEN; Wood: PROVEN-IN-MODEL for the
+  publication's fight);
+* Wood's stage-start pause (OVERTAKEN: the current route has one);
 * the Metal Man and Crash Man stages, whose fights sit exactly on their hit and
-  slot bounds;
-* the Boobeam fight;
-* the alien fight (the best near-miss is 0.375 px short of 2 frames);
+  slot bounds (Metal's fight timing: PROVEN; the current route's in-wall Crash
+  fight was never searched: UNSUPPORTED);
+* the Boobeam fight (OVERTAKEN by v4);
+* the alien fight (OVERTAKEN by v5.3; the near-miss was 0.375 px short of 2
+  frames);
 * Item 1 at the alien (already used).
 
 So a 16-frame lead before Wily 1 has not been found. Two robot-master stages
@@ -286,8 +293,8 @@ relies on, all measured in the emulator.
   it), and the deferred sound routine must leave an allowed Y.
 * Shinryuu's visible inputs alone were often a few hundred cycles off on our
   timeline. That is because the CPU phase depends on the whole input history,
-  including his style-only changes. Two loads that never show on screen closed
-  the gap:
+  including his style-only changes. Two loads that never show on screen made up
+  the difference:
   * A sound effect's tail. A landing queues SFX $29, which makes the next ten
     NMIs longer by up to about 1,400 cycles. Wood's screen-4 up-scroll uses a
     hidden landing above the screen 10 frames before the check.
@@ -333,13 +340,15 @@ An adversarial review of every closure in this document has started.
 
 **Refight order and weapons.**
 * v5's Wily 5 order (Heat, Air, Wood, Bubble, Quick, Crash, Metal, Flash) is
-  the one the 2006 exhaustive search found.
+  the one the 2006 exhaustive search found. That search used a cost model, and
+  the walk legs of other orders were never measured (ESTIMATE; see
+  [closures.md](closures.md)).
 * Orders with 6 pauses instead of 7 have to backtrack across the bottom row,
   which costs about 100 frames. Each pause costs 32-40 frames net.
 * The weapons are forced by the damage tables, and Metal Blade's energy is
   used exactly.
 
-**Robot-master order: open, not proven.** route_study only checked on paper
+**Robot-master order: open, not proven (ESTIMATE).** route_study only checked on paper
 the three fight savings a reorder would buy:
 * Heat Man with Bubble Lead, about −600 frames;
 * Air Man with Leaf Shield, about −150;
@@ -349,7 +358,8 @@ Each of these breaks a hand-over the current route relies on: the Item 1 and
 Item 3 seeds in weapon slots 2-4, and $F9 (Crash → Quick, Bubble → Wood). That
 does not show that another order cannot supply those hand-overs some other
 way. It also does not rule out an order with useful hand-overs of its own, or
-with hand-overs we have not found.
+with hand-overs we have not found. The routing study that followed, and the
+question's current status, are in [closures.md](closures.md), section 3.2.
 
 **Double KOs.**
 * If the boss dies 1-15 frames after Mega Man, no life is lost and the stage
@@ -375,14 +385,16 @@ overhead.
 * Starting below the screen kills Mega Man at every robot-master start except
   Quick (already used), and at Wily 1 and 2.
 * A Wily 3 start below the screen would save 10-11 frames, but Wily 2 ends in a
-  closed room.
-* A Wily 4 start above the screen would save 138 frames raw. It is a dead end:
+  closed room (ESTIMATE; ledger wily123-41).
+* A Wily 4 start above the screen would save 138 frames raw. It is a dead end
+  (PROVEN-IN-MODEL; ledger wily4-14):
   Mega Man is frozen for 734 frames after the Guts Tank kill, and the Guts room
   has no screen above it.
 
 **Exit teleports.**
 * The teleport length is floor(Y/8) + 9 frames, so a higher exit is shorter.
-  The Wily 4 exit cannot be raised:
+  The Wily 4 exit cannot be raised (the double KO: PROVEN; no embedding:
+  PROVEN-IN-MODEL; ledger wily4-28/30):
   * The Boobeam room has no spot where Mega Man can be embedded in a wall.
     180,000 frames of random input found only 1-pixel overlaps.
   * $F9 is not reset before Wily 5, so leaving the room downward costs a life.
@@ -443,7 +455,9 @@ before.
 
 **The boss hit check** (bank 11 `$A59D`):
 * **Weapon slots by frame parity.** On odd frame counts it checks weapon
-  slot 3, on even ones slots 2 and 4. A new Metal Blade takes the highest free
+  slots 9, 7, 5 and 3, on even ones 8, 6, 4 and 2. Metal Blades only use
+  slots 2-4, so for them that means slot 3 on odd frames and slots 2 and 4 on
+  even ones. A new Metal Blade takes the highest free
   slot (4, then 3, then 2).
 * **The `$B4` latch.**
   * A hit sets `$B4`. It is cleared only on a checked frame where no checked
@@ -478,7 +492,8 @@ before.
   * Boobeam takes 4 bombs, leaving Quick Man 3.
   * A 3-bomb Boobeam is possible (two hurt-glitch kills), but it costs 38
     frames. A 4th bomb at Quick Man would save about 18.
-* **Item 2 in Wily 1** uses all 28 units. That is what finally closed lever R1.
+* **Item 2 in Wily 1** uses all 28 units. That is what stopped the R1-lite
+  route (SEARCH-LIMITED: a zip into building 2 was never tested).
 
 **Lag frames and the CPU.**
 * **Why a removed lag is worth a frame.** A true lag frame does not advance the
@@ -508,7 +523,9 @@ before.
   secret ledge. The landing check tolerates a hit up to Y 66.5 / X 52.44, which
   an earlier study missed.
 
-**R1 (16 frames at the Wily 1 fade) is closed.**
+**R1 (16 frames at the Wily 1 fade) is not proven impossible, but every route
+tried so far has failed** (SEARCH-LIMITED; see [closures.md](closures.md),
+section 3.1).
 * **The plan.** Wood's DelayDownScrolls now fire at Shinryuu's frames, giving
   a Wily 1 start with lead 88.
 * **The full version** needs 8 more counter frames before Wood. None of Metal,
@@ -542,13 +559,15 @@ before.
 
 **The Wily Machine (v6.0).**
 * The phase-2 fill needed only 1 frame for the next +4.
-* The earlier "impossible" proof had fixed Mega Man's horizontal path. A
+* The earlier "impossible" proof (now OVERTAKEN) had fixed Mega Man's
+  horizontal path. A
   search that leaves his left/right input free found a phase-1 kill 2 frames
   earlier, with a bound that accounts for the slot parity:
   * a blade thrown straight down holds the odd slot, so the next airborne
     blade takes an even slot;
   * the kill-frame throw is a parked blade that becomes phase 2's decoy.
-* Phase 2 is now provably optimal. Around every landing, blades thrown from
+* Phase 2 is optimal within a sound relaxation model (PROVEN-IN-MODEL; ledger
+  wmw6-19). Around every landing, blades thrown from
   below arrive too late to fill the gap with 3 slots. Under any movement, at
   most 27 hits fit by the frame the next rule needs.
 
@@ -603,14 +622,15 @@ values when an earlier change moves the leftover weapon subpixels:
 * A stationary blade can replace a diagonal hit whose timing depends on a
   subpixel.
 
-**Also closed after v5.8:**
+**Also closed after v5.8** (labels from [closures.md](closures.md)): <!-- no-claim -->
 * **The Wood refight exit.** The killing tornado must start from X ≥ 75, so
   the exit comes at kill+5 at best. A 2-frame gain would cost 4 at the Bubble
-  fill.
+  fill (PROVEN-IN-MODEL; ledger w5-25 to 29).
 * **An earlier second Boobeam bomb.** Mega Man's knockback only advances on
   frames where he is drawn, and the bomb pieces keep him off every odd frame,
-  so the knockback ends on a fixed frame.
+  so the knockback ends on a fixed frame (PROVEN-IN-MODEL; ledger wily4-40).
 * **A spare Item-1 platform.** There is no free slot during the Wily 6 climb.
   A second platform in the alien room blocks the pause. In Wily 4, all 464
-  extra-throw positions either gain nothing or kill Mega Man.
+  extra-throw positions either gain nothing or kill Mega Man. (OVERTAKEN in
+  part: since v6.3 the spare platform is used to set a Wily 6 platform value.)
 

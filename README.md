@@ -32,6 +32,12 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v6.4-85005.fm2` | 85,005 | 23:34.421 | verified on both cores |
 | `movies/rockman2-v6.5-85004.fm2` | **85,004** | **23:34.404** | verified on FCEUX master core and FCEUX 2.3.0 core |
 
+**How sure are the dead ends?** [docs/closures.md](docs/closures.md) is an
+adversarial audit of every claim in this project that a saving is impossible.
+Each claim is labelled by the strength of its evidence: PROVEN,
+PROVEN-IN-MODEL, SEARCH-LIMITED, ESTIMATE, UNSUPPORTED or OVERTAKEN. Two of
+the holes it found became v6.4 and v6.5.
+
 **v6.5 is 275 frames (4.58 s) faster than the publication**, and 1 frame
 faster than v6.4. The lag frame in the Wily 5 Heat Man refight is gone.
 * **The change.**
@@ -45,7 +51,7 @@ faster than v6.4. The lag frame in the Wily 5 Heat Man refight is gone.
   * Mega Man, Heat Man and the random number then match v6.4 exactly, so
     everything after it comes 1 frame earlier.
 * **Why it was missed.** An earlier lag study measured this frame as about
-  1,370 CPU cycles over budget and closed it. The closure audit found it was
+  1,370 CPU cycles over budget and marked it as not removable. The closure audit found it was
   only just over: removing any one fire pillar removes the lag. Nobody had
   moved Mega Man before Heat Man's throw.
 * **Verification.**
@@ -217,8 +223,8 @@ second phase's fill rule turns that into 4.
 * **Phase 2** was re-searched with the Wily 6 platform values checked. They end
   at 4D/A7/53, in range.
 * **Why earlier searches missed it.**
-  * The previous proof that this was impossible held Mega Man's horizontal
-    path fixed.
+  * The previous "impossible" proof (now OVERTAKEN) held Mega Man's
+    horizontal path fixed.
   * The new search treats his left/right input as a variable. It uses a bound
     that accounts for the slot parity.
   * It also showed that v5.9's own jump timing can never reach the earlier
@@ -779,8 +785,9 @@ The searches then targeted those thresholds.
 4. **Wily 6: +20 frames** (from v3a). The ceiling zip starts from the third
    Item 1 platform's throw pose.
 
-Checked and found not improvable with the current route (details in the
-analysis document):
+Checked at the time and not improved with the route of that time. Several
+items were later overtaken; the current label of each is in
+[docs/closures.md](docs/closures.md):
 * Heat Man and Wood Man stage ends;
 * Wood's stage-start pause, which breaks its DelayUpScroll in every variant
   tried so far. Shinryuu reports making it work in 2022; being re-examined;
@@ -897,7 +904,8 @@ after the last input, and the ending sequence plays with no further input.
 
 * **Pause-menu up+down trick** (warmCabin, 2021): holding Up and adding Down
   makes two upward cursor moves on consecutive frames. Not used in #4410.
-  Exhaustive search of every Wily 5/6 pause: Heat pause (77168) **−2 frames**;
+  Exhaustive search of every Wily 5/6 pause (today's pauses are certified
+  minimal by the proof tools: PROVEN-GIVEN-ASSUMPTIONS): Heat pause (77168) **−2 frames**;
   Bubble, Crash, Metal, W6 cave and alien pauses −1 each. The Heat pause alone
   reaches its fill's threshold (+4 frames); this is what v2 uses.
 * **RNG.** `$4A` is updated every NMI as
