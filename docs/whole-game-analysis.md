@@ -435,9 +435,9 @@ question. The code survey found no reachable out-of-range jump index:
 
 A deeper ACE search was not carried out.
 
-## 10. What v5.1-v6.4 add (Wily 4-6 mechanics)
+## 10. What v5.1-v6.5 add (Wily 4-6 mechanics)
 
-v5.1 to v6.4 save 35 more frames, almost all in Wily 4, 5 and 6. Each lever below
+v5.1 to v6.5 save 36 more frames, almost all in Wily 4, 5 and 6. Each lever below
 is small, but they rest on a handful of mechanics that were not documented
 before.
 
@@ -584,6 +584,13 @@ before.
 * **Why it was missed.** Every earlier study treated this fight as fixed by
   the boss's AI and never measured it. The closure audit (section 9) checks
   the other closures for the same blind spot.
+
+**The Heat Man refight lag (v6.5).** The fight's one lag frame was only just
+over budget, not 1,370 cycles as first measured. Removing any one of the fire
+pillars made by Heat Man's opening fireballs removes it, and those fireballs
+aim at Mega Man. Holding Mega Man still for 4 frames before the throw moves
+the pillars about 6 pixels left, so the lag disappears; a re-timed hop and walk
+then rejoin the previous run exactly.
 
 **New platform-seed knobs (v6.3).** These restore Wily 6's platform starting
 values when an earlier change moves the leftover weapon subpixels:

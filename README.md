@@ -29,7 +29,33 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v6.1-85011.fm2` | 85,011 | 23:34.521 | verified on both cores |
 | `movies/rockman2-v6.2-85010.fm2` | 85,010 | 23:34.504 | verified on both cores |
 | `movies/rockman2-v6.3-85006.fm2` | 85,006 | 23:34.438 | verified on both cores |
-| `movies/rockman2-v6.4-85005.fm2` | **85,005** | **23:34.421** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v6.4-85005.fm2` | 85,005 | 23:34.421 | verified on both cores |
+| `movies/rockman2-v6.5-85004.fm2` | **85,004** | **23:34.404** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v6.5 is 275 frames (4.58 s) faster than the publication**, and 1 frame
+faster than v6.4. The lag frame in the Wily 5 Heat Man refight is gone.
+* **The change.**
+  * Right after his first bubble, Mega Man stops in the air for 4 frames.
+    Heat Man's three opening fireballs aim at him, so they now land about 6
+    pixels further left. One of them disappears a frame sooner, and the frame
+    that used to lag finishes in time.
+  * The first hit lands on the same game frame. A hop one frame later and a
+    short walk past Heat Man and back keep his random wait at 31 frames, as
+    v6.3's dash plan needs.
+  * Mega Man, Heat Man and the random number then match v6.4 exactly, so
+    everything after it comes 1 frame earlier.
+* **Why it was missed.** An earlier lag study measured this frame as about
+  1,370 CPU cycles over budget and closed it. The closure audit found it was
+  only just over: removing any one fire pillar removes the lag. Nobody had
+  moved Mega Man before Heat Man's throw.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,004 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `7cc7a82f…`).
+  * An independent sync check and an independent rules check both found it
+    valid. The rules check found one Left press that changes nothing; it is
+    removed, with the same end RAM and the same lag frames on both cores.
+  * `movies/rockman2-v6.5-edits.json` (61 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v6.4 is 274 frames (4.56 s) faster than the publication**, and 1 frame
 faster than v6.3. The Wily 4 Boobeam fight lags 4 times instead of 5.
