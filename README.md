@@ -36,7 +36,10 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 adversarial audit of every claim in this project that a saving is impossible.
 Each claim is labelled by the strength of its evidence: PROVEN,
 PROVEN-IN-MODEL, SEARCH-LIMITED, ESTIMATE, UNSUPPORTED or OVERTAKEN. Two of
-the holes it found became v6.4 and v6.5.
+the holes it found became v6.4 and v6.5. [docs/glitch-coverage.md](docs/glitch-coverage.md)
+maps how well the game's code has been searched for unknown glitches (95% of
+the reachable code executed, about 7.4 million fuzzed frames; no proof that
+none remain).
 
 **v6.5 is 275 frames (4.58 s) faster than the publication**, and 1 frame
 faster than v6.4. The lag frame in the Wily 5 Heat Man refight is gone.
