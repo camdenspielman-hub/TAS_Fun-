@@ -435,9 +435,9 @@ question. The code survey found no reachable out-of-range jump index:
 
 A deeper ACE search was not carried out.
 
-## 10. What v5.1-v6.3 add (Wily 4-6 mechanics)
+## 10. What v5.1-v6.4 add (Wily 4-6 mechanics)
 
-v5.1 to v6.3 save 34 more frames, almost all in Wily 4, 5 and 6. Each lever below
+v5.1 to v6.4 save 35 more frames, almost all in Wily 4, 5 and 6. Each lever below
 is small, but they rest on a handful of mechanics that were not documented
 before.
 
@@ -533,6 +533,12 @@ before.
   * There the stage-end rules come in 8-frame steps with at most 1 frame of
     slack.
   * Running the counter 2 higher costs 8 frames, more than the lags save.
+* **v6.4 pairs it with a down throw.** Throwing the Leaf Shield down during
+  the zip before the Boobeam corridor saves 2 frames (a left throw's pose
+  stops the zip). One extra weapon-menu frame after room 32 gives one back.
+  The Boobeam door then comes 1 frame sooner, which moves the boss music 1
+  frame further along in the fight and removes one fight lag. The earlier
+  closure had only tried the menu frame before room 32, or none.
 
 **The Wily Machine (v6.0).**
 * The phase-2 fill needed only 1 frame for the next +4.

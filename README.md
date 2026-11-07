@@ -28,7 +28,36 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v6.0-85014.fm2` | 85,014 | 23:34.571 | verified on both cores |
 | `movies/rockman2-v6.1-85011.fm2` | 85,011 | 23:34.521 | verified on both cores |
 | `movies/rockman2-v6.2-85010.fm2` | 85,010 | 23:34.504 | verified on both cores |
-| `movies/rockman2-v6.3-85006.fm2` | **85,006** | **23:34.438** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v6.3-85006.fm2` | 85,006 | 23:34.438 | verified on both cores |
+| `movies/rockman2-v6.4-85005.fm2` | **85,005** | **23:34.421** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v6.4 is 274 frames (4.56 s) faster than the publication**, and 1 frame
+faster than v6.3. The Wily 4 Boobeam fight lags 4 times instead of 5.
+* **The change.**
+  * Before the Boobeam corridor, Mega Man zips through a wall at 16 pixels a
+    frame with the Leaf Shield up. v6.3 threw the shield left, and the throw
+    pose stopped the zip for 2 frames. v6.4 throws it straight down, so the zip
+    goes on and he is 2 frames ahead.
+  * One blank frame more in the next weapon menu gives one of them back, so he
+    reaches the Boobeam door 1 frame sooner.
+  * The boss's health fill still ends on the same frame, but the boss music
+    starts at the door, so it is now 1 frame further along during the fight.
+    One of the fight's lag frames disappears, and everything after it comes 1
+    frame earlier.
+* **Why it was missed.** An earlier study tried the down throw alone (the
+  music then meets heavier frames and adds lags) and with an extra menu frame
+  before room 32 (that breaks room 32's invincibility-flicker fix). The
+  adversarial closure audit found the third combination: the menu frame after
+  room 32.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,005 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `0912b0f0…`).
+  * From the Boobeam fight on, every lag frame and every boss event comes
+    exactly 1 frame before v6.3's.
+  * An independent sync check and an independent rules check both found it
+    valid; each change was reverted alone and each one is needed.
+  * `movies/rockman2-v6.4-edits.json` (61 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v6.3 is 273 frames (4.54 s) faster than the publication**, and 4 frames
 faster than v6.2. The Wily 5 Heat Man refight is won 2 frames sooner. The
