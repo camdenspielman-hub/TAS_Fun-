@@ -26,7 +26,43 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5.8-85019.fm2` | 85,019 | 23:34.654 | verified on both cores |
 | `movies/rockman2-v5.9-85018.fm2` | 85,018 | 23:34.637 | verified on both cores |
 | `movies/rockman2-v6.0-85014.fm2` | 85,014 | 23:34.571 | verified on both cores |
-| `movies/rockman2-v6.1-85011.fm2` | **85,011** | **23:34.521** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v6.1-85011.fm2` | 85,011 | 23:34.521 | verified on both cores |
+| `movies/rockman2-v6.2-85010.fm2` | **85,010** | **23:34.504** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v6.2 is 269 frames (4.48 s) faster than the publication**, and 1 frame
+faster than v6.1. The second Wily Machine phase dies 1 frame sooner. The wait
+before Wily 6 absorbs that frame, but the stage load that starts 325 frames
+after the kill now meets a lighter music frame. It lags 4 frames, as before
+v6.1, instead of 5.
+* **Phase 2.**
+  * The kill now lands on the odd weapon slot, so the fight can no longer keep
+    a decoy there. Mega Man throws the phase-change decoy straight up, and it
+    leaves the screen before the fight.
+  * He fights from the machine's right side. After 13 hits on the even slot, a
+    blade thrown up-right, which the machine deflects up-left, holds the even
+    slot. Ten point-blank throws on the odd slot then finish the machine, and
+    that blade leaves the screen on the kill frame.
+* **Phase 1 now sets up Wily 6.**
+  * The Wily 6 platforms start from stale weapon-slot subpixels. The reserve
+    blade inherits slot 2's from phase 1.
+  * With v6.1's phase 1 that value is out of range, and the run fails in
+    Wily 6.
+  * A 7-frame change in phase 1 gives slot 2's blades exactly 25 diagonal
+    moves, so the value ends in range. The 28 hits stay on the same frames.
+  * The seeds are 4D/87/4B, and the Metal Blade energy covers exactly the 59
+    throws.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,010 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `74998560…`).
+  * From the Wily 6 screen to the end, Mega Man, the bosses, the stage and the
+    lag frames match v6.1's one frame later.
+  * An independent sync check and an independent rules check both found it
+    valid.
+  * The rules check found six point-blank throws that did not need up+down.
+    They are now plain up-right throws, with the same result on every compared
+    frame, so up+down appears on 70 frames (v6.1: 66).
+  * `movies/rockman2-v6.2-edits.json` (62 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v6.1 is 268 frames (4.46 s) faster than the publication**, and 3 frames
 faster than v6.0. The first Wily Machine phase dies 3 frames sooner, so the

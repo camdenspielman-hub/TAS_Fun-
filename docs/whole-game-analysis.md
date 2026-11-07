@@ -421,9 +421,9 @@ question. The code survey found no reachable out-of-range jump index:
 
 A deeper ACE search was not carried out.
 
-## 10. What v5.1-v6.0 add (Wily 4-6 mechanics)
+## 10. What v5.1-v6.2 add (Wily 4-6 mechanics)
 
-v5.1 to v6.0 save 26 more frames, almost all in Wily 4, 5 and 6. Each lever below
+v5.1 to v6.2 save 30 more frames, almost all in Wily 4, 5 and 6. Each lever below
 is small, but they rest on a handful of mechanics that were not documented
 before.
 
@@ -531,6 +531,22 @@ before.
 * Phase 2 is now provably optimal. Around every landing, blades thrown from
   below arrive too late to fill the gap with 3 slots. Under any movement, at
   most 27 hits fit by the frame the next rule needs.
+
+**The Wily Machine again (v6.1-v6.2).**
+* **Phase 1 dies 3 frames sooner (v6.1).** Mega Man opens with a 1-frame hop,
+  and a blade parked with up+down just left of the machine is walked into 24
+  frames later. Phase 2 then fills 4 frames earlier.
+* **Load lag follows the music.**
+  * The Wily 6 stage load starts 325 frames after the phase-2 kill. The music
+    runs in real time, so the kill frame decides which music frames the load
+    meets, and the load lags 4 or 5 frames accordingly.
+  * With v6.1's kill it lagged 5, which took back 1 of the 4 frames. v6.2's
+    kill, 1 frame sooner, brings it back to 4.
+  * A frame-counter poke cannot show this, because it does not move the music.
+* **Wily 6's platform seeds are set in phase 1 (v6.2).** The reserve blade
+  inherits slot 2's stale subpixel from phase 1. v6.2 gives slot 2's blades
+  exactly 25 diagonal moves there; with v6.1's phase 1 the run fails in
+  Wily 6.
 
 **Also closed after v5.8:**
 * **The Wood refight exit.** The killing tornado must start from X ≥ 75, so
