@@ -25,7 +25,42 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v5.7-85020.fm2` | 85,020 | 23:34.671 | verified on both cores |
 | `movies/rockman2-v5.8-85019.fm2` | 85,019 | 23:34.654 | verified on both cores |
 | `movies/rockman2-v5.9-85018.fm2` | 85,018 | 23:34.637 | verified on both cores |
-| `movies/rockman2-v6.0-85014.fm2` | **85,014** | **23:34.571** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v6.0-85014.fm2` | 85,014 | 23:34.571 | verified on both cores |
+| `movies/rockman2-v6.1-85011.fm2` | **85,011** | **23:34.521** | verified on FCEUX master core and FCEUX 2.3.0 core |
+
+**v6.1 is 268 frames (4.46 s) faster than the publication**, and 3 frames
+faster than v6.0. The first Wily Machine phase dies 3 frames sooner, so the
+second phase fills and dies 4 frames earlier.
+* **Phase 1.**
+  * Mega Man opens with a 1-frame hop and two full jumps.
+  * A blade thrown with up+down as he passes over the machine's path parks
+    motionless just left of it, on the odd weapon slot. The machine, moving
+    left, walks into it 24 frames later, so the hits keep a 2- or 3-frame
+    rhythm while he is low.
+  * A blade thrown straight down then holds the even slot, so the last ten
+    throws go to the odd slot.
+  * 28 hits; he is untouched until the machine's rolling ball hits him.
+* **The phase change.** He parks a stationary blade for phase 2's first hit,
+  then a decoy on the floor and a reserve blade near the top of a jump.
+* **Phase 2** keeps its 62-frame fight, re-searched. The Metal Blade budget is
+  exactly 59 blades again, and the Wily 6 seeds stay in range (4D/63/53).
+* **Why 3 and not 4.**
+  * The Wily 6 stage load starts a fixed 325 frames after the kill, and the
+    music runs in real time.
+  * With the kill 4 frames earlier, the load meets a heavier music frame and
+    lags 5 frames instead of 4.
+  * A frame-counter poke can't show this, because it doesn't move the music.
+* **The search.** It uses a model of the fight in which Mega Man's left/right
+  input is free, with a parity-aware bound. An earlier draft (85,010) failed
+  in the real game because the model got one ground frame wrong. The fixed
+  model matches the real game on every compared frame.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 85,011 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `c42c4588…`).
+  * An independent sync check and an independent rules check both found it
+    valid.
+  * `movies/rockman2-v6.1-edits.json` (62 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v6.0 is 265 frames (4.41 s) faster than the publication**, and 4 frames
 faster than v5.9. The first Wily Machine phase dies 2 frames sooner, and the
