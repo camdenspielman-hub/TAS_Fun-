@@ -325,9 +325,11 @@ relies on, all measured in the emulator.
 ## 9. Larger routing, other glitches, and ACE
 
 After v5 we looked for savings at the route level, not just the input level.
-Four independent studies covered it: route_study, glitch_hunt, w4exit and
-r2_w23. None found a larger reroute that can be built. The reasons are below,
-because each one rules out a whole family of ideas.
+Four studies covered it: route_study, glitch_hunt, w4exit and r2_w23. None
+found a larger reroute that can be built. Most of the reasons below are
+surveys and paper arguments, not proofs. They rule out the variants that were
+tried, not every variant, and no second agent has reviewed them for holes.
+An adversarial review of every closure in this document has started.
 
 **Refight order and weapons.**
 * v5's Wily 5 order (Heat, Air, Wood, Bubble, Quick, Crash, Metal, Flash) is
@@ -337,8 +339,17 @@ because each one rules out a whole family of ideas.
 * The weapons are forced by the damage tables, and Metal Blade's energy is
   used exactly.
 
-**Robot-master order.** No gain once the hidden hand-overs between stages are
-counted: the Item 1 seeds in slots 2-4, and $F9 (Crash → Quick, Bubble → Wood).
+**Robot-master order: open, not proven.** route_study only checked on paper
+the three fight savings a reorder would buy:
+* Heat Man with Bubble Lead, about −600 frames;
+* Air Man with Leaf Shield, about −150;
+* Flash Man with Metal Blade, about −140.
+
+Each of these breaks a hand-over the current route relies on: the Item 1 and
+Item 3 seeds in weapon slots 2-4, and $F9 (Crash → Quick, Bubble → Wood). That
+does not show that another order cannot supply those hand-overs some other
+way. It also does not rule out an order with useful hand-overs of its own, or
+with hand-overs we have not found.
 
 **Double KOs.**
 * If the boss dies 1-15 frames after Mega Man, no life is lost and the stage
@@ -389,7 +400,10 @@ overhead.
   * All six are load-bearing.
   * Item 1 energy across Wily 2 and 3 is used exactly.
 
-**Glitches surveyed** (no new saving):
+**Glitches surveyed** (no new saving). This list covers the documented
+glitches we found, plus what code reading around them showed. There was no
+systematic search for unknown glitches, so it does not show that no other
+time-saving glitch exists.
 * **Refight skip** (warmCabin's video):
   * The boss that spawns comes from the touched capsule's slot.
   * The 9th teleporter spawns only when $BC = FF.
