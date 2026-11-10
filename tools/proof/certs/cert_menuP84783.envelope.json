@@ -1,0 +1,147 @@
+{
+ "standard": "rm2-proof-1",
+ "id": "cert_menuP84783",
+ "label": "PROVEN-GIVEN-ASSUMPTIONS",
+ "kind": "search",
+ "claim": {
+  "words": "From the v6.3 state before frame 84784 (after the START that opens the pause menu at frame 84783), no pad sequence of length <= 24 makes RAM $A9 == 4 (B (Bubble Lead)) and $FD == 0 after a frame; a sequence of length 25 does. Hence, given GA-MENU, the menu closes with the target weapon at frame 84808 at the earliest (closing START frame); v6.3 closes it at frame 84808 (no saving). Branches are cut by lemma L-menu (bound 25), re-justified by the checker.",
+  "machine": {
+   "frame_before": 84784,
+   "key_hash": "7a884e09c8037fdbc58b2b84f3463823ccd040ae307a501076b8591727130b3d",
+   "goal": {
+    "ram_eq": [
+     [
+      169,
+      4
+     ],
+     [
+      253,
+      0
+     ]
+    ],
+    "ram_ne": [],
+    "ram_any_eq": []
+   },
+   "goal_depth": 25,
+   "last_goal_free_depth": 24,
+   "classes": [
+    0,
+    16,
+    32,
+    48,
+    8,
+    24,
+    40,
+    56
+   ],
+   "kin": 199,
+   "prune_spec": {
+    "type": "menu_cursor_v1",
+    "target": 4,
+    "bound": 25
+   }
+  }
+ },
+ "assumptions": [
+  "A-STATE",
+  "A-TAINT",
+  "A-MENU-CLOSURE",
+  "A-HARNESS",
+  "A-CORE-EQ"
+ ],
+ "interpretation_assumptions": [
+  "GA-MENU"
+ ],
+ "assumption_notes": "Register ids of docs/proof-standards.md section 6. A-HARNESS applies to every emulator-based claim. A-TAINT is listed because the closure over all 256 pads was checked only on sampled entries; checking it on every entry (pfcheck.py without --classes, or pfcheck_stream.py --all256) removes it. A-CORE-EQ: not yet checked on the judge core.",
+ "base": {
+  "rom_md5": "055fb8dc626fb1fbadc0a193010a3e3f",
+  "rom_sha256": "deb88223311aca8ca566b99d4063ca29d389d939fee455f83afaec97c6f0a5d1",
+  "rom_name": "Rockman 2 - Dr. Wily no Nazo (Japan).nes",
+  "working_core": "FCEUX master fa248734 (tools/proof/Makefile -> librm2.so)",
+  "judge_core": "FCEUX 2.3.0 (tools/proof/Makefile ... core -> librm2.so)"
+ },
+ "root": {
+  "movie": "v63",
+  "movie_file": "movies/rockman2-v6.3-85006.fm2",
+  "movie_sha256": "9ea94b9c3e1437b8f3aa26ea283b12d82b2cd50dd9b99fb4a86727c117cd5e37",
+  "frame_before": 84784,
+  "rebuild": "power-on in a fresh process, then pads 0..84783 of the movie, one continuous replay",
+  "key_hash": "7a884e09c8037fdbc58b2b84f3463823ccd040ae307a501076b8591727130b3d",
+  "note": "The certificate's own root.how / root.state_sha256 / core.search_lib record how the search was started before packaging (from a pickled savestate; core.search_lib is the path of the analysis library on the machine that ran it). They are provenance only; the checkers ignore them and rebuild the root from power-on, comparing the key hash."
+ },
+ "payload": {
+  "file": "cert_menuP84783.json.gz",
+  "format": "gzip -n -9 of the certificate JSON",
+  "sha256": "a218e5a48e61a821eedc973187c23dbcded8da4f181335a646553a4ecf60a17b",
+  "bytes": 2106071,
+  "gz_sha256": "469ed9e3920c08aa62370cf0d13026a491ecc66e77ceb5a441d573256a82591b",
+  "gz_bytes": 1144340,
+  "layers": 25,
+  "entries": 27615
+ },
+ "producer": {
+  "tool": "pf_search 1.0 (2026-11-07) (original pfsearch.py; now tools/proof/pfsearch.py via pfrun.py menuP)",
+  "search_lib_md5": "b0ad551d2558a95dd06aa1cf171d7eb9",
+  "search_seconds": 234.1
+ },
+ "checker": {
+  "tool": "tools/proof/pfcheck_stream.py",
+  "sha256": "d113030944f7f89b447b6dcdf3807626452956651148d64b4a1a718fd95e1c6a",
+  "command": "python3 tools/proof/pfcheck_stream.py tools/proof/certs/cert_menuP84783.json.gz --rom \"$ROM\" --lib \"$BUILD/master/librm2.so\" --sample 1",
+  "judge_core_command": "python3 tools/proof/pfcheck_stream.py tools/proof/certs/cert_menuP84783.json.gz --rom \"$ROM\" --lib \"$BUILD/v230/librm2.so\" --sample 1",
+  "expected": "VERDICT cert_menuP84783.json: VALID",
+  "variables": {
+   "ROM": "path of the ROM file (never in the repository)",
+   "BUILD": "OUT directories of tools/proof/Makefile (master, v230)"
+  }
+ },
+ "checked": [
+  {
+   "date": "2026-11-07",
+   "by": "pf_search",
+   "core": "FCEUX master fa248734 + pf_taint.inc, librm2pf.so (build with the write watch)",
+   "lib_md5": "6b4f0e0922e11f339dc88e8ef408e293",
+   "tool": "pfcheck_stream.py",
+   "options": "--taint --sample 1",
+   "root": "pickled v6.2 master savestate + v6.3 pads (as the original search started)",
+   "verdict": "VALID",
+   "seconds": 241.0,
+   "where": "original tool copies, before packaging",
+   "C3_transitions": 181208,
+   "C3b_transitions": 6144,
+   "C3_children_pruned_by_lemma": 5676,
+   "C5_transitions": 181400,
+   "C5_max_nmi_per_frame": 1
+  },
+  {
+   "date": "2026-11-10",
+   "by": "pf_pkgcheck (independent re-check)",
+   "core": "FCEUX master fa248734, librm2.so",
+   "lib_md5": "e3dfe5b1afa6b4f78a7f9b79436a8f80",
+   "tool": "pfcheck_stream.py",
+   "options": "--sample 1",
+   "root": "power-on replay in a fresh process",
+   "verdict": "VALID",
+   "seconds": 204.6,
+   "where": "clean clone of the repository plus tools/proof, fresh builds of both cores, the envelope's own command",
+   "C3_transitions": 181208,
+   "C3b_transitions": 6144,
+   "C3_children_pruned_by_lemma": 5676
+  },
+  {
+   "date": "2026-11-10",
+   "by": "pf_pkgcheck (independent re-check)",
+   "core": "FCEUX 2.3.0, librm2.so",
+   "lib_md5": "b14ce65c0f14fdb09f98e631eed42b52",
+   "tool": "pfcheck_stream.py",
+   "options": "--sample 1",
+   "root": "power-on replay in a fresh process",
+   "verdict": "VALID",
+   "seconds": 190.2,
+   "where": "clean clone of the repository plus tools/proof, fresh builds of both cores, the envelope's own command",
+   "C3_transitions": 181208,
+   "C3b_transitions": 6144,
+   "C3_children_pruned_by_lemma": 5676
+  }
+ ]
+}

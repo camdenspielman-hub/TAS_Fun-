@@ -1,0 +1,162 @@
+{
+ "what": "every instruction (bank:address) that read RAM $1C in a REAL power-on replay, with the first frame it did",
+ "how": "python3 tools/proof/static/pfrec.py MOVIE TAG \"$ROM\" \"$BUILD/master/librm2rec.so\" OUTDIR 4000 1 (power-on replay of the movie plus 4,000 blank frames, reads recorded); then python3 tools/proof/static/local_lemmas.py \"$ROM\" --recordings OUTDIR/TAG ... uses the (instruction, address) pairs of OUTDIR/TAG_r.npy whose address is $001C",
+ "recordings": {
+  "v63": {
+   "movie": "movies/rockman2-v6.3-85006.fm2",
+   "frames": 89006,
+   "extra_blank_frames": 4000
+  },
+  "pub": {
+   "movie": "TASVideos publication #4410 (85,279 frames; not in this repository)",
+   "frames": 89279,
+   "extra_blank_frames": 4000
+  }
+ },
+ "readers": {
+  "B:812F": {
+   "v63": 4995,
+   "pub": 4995
+  },
+  "B:9131": {
+   "v63": 56861,
+   "pub": 56979
+  },
+  "B:9384": {
+   "v63": 56861,
+   "pub": 56979
+  },
+  "B:9759": {
+   "v63": 81631,
+   "pub": 81861
+  },
+  "B:9D46": {
+   "v63": 85006,
+   "pub": 85278
+  },
+  "B:9D55": {
+   "v63": 85006,
+   "pub": 85278
+  },
+  "B:9E6F": {
+   "v63": 85249,
+   "pub": 85521
+  },
+  "B:9EF7": {
+   "v63": 86313,
+   "pub": 86585
+  },
+  "B:9F04": {
+   "v63": 86313,
+   "pub": 86585
+  },
+  "B:A118": {
+   "v63": 62167,
+   "pub": 62236
+  },
+  "B:A59F": {
+   "v63": 5109,
+   "pub": 5109
+  },
+  "D:8312": {
+   "v63": 164,
+   "pub": 164
+  },
+  "D:8371": {
+   "v63": 246,
+   "pub": 246
+  },
+  "D:94DF": {
+   "v63": 9464,
+   "pub": 9464
+  },
+  "D:9981": {
+   "v63": 52473,
+   "pub": 52559
+  },
+  "D:9A83": {
+   "v63": 52475,
+   "pub": 52561
+  },
+  "D:A218": {
+   "v63": 24,
+   "pub": 24
+  },
+  "D:A2F2": {
+   "v63": 158,
+   "pub": 158
+  },
+  "D:B6BF": {
+   "v63": 87578,
+   "pub": 87850
+  },
+  "D:B891": {
+   "v63": 87327,
+   "pub": 87599
+  },
+  "D:BA45": {
+   "v63": 6137,
+   "pub": 6137
+  },
+  "D:BAEE": {
+   "v63": 7732,
+   "pub": 7732
+  },
+  "D:BC3E": {
+   "v63": 6173,
+   "pub": 6173
+  },
+  "E:801B": {
+   "v63": 12,
+   "pub": 12
+  },
+  "E:8347": {
+   "v63": 58746,
+   "pub": 58868
+  },
+  "E:BD0A": {
+   "v63": 77011,
+   "pub": 77206
+  },
+  "F:CC8B": {
+   "v63": 817,
+   "pub": 817
+  },
+  "F:CD02": {
+   "v63": 9483,
+   "pub": 9483
+  },
+  "F:CE37": {
+   "v63": 2297,
+   "pub": 2297
+  },
+  "F:CE4D": {
+   "v63": 5141,
+   "pub": 5141
+  },
+  "F:D088": {
+   "v63": 17,
+   "pub": 17
+  },
+  "F:D0C8": {
+   "v63": 17,
+   "pub": 17
+  },
+  "F:DD5B": {
+   "v63": 25736,
+   "pub": 25746
+  },
+  "F:DE21": {
+   "v63": 25736,
+   "pub": 25746
+  },
+  "F:DF05": {
+   "v63": 59926,
+   "pub": 60040
+  },
+  "F:E5F5": {
+   "v63": 1121,
+   "pub": 1121
+  }
+ }
+}

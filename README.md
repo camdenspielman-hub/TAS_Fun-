@@ -40,6 +40,9 @@ the holes it found became v6.4 and v6.5. [docs/glitch-coverage.md](docs/glitch-c
 maps how well the game's code has been searched for unknown glitches (95% of
 the reachable code executed, about 7.4 million fuzzed frames; no proof that
 none remain).
+[docs/proof-standards.md](docs/proof-standards.md) says what counts as a proof
+here, and `tools/proof/` holds the checkers and certificates to re-check the
+machine-checked claims (see [Proof kit](#proof-kit) below).
 
 **v6.5 is 275 frames (4.58 s) faster than the publication**, and 1 frame
 faster than v6.4. The lag frame in the Wily 5 Heat Man refight is gone.
@@ -941,6 +944,49 @@ after the last input, and the ending sequence plays with no further input.
   frames and Left+Right once. v2 adds Up+Down on two more frames, in the Heat
   pause. FCEUX's "allow Up+Down/Left+Right" option only filters live gamepad
   input; movie playback is unaffected.
+
+## Proof kit
+
+`docs/proof-standards.md` defines what this project accepts as a proof: <!-- no-claim -->
+* the trusted base: the ROM, FCEUX, the power-on state and the timing rule;
+* the claim labels: PROVEN, PROVEN-GIVEN-ASSUMPTIONS, PROVEN-IN-MODEL,
+  SEARCH-LIMITED, ESTIMATE, UNSUPPORTED and OVERTAKEN;
+* the register of open assumptions;
+* how to re-check every certificate from a clean clone (its section 7).
+
+It also says plainly what is not proven. There is no proof that 85,004 frames
+is the minimum, and section 5 of the document explains what such a proof would
+need. <!-- no-claim -->
+
+`tools/proof/` holds everything needed for the re-check:
+* `pfrun.py`, `pfsearch.py`, `pflib.py`: the certified breadth-first search
+  over full emulator states. <!-- no-claim -->
+* `pfcheck.py`, `pfcheck_stream.py`: independent checkers. They share no code
+  with the search, rebuild the start state by replaying the movie from
+  power-on, and print `VERDICT <certificate>: VALID` only when every check
+  passes.
+* `certs/`: 11 search certificates for v6.3. They cover the 9 pause menus of
+  Wily 5 and 6 (one of them also as a full search) and the last 4 frames of a
+  Wily 5 capsule walk. Each has an envelope that states the claim, its label
+  and assumptions, the command that checks it, and every re-check so far.
+  Example: the Quick Man pause can close 1 frame earlier than v6.3 closes it,
+  and no more [PROVEN-GIVEN-ASSUMPTIONS: A-STATE, A-TAINT, A-MENU-CLOSURE;
+  `tools/proof/certs/cert_menuP79781.json.gz`].
+* `frule.py`: the frame-rule arithmetic, self-checked by brute force. <!-- no-claim -->
+* `label_lint.py`: the labelling lint for these docs.
+* `static/`: lemmas derived from the ROM alone, such as the order in which the
+  boss hit check visits the weapon slots.
+* `native/` and `Makefile`: the analysis libraries.
+
+Build, then check one certificate on both cores. The ROM is not included;
+every tool takes its path.
+
+```
+make -C tools/proof FCEUX_SRC=/path/to/fceux-master/src OUT=$PWD/../rm2-build/master
+make -C tools/proof FCEUX_SRC=/path/to/fceux-2.3.0/src OUT=$PWD/../rm2-build/v230 core
+python3 tools/proof/pfcheck.py tools/proof/certs/cert_menu77716.json.gz --rom "$ROM" --lib ../rm2-build/master/librm2.so
+python3 tools/proof/pfcheck.py tools/proof/certs/cert_menu77716.json.gz --rom "$ROM" --lib ../rm2-build/v230/librm2.so
+```
 
 ## Tools
 

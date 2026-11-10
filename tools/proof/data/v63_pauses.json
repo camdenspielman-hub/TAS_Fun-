@@ -1,0 +1,74 @@
+[
+{
+"open": 76975,
+"close": 76995,
+"stage": 12,
+"w0": 0,
+"w1": 4,
+"seq": "U DU - U DU T"
+},
+{
+"open": 77716,
+"close": 77732,
+"stage": 12,
+"w0": 4,
+"w1": 3,
+"seq": "U T"
+},
+{
+"open": 78207,
+"close": 78223,
+"stage": 12,
+"w0": 3,
+"w1": 2,
+"seq": "U T"
+},
+{
+"open": 78839,
+"close": 78862,
+"stage": 12,
+"w0": 2,
+"w1": 7,
+"seq": "U DU - U T D - D T"
+},
+{
+"open": 79403,
+"close": 79419,
+"stage": 12,
+"w0": 7,
+"w1": 8,
+"seq": "D T"
+},
+{
+"open": 79781,
+"close": 79807,
+"stage": 12,
+"w0": 8,
+"w1": 2,
+"seq": "U - U - U T D - D - D T"
+},
+{
+"open": 80360,
+"close": 80383,
+"stage": 12,
+"w0": 2,
+"w1": 7,
+"seq": "U DU - U T D - D T"
+},
+{
+"open": 83185,
+"close": 83206,
+"stage": 13,
+"w0": 0,
+"w1": 9,
+"seq": "U T U - U DU T"
+},
+{
+"open": 84783,
+"close": 84808,
+"stage": 13,
+"w0": 9,
+"w1": 4,
+"seq": "D - D - D T U - U DU T"
+}
+]

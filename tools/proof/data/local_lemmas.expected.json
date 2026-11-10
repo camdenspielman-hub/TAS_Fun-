@@ -1,0 +1,177 @@
+{
+ "L-HIT": {
+  "slots [8, 6, 4, 2]; $B4 writers in routine ['B:A5E8 STA $B4']": "value mod 2 in {0}",
+  "slots [9, 7, 5, 3]; $B4 writers in routine ['B:A5E8 STA $B4']": "value mod 2 in {1}"
+ },
+ "L-1C-LOCAL": [
+  {
+   "reader": "B:812F LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:9131 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:9384 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:9759 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:9D46 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:9D55 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:9E6F LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:9EF7 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:9F04 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:A118 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "B:A59F LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "D:8312 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "D:8371 LDA $1C",
+   "loop": "D:8364..83A0 (27 instr)",
+   "exit_condition": {
+    "unknown: branch D:83A0 on unknown flag": "always"
+   }
+  },
+  {
+   "reader": "D:94DF LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "D:9981 LDA $1C",
+   "loop": "D:9981..99A4 (17 instr)",
+   "exit_condition": {
+    "unknown: branch D:9998 on unknown flag": "value mod 4 in {0}",
+    "stay": "value mod 4 in {1,2,3}"
+   }
+  },
+  {
+   "reader": "D:9A83 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "D:A218 LDA $1C",
+   "loop": "D:A218..A241 (18 instr)",
+   "exit_condition": {
+    "unknown: branch D:A222 on unknown flag": "value mod 2 in {0}",
+    "stay": "value mod 2 in {1}"
+   }
+  },
+  {
+   "reader": "D:A2F2 LDA $1C",
+   "loop": "D:A2E7..A31B (25 instr)",
+   "exit_condition": {
+    "unknown: branch D:A2FC on unknown flag": "value mod 16 in {0,1,2,3,4,5,6,7}",
+    "unknown: branch D:A307 on unknown flag": "value mod 16 in {8,9,10,11,12,13,14,15}"
+   }
+  },
+  {
+   "reader": "D:B6BF LDA $1C",
+   "loop": "D:B68D..B6EB (42 instr)",
+   "exit_condition": {
+    "unknown: branch D:B6E1 on unknown flag": "always"
+   }
+  },
+  {
+   "reader": "D:B891 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "D:BA45 LDA $1C",
+   "loop": "D:BA45..BA5B (11 instr)",
+   "exit_condition": {
+    "unknown: branch D:BA56 on unknown flag": "value mod 8 in {0}",
+    "stay": "value mod 8 in {1,2,3,4,5,6,7}"
+   }
+  },
+  {
+   "reader": "D:BAEE LDA $1C",
+   "loop": "D:BAD2..BB64 (64 instr)",
+   "exit_condition": {
+    "unknown: branch D:BAFD on unknown flag": "always"
+   }
+  },
+  {
+   "reader": "D:BC3E LDA $1C",
+   "loop": "D:BC3B..BC42 (4 instr)",
+   "exit_condition": {
+    "exit via D:BC42->D:BC44": "value mod 8 in {0}",
+    "stay": "value mod 8 in {1,2,3,4,5,6,7}"
+   }
+  },
+  {
+   "reader": "E:8347 LDA $1C",
+   "loop": "E:833F..835E (15 instr)",
+   "exit_condition": {
+    "unknown: branch E:834F on unknown flag": "value mod 8 in {0}",
+    "unknown: branch E:8345 on unknown flag": "value mod 8 in {1,2,3,4,5,6,7}"
+   }
+  },
+  {
+   "reader": "E:BD0A LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "F:CC8B LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "F:CD02 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "F:CE37 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "F:CE4D LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "F:D0C8 ADC $1C",
+   "loop": null
+  },
+  {
+   "reader": "F:DD5B LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "F:DE21 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "F:DF05 LDA $1C",
+   "loop": null
+  },
+  {
+   "reader": "F:E5F5 LDA $1C",
+   "loop": null
+  }
+ ]
+}
