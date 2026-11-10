@@ -30,19 +30,72 @@ Shinryuu in 23:38.98* (85,279 frames, FCEUX 2.3.0, power-on start, old PPU).
 | `movies/rockman2-v6.2-85010.fm2` | 85,010 | 23:34.504 | verified on both cores |
 | `movies/rockman2-v6.3-85006.fm2` | 85,006 | 23:34.438 | verified on both cores |
 | `movies/rockman2-v6.4-85005.fm2` | 85,005 | 23:34.421 | verified on both cores |
-| `movies/rockman2-v6.5-85004.fm2` | **85,004** | **23:34.404** | verified on FCEUX master core and FCEUX 2.3.0 core |
+| `movies/rockman2-v6.5-85004.fm2` | 85,004 | 23:34.404 | verified on both cores |
+| `movies/rockman2-v6.6-84995.fm2` | **84,995** | **23:34.255** | verified on FCEUX master core and FCEUX 2.3.0 core |
 
 **How sure are the dead ends?** [docs/closures.md](docs/closures.md) is an
 adversarial audit of every claim in this project that a saving is impossible.
 Each claim is labelled by the strength of its evidence: PROVEN,
-PROVEN-IN-MODEL, SEARCH-LIMITED, ESTIMATE, UNSUPPORTED or OVERTAKEN. Two of
-the holes it found became v6.4 and v6.5. [docs/glitch-coverage.md](docs/glitch-coverage.md)
+PROVEN-IN-MODEL, SEARCH-LIMITED, ESTIMATE, UNSUPPORTED or OVERTAKEN. Three of
+the holes it found became v6.4, v6.5 and v6.6. [docs/glitch-coverage.md](docs/glitch-coverage.md)
 maps how well the game's code has been searched for unknown glitches (95% of
 the reachable code executed, about 7.4 million fuzzed frames; no proof that
 none remain).
 [docs/proof-standards.md](docs/proof-standards.md) says what counts as a proof
 here, and `tools/proof/` holds the checkers and certificates to re-check the
 machine-checked claims (see [Proof kit](#proof-kit) below).
+
+**v6.6 is 284 frames (4.73 s) faster than the publication**, and 9 frames
+faster than v6.5. The Wily 5 Crash Man refight is 10 frames shorter, and the
+lag frame in it is gone.
+* **The change.**
+  * v6.5 spent its first Air Shooter volley only to make Crash Man jump, and
+    hit him with the second and third.
+  * v6.6 fires the first volley on the first frame the game accepts input.
+    Crash Man cannot react yet, so he stays on the ground.
+  * A second B press 24 frames later fires nothing, because the three
+    tornadoes are still in the air. It does make Crash Man jump, into those
+    tornadoes. Two of them hit him at frames 80298 and 80318, where v6.5's
+    first two hits came at 80308 and 80328.
+  * A third volley, fired from a short hop near the left wall, kills him at
+    80338 instead of 80348.
+  * His bomb explodes 80 frames after the press that makes him jump. That is
+    now after the kill, and the explosion was what made v6.5's fight lag.
+  * Mega Man touches Crash Man once and loses 4 health. It costs no time.
+* **What it is worth.** Mega Man leaves the room 9 game frames earlier. The
+  wait before the Metal Man refight moves in steps of 4, so that gives 8, and
+  the removed lag frame makes it 9 for the rest of the movie.
+* **Is the fight at its limit?** For the frame rule, yes, as far as the model
+  goes. An exhaustive search in a model of the fight finds no kill at 80336
+  or earlier (PROVEN-IN-MODEL: the model follows the boss and tornado code and
+  reproduces v6.5's fight exactly; it ignores the bomb and contact damage,
+  which can only make a kill easier). A kill at 80337 exists with real
+  inputs, but it falls in the same 4-frame step as 80338. The next step needs
+  a kill at 80335.
+* **Re-synchronised after the fight.**
+  * Mega Man leaves the room from a different spot, so the walk to the Metal
+    Man capsule was searched again. One Right press is added on the walk to
+    Flash Man.
+  * The new fight leaves different leftover sub-pixel values in the weapon
+    slots, and the Wily 6 platforms start from those. Six Metal Blade throw
+    directions in the Wily Machine fight are changed to bring them back into
+    range. Every hit there stays on its frame.
+  * From frame 81979 on, every input is v6.5's input from 9 frames later.
+* **Why it was missed.** Every earlier search of this fight kept the opening
+  volley as the one that makes Crash Man jump. The closure audit listed that
+  as its first lead: a part of the plan held fixed that was in fact free.
+* **Verification.**
+  * FCEUX's movie player on both cores gives 84,995 frames, with the alien dead
+    one frame after the last input (end-RAM md5 `9e075506…`).
+  * An independent sync check replayed v6.5 and v6.6 from power-on on both
+    cores. The two are identical up to the first changed input at 80264, and
+    from 80339 on every lag frame of v6.6 is v6.5's from 9 frames later. v6.5's
+    lag frame at 80347 has no partner.
+  * An independent rules check found it valid. It found four inputs that
+    change nothing (a Left, a Right and two A presses); they are removed, with
+    the same end RAM on both cores.
+  * `movies/rockman2-v6.6-edits.json` (61 blocks) rebuilds it from the
+    publication with `tools/make_movie.py`.
 
 **v6.5 is 275 frames (4.58 s) faster than the publication**, and 1 frame
 faster than v6.4. The lag frame in the Wily 5 Heat Man refight is gone.
@@ -954,7 +1007,7 @@ after the last input, and the ending sequence plays with no further input.
 * the register of open assumptions;
 * how to re-check every certificate from a clean clone (its section 7).
 
-It also says plainly what is not proven. There is no proof that 85,004 frames
+It also says plainly what is not proven. There is no proof that 84,995 frames
 is the minimum, and section 5 of the document explains what such a proof would
 need. <!-- no-claim -->
 

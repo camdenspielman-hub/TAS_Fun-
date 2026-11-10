@@ -2,7 +2,7 @@
 
 audit_synth, 2026-11-07. This merges the adversarial closure audit (workflow wf_6d67179b-35d): six area ledgers (`agents/audit/<area>/LEDGER.md`), six hole checks (`agents/audit/holecheck_<area>/NOTES.md`), and the later results that changed a verdict (r1dds, the routing deep-dive and routing-closure agents, the glitch-discovery and proof workflows). Paths such as `agents/...` refer to the project's working notes, which are not part of this repository; each entry here states its evidence on its own.
 
-Committed best: **v6.5 = 85,004 frames**, 275 under publication #4410. Frame numbers are v6.2's unless marked. v6.5 is identical to v6.2 before frame 74299 (Wily 4) and runs 1 to 6 frames earlier after it.
+Committed best: **v6.6 = 84,995 frames**, 284 under publication #4410. Frame numbers are v6.2's unless marked. v6.5 is identical to v6.2 before frame 74299 (Wily 4) and runs 1 to 6 frames earlier after it. v6.6 is identical to v6.5 before frame 80264 (the Wily 5 Crash Man refight) and ends 9 frames earlier.
 
 Contents: 1 The short answer. 2 How to read this. 3 The big questions (R1 and R2, the robot-master order, unknown glitches). 4 Reopened leads, ranked. 5 Recurring blind spots: a checklist. 6 The ledgers, area by area.
 
@@ -11,10 +11,11 @@ Contents: 1 The short answer. 2 How to read this. 3 The big questions (R1 and R2
 **What was reviewed, and how.** Six auditors listed every closure in their area ("dead end", "impossible", "optimal", "not feasible") and classified the argument behind it: 365 entries (a few claims appear in two areas). Each auditor looked for holes and tested the cheap ones. A second agent per area then tried to refute each hole and looked for holes the auditor had missed. So every closure has had one adversarial reading, and every hole that was raised has had two. A closure the auditor judged sound was not re-derived by a second agent unless a hole check ran into it.
 
 **Was the user right?** Yes, on all three points.
-* Closures with exactly the hole the user described (a variable held fixed that was in fact free) were worth frames. 85,010 became 85,004 during this review:
+* Closures with exactly the hole the user described (a variable held fixed that was in fact free) were worth frames. 85,010 became 84,995 during this review and its follow-up:
   * v6.3, -4: the Wily 5 Heat Man refight had been assumed bound by his AI and was never examined (critic_v62, same review round).
   * v6.4, -1: "the Wily 4 DOWN shield throw gains nothing" had only paired the throw with the two obvious menu-frame placements (audit_wily4).
   * v6.5, -1: a Heat refight lag frame called "1,370 cycles over" was only just over; nobody had moved Mega Man before Heat Man aimed at him (audit_w5).
+  * v6.6, -9: the first half of the Wily 5 Crash Man refight had never been varied. With the first volley fired before Crash Man can react, all three hits come 10 frames sooner and the bomb's lag frame disappears (the audit's lead 1, built by crashw5).
 * The robot-master order claim was a paper estimate. The follow-up work measured the terms that could have reversed it and found no faster order. That result is an ESTIMATE with a few measured pieces, not a proof (Section 3.2).
 * There is no proof that no unknown time-saving glitch exists (Section 3.3).
 
@@ -25,7 +26,7 @@ Contents: 1 The short answer. 2 How to read this. 3 The big questions (R1 and R2
 | prew1 (robot-master stages, before Wily 1) | 75 | 16 | 15 | 20 | 18 | 2 | 3 | 1 | 11 | 8 | 1 | 2 | 0 |
 | wily123 (Wily 1-3) | 48 | 11 | 19 | 9 | 5 | 2 | 2 | 0 | 6 | 3 | 1 | 2 | 0 |
 | wily4 | 43 | 6 | 21 | 3 | 6 | 1 | 4 | 2 | 6 | 1 | 1 | 4 | -1 (v6.4) |
-| w5 (refights, hub) | 69 | 13 | 32 | 10 | 4 | 1 | 9 | 0 | 4 | 2 | 1 | 1 | -1 (v6.5) |
+| w5 (refights, hub) | 69 | 13 | 32 | 10 | 4 | 1 | 9 | 0 | 4 | 2 | 1 | 1 | -1 (v6.5), -9 (v6.6) |
 | wmw6 (Wily Machine, Wily 6, alien) | 64 | 19 | 18 | 8 | 5 | 1 | 13 | 0 | 7 | 0 | 0 | 7 | 0 |
 | glitchsurvey (glitches, route level) | 66 | 20 | 23 | 3 | 9 | 5 | 6 | 0 | 7 | 0 | 2 | 5 | 0 |
 | total | 365 | 85 | 128 | 53 | 47 | 12 | 37 | 3 | 41 | 14 | 6 | 21 | -2 |
@@ -121,7 +122,7 @@ Ranked by expected frames per agent-day of the first test. Priors are the agents
 
 | # | lead (ledger ids) | verdict | gain at the end | prior | cost | first test |
 |---|---|---|---|---|---|---|
-| 1 | W5 Crash refight: the never-varied first half (w5-38, "H3") and the bomb-explosion lag (w5-40, "H2") | UNCERTAIN (low-moderate) / REAL-HOLE (low) | -4 (kill on counter value <= 81, so the Metal fill comes 4 earlier); -5 with the lag; -1 for the lag alone | about 5-10% | hours; about 1 day more for the W5/W6 re-sync | REAL beam from the state with Crash Man's trigger 1 frame later and Mega Man facing right, where hit 1 already lands at 80307 (v6.3 frames; v6.5 = v6.3 - 2 here): hit 2 on slot 2 or 4 at 80326 from a lingering volley-1 tornado, or a volley 2 fired before about 80310; kill on slot 3 at 80345, before the 80348 explosion; Mega Man unhurt |
+| 1 | W5 Crash refight: the never-varied first half (w5-38, "H3") and the bomb-explosion lag (w5-40, "H2") | realised: v6.6 (-9) | done | - | - | The first volley is fired on the first input frame, when Crash Man cannot react; a later B press fires nothing and only makes him jump into it. Hits at 80298 and 80318, kill at 80338 (v6.5: 80308, 80328, 80348); the bomb explodes after the kill, so the lag frame is gone. What is left: an exhaustive search over B presses in a model of the fight finds no kill at 80336 or earlier (PROVEN-IN-MODEL: the model reproduces v6.5's fight; it ignores the bomb and contact damage, which only makes kills easier), and the next 4-frame step needs a kill at 80335 |
 | 2 | W4: counter frames saved before room 32 (audit_wily4's rule arithmetic + repro_terrain) | closed in the families searched (SEARCH-LIMITED); no frame found | -3 for 2 real frames plus the spare menu frame, -4 for 3 | low | days for a wider search | Done, all REAL: (a) the free-rise scroll requests at 71106, 71367 and 71848 cannot come earlier with a usable arrival (w4a3, exhaustive over jump and request frames in that family); (b) the screen-1C pause placement is already the best of 18 start frames; (c) every single-input substitution followed by a 1-3 frame deletion, on all nine segments from screen 16 to 1F: 51,453 trials, 0 hits; (d) screen 19's climb (w4s19): only one Item-3 lift can exist, the second cannot be thrown before 71629, and none of 16,416 later or higher throws can be boarded (Mega Man gets at most 11 px above the lift where the landing rule needs 12). Not covered: re-plans that change several inputs at once outside these families, and a second pause on screen 19 to free the lift slot sooner |
 | 3 | W4 desync death warp (holecheck_glitchsurvey; missed by the audit) | closed for a one-screen desync (PROVEN-IN-MODEL, one agent, not re-derived by a second); larger desyncs have no known entry (SEARCH-LIMITED) | none: it loses at least about 140 | very low | - | w4warp, with pokes on v6.5's states: a death costs 398 frames from the lethal hit to control at checkpoint 1C, and the respawned Mega Man cannot redo the screen-1C ceiling zip, which costs about 103 more. Falling below the screen does not kill on screens 18-1B (it scrolls down), screens 19 and 1A have no enemies, and the nearest spikes are in map 1E. A one-screen desync skips about 219 frames, so the warp loses. The estimate of -370 assumed a 293-frame death, a pit death and no lost zip; none of the three holds. A two- or three-screen desync needs a second way into a wall: the ladder-top geometry of the known entry exists only at map 18 column 13 (static scan of maps 18-1B). Untested: a lift or the screen-19 pop pushing a desynced Mega Man into a wall |
 | 4 | Skip the W3 weapon refill (wily123-47, reformulated) | REAL-HOLE | -16 if at most 28 frames slower, -32 if at most 12 | low | half a day for feasibility | ANALYSIS: climb screen 0x25 with one Item-1 platform. Caveat (synth): since v6.3 the 2 spare Item-1 units set the Wily 6 slot-4 seed, so on v6.5 Wily 3 may use only 1 platform after screen 1A unless that seed gets another knob |
@@ -348,7 +349,7 @@ Columns: id; claim (short); class; evidence; holes (what the evidence leaves out
 
 ### 6.4 w5: Wily 5 refights and hub (audit_w5; hole check holecheck_w5)
 
-69 entries; frame found: v6.5 (-1). The Crash refight lag and first half follow the same pattern as the Heat lag (lead 1).
+69 entries; frames found: v6.5 (-1) and v6.6 (-9). The Crash refight lag and first half followed the same pattern as the Heat lag (lead 1) and became v6.6.
 
 | id | claim | class | evidence | holes | verdict |
 |---|---|---|---|---|---|
@@ -380,9 +381,9 @@ Columns: id; claim (short); class; evidence; holes (what the evidence leaves out
 | w5-31 | 3 hub slow-down frames after Bubble are forced | PROVEN | code + RAM (audit) | - | closed |
 | w5-32 | Quick fill: nothing left | PIM | bounds | the walk -1 is untested (the rule needs 3) | holds |
 | w5-33 to 37 | Quick -4 infeasible (best -2); earliest hurt; Crash stage change = Quick kill + 90; the kill+89 claim; 4-bomb floor | SL / PIM / OVT | REAL + pokes | plan families | hold |
-| w5-38 | Crash fight: only schemes S1/S2; first half fixed | PIM | scans + REAL BFS | the first half was never varied | UNCERTAIN (low-moderate, lead 1): a kill on counter <= 81 needs hit 1 at 80307 and both intervals at 19 |
+| w5-38 | Crash fight: only schemes S1/S2; first half fixed | PIM | scans + REAL BFS | the first half was never varied | REAL-HOLE, realised: v6.6 (-9). The opening was free: a volley fired before Crash Man can react makes hits 1 and 2 |
 | w5-39 | The Crash to Metal hub walk is optimal | PIM | exhaustive pruned BFS | - | holds |
-| w5-40 | Crash kill lag 80349 cannot be removed | SL (wrong mechanism) | pads; profile | it is the bomb-explosion frame; the trigger was held fixed | REAL-HOLE (low, lead 1): every reachable aim lands the bomb at trigger+80 (REAL); left: a trigger >= 80270 with a new volley-2 plan |
+| w5-40 | Crash kill lag 80349 cannot be removed | SL (wrong mechanism) | pads; profile | it is the bomb-explosion frame; the trigger was held fixed | REAL-HOLE, realised: v6.6. The trigger now comes at 80288, so the bomb explodes after the kill |
 | w5-41 | Crash hits limited by geometry | OVT | - | - | refined |
 | w5-42 | The Metal refight is minimal | PIM | blade-travel bound | - | closed by the audit |
 | w5-43 | Flash fight at the 19-frame cadence | PIM | cadence lemma | - | holds |

@@ -8,7 +8,7 @@ This document is about labels itself, so `tools/proof/label_lint.py` should not 
 
 There are two kinds of statement.
 
-* **Existence claims.** Example: "this input file reaches the ending in 85,004 frames." One replay proves it.
+* **Existence claims.** Example: "this input file reaches the ending in 84,995 frames." One replay proves it.
 * **Universal claims.** Examples: "no input can close this menu sooner", "this fight is optimal", "dead end". A universal claim speaks about all 256^L input sequences of length L. No number of replays proves it.
 
 Most of the project's "dead ends" are universal claims. They rest on searches that were not exhaustive, on paper estimates, or on code reading that nobody checked for missed cases.
@@ -83,7 +83,7 @@ A core is identified by its FCEUX source revision, not by the md5 of a library: 
 **The judge core defines the truth** for this project, because a judge would replay the movie on the emulator it declares. Our analysis tools exist only for the working core. A lemma proven on the working core therefore holds for the judge core only under assumption A-CORE-EQ, unless its checker has also been run on the judge core.
 
 The evidence for A-CORE-EQ:
-* Both cores give identical per-frame CRC and lag flags on v6.5's 85,004 frames plus 3,000 blank frames.
+* Both cores give identical per-frame CRC and lag flags on v6.6's 84,995 frames plus 4,000 blank frames (and gave them on v6.5's 85,004 plus 3,000).
 * Certificates re-checked on the judge core, starting from power-on (section 4.6).
 
 Both libraries are built by `tools/harness/Makefile` (driven by `tools/proof/Makefile`) from the unmodified FCEUX source. For FCEUX 2.3.0 the Makefile adds the defines that README.md gives for that version (`-DRM2_NO_MEMHOOK -DPSS_STYLE=1 -DLSB_FIRST`).
@@ -108,7 +108,7 @@ A run starts from FCEUX's power-on state in a fresh process:
 ### 1.4 AX-TIME: what is minimised
 
 TASVideos times a movie to its last input. As this project applies that rule (counting from power-on, lag frames included):
-* The **length** L of a movie is the index of its last frame with a non-zero pad, plus 1. For v6.5 the last input is at frame 85,003, so L = 85,004 (23:34.404 at the NTSC rate).
+* The **length** L of a movie is the index of its last frame with a non-zero pad, plus 1. For v6.6 the last input is at frame 84,994, so L = 84,995 (23:34.255 at the NTSC rate).
 * The movie is complete only if, after frame L−1, the game reaches its ending with no further input.
 
 **Formal version.**
@@ -117,7 +117,7 @@ TASVideos times a movie to its last input. As this project applies that rule (co
 * The quantity to minimise is L* = min { L : some p₀ … p_{L−1} gives E(s_L) }.
 
 The bounds:
-* **Upper bound: L\* ≤ 85,004.** This is PROVEN. v6.5 replays on both cores, the alien's HP reaches 0 one frame after the last input, and the ending plays on blank input.
+* **Upper bound: L\* ≤ 84,995.** This is PROVEN. v6.6 replays on both cores, the alien's HP reaches 0 one frame after the last input, and the ending plays on blank input.
 * **Lower bound:** everything else in this document is about it.
 
 The end of a run is its last input, not the alien's death. A lower bound D on the frame of the alien's death becomes a lower bound on L only through lemma L-END. L-END bounds how many frames can separate the last input from the kill under blank input, for example with shots already in flight. v1 saved a frame in exactly this way. L-END is open (section 6).
@@ -521,7 +521,7 @@ python3 tools/proof/pfrun.py walk 77811 4 34 1 --rom "$ROM" --lib "$BUILD/master
 
 This is PROVEN for that range, and the paper proof covers all values. It is the part a proof assistant could formalise today in a few lines.
 
-**Example 7: a replay.** v6.5 reaches the ending with its last input at frame 85,003, on both cores (`tools/verify.py`). This is a PROVEN (∃) claim: L* ≤ 85,004.
+**Example 7: a replay.** v6.6 reaches the ending with its last input at frame 84,994, on both cores (`tools/verify.py`). This is a PROVEN (∃) claim: L* ≤ 84,995.
 
 ### 4.6 Status of the pilot certificates
 
@@ -557,9 +557,9 @@ pads on every entry on the judge core (as for `cert_menu77716`) discharges both.
 
 ### 5.1 The statement
 
-L* = 85,004, or the length of the best movie at the time.
+L* = 84,995, or the length of the best movie at the time.
 * The upper bound is a replay.
-* The lower bound says that none of the 256^85,003 possible pad sequences reaches the ending sooner. That includes sequences that use glitches nobody knows.
+* The lower bound says that none of the 256^84,994 possible pad sequences reaches the ending sooner. That includes sequences that use glitches nobody knows.
 
 ### 5.2 What it needs
 
@@ -574,7 +574,7 @@ L* = 85,004, or the length of the best movie at the time.
 
 ### 5.3 Why it is out of reach today
 
-* **Search does not scale.** Gameplay states multiply about 12 times per frame, even after removing the pad bits proven dead, so 4 frames is the practical depth. The run is 85,004 frames long.
+* **Search does not scale.** Gameplay states multiply about 12 times per frame, even after removing the pad bits proven dead, so 4 frames is the practical depth. The run is 84,995 frames long.
 * **The state cannot be made small.** RAM alone does not determine the future: 1-3 CPU cycles of difference change it hundreds of frames later (T4). The DelayScroll checks depend on a window of 17-50 cycles.
 * **Every hand-over carries hidden state:**
   * the RNG;
@@ -624,7 +624,7 @@ So the work is a ledger of obligations, filled in from the end of the run backwa
 
 **A-CORE-EQ**
 * *Statement:* the working core (master `fa248734`) and the judge core (2.3.0) compute the same T on every state the claim needs.
-* *Evidence:* identical per-frame CRC and lag flags on v6.5 plus 3,000 blank frames; the certificates listed in 4.6 as re-checked on the judge core are VALID there from power-on.
+* *Evidence:* identical per-frame CRC and lag flags on v6.6 plus 4,000 blank frames; the certificates listed in 4.6 as re-checked on the judge core are VALID there from power-on.
 * *To discharge:* re-run each claim's checker on the judge core, over all 256 pads. A check over the input classes discharges it only for the class representatives, because the taint verdicts that cover the other pads can be computed only on the working core.
 
 **A-HARNESS**

@@ -447,9 +447,9 @@ question. The code survey found no reachable out-of-range jump index:
 
 A deeper ACE search was not carried out.
 
-## 10. What v5.1-v6.5 add (Wily 4-6 mechanics)
+## 10. What v5.1-v6.6 add (Wily 4-6 mechanics)
 
-v5.1 to v6.5 save 36 more frames, almost all in Wily 4, 5 and 6. Each lever below
+v5.1 to v6.6 save 45 more frames, almost all in Wily 4, 5 and 6. Each lever below
 is small, but they rest on a handful of mechanics that were not documented
 before.
 
@@ -610,6 +610,37 @@ pillars made by Heat Man's opening fireballs removes it, and those fireballs
 aim at Mega Man. Holding Mega Man still for 4 frames before the throw moves
 the pillars about 6 pixels left, so the lag disappears; a re-timed hop and walk
 then rejoin the previous run exactly.
+
+**The Crash Man refight (v6.6).** Three facts from the game's code give a
+fight that ends 10 frames sooner, worth 9 frames at the end of the movie:
+* **What makes Crash Man jump.** A new B press does, but only once he is in his
+  walking state. On the first input frame of the fight he is not there yet,
+  so a volley fired on that frame does not make him jump.
+* **When the Air Shooter fires.** Only when all three tornado slots are empty.
+  A B press while a volley is still flying fires nothing, but it still makes
+  Crash Man jump.
+* **When his bomb explodes.** 80 frames after the press that makes him jump.
+  The explosion was v6.5's lag frame in this fight.
+
+So v6.6 fires the first volley before Crash Man can react and uses a later,
+empty B press to send him up into it. Two tornadoes of that volley make hits 1
+and 2 at 80298 and 80318 (v6.5: 80308 and 80328), and a third volley from a
+short hop near the left wall kills at 80338 (v6.5: 80348). The jump press comes
+22 frames later than in v6.5, so the bomb explodes after the kill and the lag
+frame is gone.
+* **The bound.** An exhaustive search over B presses in a model of the fight
+  finds no kill at 80336 or earlier (PROVEN-IN-MODEL; the model reproduces
+  v6.5's fight exactly, and what it leaves out, the bomb and contact damage,
+  can only make a kill easier). A kill at 80337 exists with real inputs. It is
+  in the same 4-frame step of the wait before the Metal Man refight as 80338,
+  so it gains nothing more.
+* **The price.** Mega Man touches Crash Man once (4 health, no time). The
+  fight leaves different leftover subpixels in the weapon slots, so six blade
+  directions in the Wily Machine fight are changed to keep the Wily 6
+  platform values in range.
+* **Why it was missed.** Every earlier search kept the opening volley as the
+  one that makes Crash Man jump. This is the same blind spot as in the Heat
+  Man refight: part of the plan was held fixed and never varied.
 
 **New platform-seed knobs (v6.3).** These restore Wily 6's platform starting
 values when an earlier change moves the leftover weapon subpixels:

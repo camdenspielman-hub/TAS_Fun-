@@ -2,7 +2,7 @@
 
 gd_synth, 2026-11-07 (UTC). This synthesises the glitch-discovery round (`wf_88df5d5c-1c2`): seven subsystem auditors (gd_terrain, gd_scroll, gd_objects, gd_weapons, gd_flow, gd_timing, gd_fuzz), each re-checked by an independent reproducer (repro_*). It also uses the earlier documented-glitch survey (glitch_hunt) and its audit (audit_glitchsurvey, holecheck_glitchsurvey), plus a few checks of my own (section 6).
 
-* Base: the round used v6.2 savestates. v6.5 = 85,004 frames is the committed movie now; it equals v6.2 before frame 74299. Frame numbers below are v6.2 frames.
+* Base: the round used v6.2 savestates. v6.6 = 84,995 frames is the committed movie now; it equals v6.2 before frame 74299. Frame numbers below are v6.2 frames.
 * Labels: **REAL** means a plain `e.frame()` replay from power-on or from a REAL savestate. **ANALYSIS** means pokes, hooks, PRG patches or models.
 * Trust classes follow pf_doc's proof standard (section 1).
 * `SP/...` paths refer to the project's working notes and scripts, which are not part of this repository.
@@ -36,7 +36,7 @@ Movement and state combinations are the residual. They are sampled, not exhauste
   * 7 of the 40 did not reproduce as stated, and about 10 were not new.
   * Several closure-type sentences were false: "boss invincibility is frozen during the post-pause freeze", "16 live enemy slots never happen during play", "the Bubble 43509 lag cannot be avoided", "no site writes Mega Man's screen", "the KOOK byte carries the hidden phase".
 * **The per-subsystem impossibility lists (section 3): no.** They were corroborated only where two agents happened to overlap. Section 4 lists who checked what.
-* **The earlier closures did get this review.** The closure audit after the user's challenge found real frames: v6.3 to v6.5, -6 in total.
+* **The earlier closures did get this review.** The closure audit after the user's challenge found real frames: v6.3 to v6.6, -15 in total.
 
 **This synthesis closes the round's biggest open lead (section 6).** The W1 vertical-section desync would have been worth -32 frames, and it cannot be completed:
 
