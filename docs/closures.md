@@ -15,7 +15,7 @@ Contents: 1 The short answer. 2 How to read this. 3 The big questions (R1 and R2
   * v6.3, -4: the Wily 5 Heat Man refight had been assumed bound by his AI and was never examined (critic_v62, same review round).
   * v6.4, -1: "the Wily 4 DOWN shield throw gains nothing" had only paired the throw with the two obvious menu-frame placements (audit_wily4).
   * v6.5, -1: a Heat refight lag frame called "1,370 cycles over" was only just over; nobody had moved Mega Man before Heat Man aimed at him (audit_w5).
-* The robot-master order claim was a paper estimate. It is still open (Section 3.2).
+* The robot-master order claim was a paper estimate. The follow-up work measured the terms that could have reversed it and found no faster order. That result is an ESTIMATE with a few measured pieces, not a proof (Section 3.2).
 * There is no proof that no unknown time-saving glitch exists (Section 3.3).
 
 **Strength of the closures**, by the weakest step of each argument, as the auditors recorded it:
@@ -93,9 +93,18 @@ The old claim (route_study; docs section 9) was "no gain once the hidden hand-ov
 * rc_offscreen (code, with a model that matches 649 of 649 REAL frames) showed that only Bubble Man's room can end with Mega Man above the screen, so Bubble to Wood is forced. Crash to Quick could in principle be replaced only by a Wood kill, at a cost of hundreds of frames.
 * route_model scored all 40,320 orders, each term with a low and an estimated value. route_judge reviewed it and found four errors. It added a cloud-model lemma: Air without Item 1 costs at least 166 frames (PROVEN-IN-MODEL). It also showed that making the `$F9` hand-overs free from any predecessor still gives no better order: the order is held by the item and weapon chain, not by the hand-overs. Verdict: ESTIMATE, margin at least 140.
 * rc_item2 (REAL): an Item-2 sled ride in Heat saves 131 frames when Air and Flash come before Heat. That is more than the ~100 route_model had assumed, so route_judge's closing condition fails. With every other term at its estimate, no order is faster. But three orders (for example Air, Bubble, Wood, Flash, Heat, Crash, Quick, Metal) would be 10-50 frames faster if Bubble without Item 1 cost about 0 and a Buster-only Bubble fight reached its bound (condition b + f <= 2, up to <= 48 in looser scenarios).
-* Running now: rc_bubble8 found a no-Item-1 entry into Bubble screen 8 (ANALYSIS-confirmed). Its first REAL-input run (weapon ownership poked) is +65 frames at the zip end, before a pit saving of about 44 frames and an unmeasured screens 5-7 term. rc_air is building a REAL Air crossing without Item 1.
+* rc_bubble8 (REAL inputs from v6.5's states; only the selected weapon and the weapon ownership bits were poked) measured the missing term:
+  * route_judge's Item-2 sled entry into the screen-8 ceiling is impossible. The sled dies when the point 16 px ahead and 32 px above it is solid, and the landing snap lifts Mega Man at most 4 px where 25 are needed (a code reading by one agent that no second agent re-derived: PROVEN-IN-MODEL at best).
+  * A new entry without Item 1 exists. The downward scroll from screen 7 places Mega Man at Y 7 at his pixel X, and with X at least 104 he is inside the ceiling and zips as in v6.5 (REAL).
+  * Reaching that X costs time. Screen 7's shelf holds Mega Man at X 57 or less until Y 204, and the scroll fires at Y 232, so he has 28 px of fall to cover 47 px sideways. A pause resets his fall speed; 4 pauses give at most 45.1 px (model with exact 8.8 physics, exhaustive over the fall heights and phases, and it reproduces the REAL runs), so at least 5 are needed.
+  * The REAL run with 5 pauses ends the zip 65 frames after v6.5 does. Screens 6-7 without Item 1 cost 8 more. So Bubble without Item 1 costs about +73, and at least about +52 after an allowance of 6 frames for savings elsewhere in screens 5-7 (the allowance is an ESTIMATE from warmCabin's zipless TAS).
+  * +52 is above every threshold of rc_item2's scenarios (2, 16, 34 and 48). The three orders are slower than v6.5's order, not faster.
+* rc_air (a REAL Air crossing without Item 1) was cut off before it finished. Its partial model work points to a cost well above route_judge's lower bound of 166. The verdict does not depend on it: the comparison already used the lower bound, which is the value most favourable to the other orders.
 
-Status: OPEN. The best numbers say no other order is faster, but that now rests on two unmeasured terms. On unknown hand-overs: the channel list is complete for the three routes replayed (v6.2, the publication, warmCabin's zipless TAS). Another route can read other stale object fields, so it is not a proof for every order.
+Status: no faster order found (ESTIMATE). Every other order has a margin of at least 140 frames on route_model's numbers, and the last group that could have beaten v6.5's order (Air and Flash before Heat) is closed by rc_bubble8's measurement. What keeps this from being a proof:
+* route_model's terms are estimates with lower bounds, not measured costs, except where a later agent measured them (the Item-2 Heat ride, the Bubble entry, the two `$F9` hand-overs).
+* rc_bubble8's 6-frame allowance and its argument that the crab on the last shelf before the drop cannot be passed without a weapon pause are a search and a kinematic argument (SEARCH-LIMITED), not a proof over all inputs.
+* On unknown hand-overs: the channel list is complete for the three routes replayed (v6.2, the publication, warmCabin's zipless TAS). Another route can read other stale object fields, so the list is SEARCH-LIMITED: it is not a proof for every order.
 
 ### 3.3 Unknown glitches
 
@@ -125,7 +134,7 @@ Ranked by expected frames per agent-day of the first test. Priors are the agents
 | 11 | Exile "Pipi + platform sprite" glitch, Air screen 6 (glitchsurvey-38) | UNCERTAIN | at most about 12 raw in Air; an R1 piece only if it reaches 8 | very low | hours | Read the Pipi and egg code for writes to the platform width/top (`$0160`/`$0170`) or slot swaps; one ANALYSIS run in screen 6 |
 | 12 | W4 room-34 sled seed FA-FF (wily4-05) | UNCERTAIN | 0 alone; -1 inside a set reaching door lead 4-5 | low | days | Only if lead 2 or another saving after room 32 appears: room-33 descents whose sled lands at least 28 frames earlier |
 | 13 | W1 building-2 zip (wily123-10) | UNCERTAIN | frees the step sled's Item-2 unit, which reopens R1-lite (-8, with re-syncs) | low | hours (map) | Embedding mechanisms at X 8032-8159 around frames 53900-54030 (needs 16 px into the wall; item snaps give at most 8) |
-| 14 | Robot-master order (prew1-68) | REAL-HOLE, owned by the routing-closure workflow | unknown | - | running | rc_bubble8's Bubble-without-Item-1 cost and a Buster-only Bubble fight (Section 3.2) |
+| 14 | Robot-master order (prew1-68) | closed as an ESTIMATE (Section 3.2) | 0 expected | very low | days per order | A proof needs measured costs in place of route_model's estimates. The cheapest next check is a REAL Air crossing without Item 1, which rc_air started |
 
 Outside the audit: repro_timing found that FCEUX 2.3.0 honours an fm2 `RAMInitOption` key. A non-default power-on RAM removes 8-9 boot frames, but Air's DelayScroll then breaks and needs re-tuning. Whether TASVideos accepts a non-default power-on state is a rules question, not a closure.
 
@@ -223,7 +232,7 @@ Columns: id; claim (short); class; evidence; holes (what the evidence leaves out
 | prew1-65 | Stage-select loads cannot end earlier | PROVEN (margin) | 1-2k cycles short | - | holds |
 | prew1-66 | A counter shift of -1..+3 removes no pre-W1 spawn lag | PIM | pokes | - | holds |
 | prew1-67 | The blink lever is not viable before Wily 4 | EST | stage-end slack <= 1 | - | NOT-A-HOLE (with prew1-44) |
-| prew1-68 | Robot-master order: no gain once the hand-overs are counted | EST | three fight savings on paper | the user's holes | REAL-HOLE, narrowed (Section 3.2) |
+| prew1-68 | Robot-master order: no gain once the hand-overs are counted | EST | three fight savings on paper | the user's holes | REAL-HOLE, then closed as an ESTIMATE: no faster order found (Section 3.2) |
 | prew1-69 | Below-screen starts kill Mega Man except at Quick | PIM | pokes of `$F9` = 01, FF | other values | holds (any positive value behaves alike: glitchsurvey-50) |
 | prew1-70 | No other death warp pays | EST | dwell table | zip death warps untested | holds (strengthened: glitchsurvey-16, -20) |
 | prew1-71 | No new useful zip | PIM | offline predictor | multi-segment paths | holds (glitchsurvey-20) |

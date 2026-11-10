@@ -348,7 +348,7 @@ An adversarial review of every closure in this document has started.
 * The weapons are forced by the damage tables, and Metal Blade's energy is
   used exactly.
 
-**Robot-master order: open, not proven (ESTIMATE).** route_study only checked on paper
+**Robot-master order: no faster order found, not proven (ESTIMATE).** route_study only checked on paper
 the three fight savings a reorder would buy:
 * Heat Man with Bubble Lead, about −600 frames;
 * Air Man with Leaf Shield, about −150;
