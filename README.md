@@ -986,13 +986,12 @@ after the last input, and the ending sequence plays with no further input.
   schedule. Getting this frame would need a re-planned fight. The final burst
   would then have to hit from slot 2, the even slot, or start one hit earlier,
   because the `$1C` parity changes relative to the alien's path.
-* **Still open:** saving 3 frames anywhere in Wily 6 before the alien's health
-  fill (fill wait 1) would gain 4. Saving 1 more frame between the Metal Man
-  fill and the Flash Man fill would gain 4 more, but the Metal Man fight
-  currently loses 2 there. (Correction: the Wily 1 fade needs a full 16-frame
-  lead, not 6. The published run reaches it with zero wait, see
-  `docs/whole-game-analysis.md`.) Any of these also changes every Wily 5 RNG
-  decision again; `tools/milestone.py` handles that.
+* **Still open (as of v6.6):** the open items above were written for v2 and
+  have since been used or closed. After v6.6 three discovery rounds and a last
+  sweep tested every lead in [docs/closures.md](docs/closures.md) (section
+  3.4): no saving was found. What remains is listed there with its evidence
+  label; the largest prizes are the 16-frame rules at the Wily 1 and Wily 3
+  fades, whose known pieces were all searched without success.
 * **Opposite directions.** The published movie already presses Up+Down on 17
   frames and Left+Right once. v2 adds Up+Down on two more frames, in the Heat
   pause. FCEUX's "allow Up+Down/Left+Right" option only filters live gamepad
