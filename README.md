@@ -989,7 +989,7 @@ after the last input, and the ending sequence plays with no further input.
 * **Still open (as of v6.6):** the open items above were written for v2 and
   have since been used or closed. After v6.6 three discovery rounds and a last
   sweep tested every lead in [docs/closures.md](docs/closures.md) (section
-  3.4): no saving was found. What remains is listed there with its evidence
+  3.4): no saving was found (SEARCH-LIMITED). What remains is listed there with its evidence
   label; the largest prizes are the 16-frame rules at the Wily 1 and Wily 3
   fades, whose known pieces were all searched without success.
 * **Opposite directions.** The published movie already presses Up+Down on 17
